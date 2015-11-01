@@ -32,10 +32,10 @@ public class MatrixTransformation {
 
     public Matrix4 getProjectionMatrix() {
         Matrix4 projectionMatrix = new Matrix4().setToPerspective(sFOV, sWidth, sHeight, sNear, sFar);
-        //Matrix4 projectionMatrix = new Matrix4().setToOrthogonal(-2, 2, -2, 2, -1, 1);
-        Matrix4 transformationMatrix = createTransformationMatrix();
         Matrix4 cameraMatrix = new Matrix4().setToCamera(sCamera.getForward(), sCamera.getUp());
         Matrix4 cameraTranslation = new Matrix4().setToTranslation(-sCamera.getPosition().getX(), -sCamera.getPosition().getY(), -sCamera.getPosition().getZ());
+
+        Matrix4 transformationMatrix = createTransformationMatrix();
 
         return projectionMatrix.multiply(cameraMatrix.multiply(cameraTranslation.multiply(transformationMatrix)));
     }

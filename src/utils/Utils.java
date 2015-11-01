@@ -41,10 +41,12 @@ public class Utils {
     public static FloatBuffer createVertexBuffer(Vertex[] vertices) {
         FloatBuffer buffer = createFloatUsingBufferUtils(vertices.length * Vertex.SIZE);
 
-        for(int i = 0; i < vertices.length; i++) {
-            buffer.put(vertices[i].getPosition().getX());
-            buffer.put(vertices[i].getPosition().getY());
-            buffer.put(vertices[i].getPosition().getZ());
+        for (Vertex vertex : vertices) {
+            buffer.put(vertex.getPosition().getX());
+            buffer.put(vertex.getPosition().getY());
+            buffer.put(vertex.getPosition().getZ());
+            buffer.put(vertex.getTextureCoordinate().getX());
+            buffer.put(vertex.getTextureCoordinate().getY());
         }
 
         buffer.flip();

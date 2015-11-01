@@ -2,6 +2,7 @@ package graphics;
 
 import utils.Utils;
 
+import static graphics.Vertex.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.*;
@@ -32,14 +33,20 @@ public class Mesh {
 
     public void render() {
         glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(1);
 
         glBindBuffer(GL_ARRAY_BUFFER, mVBO);
-        glVertexAttribPointer(0, 3, GL_FLOAT, false, Vertex.SIZE * 4, 0);
+
+        // 20 stands for Vertex.SIZE * 4
+
+        glVertexAttribPointer(0, 3, GL_FLOAT, false, 20, 0);
+        glVertexAttribPointer(1, 2, GL_FLOAT, false, 20, 12);
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO);
         glDrawElements(GL_TRIANGLES, mSize, GL_UNSIGNED_INT, 0);
 
         glDisableVertexAttribArray(0);
+        glDisableVertexAttribArray(1);
     }
 
 }

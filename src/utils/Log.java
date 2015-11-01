@@ -19,4 +19,6 @@ public class Log {
         System.out.println("[NexEngine][report] " + message);
     }
 
+    public static void w(String message) { System.err.println("[NexEngine][warning] " + message); }
+
 }

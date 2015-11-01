@@ -224,6 +224,15 @@ public class Matrix4 {
         return mData;
     }
 
+    public float[] getDataCopy() {
+        float[] data = new float[SIZE];
+        for (int i = 0; i < SIZE; i++) {
+            data[i] = mData[i];
+        }
+
+        return data;
+    }
+
     public void set(int y, int x, float value) {
         if((x + y * 4) > 15) {
             Log.e("Failed to access element [" + x + ";" + y + "]");

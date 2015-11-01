@@ -1,5 +1,6 @@
-package graphics;
+package graphics.shaders;
 
+import graphics.Material;
 import math.Matrix4;
 import math.Vector2;
 import math.Vector3;
@@ -40,6 +41,14 @@ public class Shader {
         }
     }
 
+    public void registerUniform(String name) {
+        if(!uniformLocations.containsKey(name))
+            uniformLocations.put(name, glGetUniformLocation(mProgramID, name));
+        else
+            Log.w("An uniform variable has been registered twice. " +
+                    "Even thought this wan't cause any errors you should get rid of the unnecessary code.");
+    }
+
     public void setUniform1i(String name, int value) {
         glUniform1i(getUniformLocation(name), value);
     }
@@ -60,6 +69,11 @@ public class Shader {
         glUniformMatrix4fv(getUniformLocation(name), true, Utils.createFloatBuffer(matrix.getData()));
     }
 
+    /**
+     * Adds a shader to the OpenGL program.
+     * @param source Source code of the shader program! NOT the path. You can use ContentLoader to load a file as a String.
+     * @param type Shader type, must be a static constant in the Shader class.
+     */
     public void attachProgram(String source, int type) {
         if(type != FRAG && type != VERT) {
             Log.e("Unknown program type!");
@@ -83,6 +97,10 @@ public class Shader {
     public void compile() {
         glLinkProgram(mProgramID);
         glValidateProgram(mProgramID);
+    }
+
+    public void updateTransformations(Matrix4 worldMatrix, Matrix4 projectionMatrix, Material material) {
+
     }
 
     public void bind() {

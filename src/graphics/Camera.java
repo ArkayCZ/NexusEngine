@@ -30,37 +30,23 @@ public class Camera {
     }
 
     public void rotateY(float angle) {
-        Vector3 axis = yAxis.cross(mForward);
-        axis.normalize();
-
-        getForward().rotate(angle, yAxis);
-        getForward().normalize();
-
-        setUp(getForward().cross(axis));
-        getUp().normalize();
+        Vector3 axis = Maths.normalize(yAxis.cross(mForward));
+        mForward.rotate(angle, yAxis).normalize();
+        setUp(Maths.normalize(mForward.cross(axis)));
     }
 
     public void rotateX(float angle) {
-        Vector3 axis = yAxis.cross(mForward);
-        axis.normalize();
-
-        getForward().rotate(angle, axis);
-        getForward().normalize();
-
-        mUp = getForward().cross(axis);
-        mUp.normalize();
+        Vector3 axis = Maths.normalize(yAxis.cross(mForward));
+        mForward.rotate(angle, axis).normalize();
+        setUp(Maths.normalize(mForward.cross(axis)));
     }
 
     public Vector3 getLeft() {
-        Vector3 left = mForward.cross(mUp);
-        left.normalize();
-        return left;
+        return Maths.cross(mForward, mUp).normalize();
     }
 
     public Vector3 getRight() {
-        Vector3 right = mUp.cross(mForward);
-        right.normalize();
-        return right;
+        return Maths.cross(mUp, mForward).normalize();
     }
 
     public void move(Vector3 direction, float amount) {

@@ -12,6 +12,10 @@ public class Vector2 {
         this.y = y;
     }
 
+    public Vector2(Vector2 vector) {
+        this(vector.x, vector.y);
+    }
+
     public float getLength() {
         return (float)Math.sqrt(x*x + y*y);
     }
@@ -25,6 +29,13 @@ public class Vector2 {
 
         x /= length;
         y /= length;
+
+        return this;
+    }
+
+    public Vector2 abs() {
+        x = Maths.abs(x);
+        y = Maths.abs(y);
 
         return this;
     }

@@ -1,0 +1,2 @@
+TODO: Replace using GLFW constants for keys in Camera class
+TODO: Possibly add some more Key constants in Input class

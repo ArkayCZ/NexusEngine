@@ -76,6 +76,14 @@ public class Vector3 {
         return new Vector3(xx, yy, zz);
     }
 
+    public Vector3 abs() {
+        x = Maths.abs(x);
+        y = Maths.abs(y);
+        z = Maths.abs(z);
+
+        return this;
+    }
+
     public Vector3 add(Vector3 other) {
         x = x + other.getX();
         y = y + other.getY();
@@ -83,6 +91,7 @@ public class Vector3 {
 
         return this;
     }
+
 
     public Vector3 add(float other) {
         x = x + other;

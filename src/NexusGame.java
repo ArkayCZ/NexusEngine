@@ -1,5 +1,5 @@
-import graphics.ImmediateRenderer;
-import graphics.Window;
+import graphics.deperecated.ImmediateRenderer;
+import graphics.window.Window;
 import input.Input;
 import utils.Log;
 
@@ -49,7 +49,7 @@ public abstract class NexusGame implements Runnable {
         mGameWindow = new Window(mWindowWidth, mWindowHeight, mTitle);
         mGameWindow.setResizable(true);
         mGameWindow.centerWindow();
-        mGameWindow.show();
+        mGameWindow.show(true);
 
         mGameWindow.initGL();
         mGameWindow.setClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -110,7 +110,6 @@ public abstract class NexusGame implements Runnable {
         mGameWindow.clear();
 
         render();
-        //TODO: Rendering code!
 
         mGameWindow.update();
     }
@@ -132,6 +131,10 @@ public abstract class NexusGame implements Runnable {
     public abstract void init();
     public abstract void secondlyUpdate();
 
+    /**
+     * Returns the game GLFW window.
+     * @return Window class window.
+     */
     public Window getGameWindow() {
         return mGameWindow;
     }

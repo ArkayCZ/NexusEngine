@@ -95,6 +95,12 @@ public class ContentLoader {
         }
     }
 
+    /**
+     * Creates a texture object by loading in the pixels of the image using ImageIO and bitshifting. Then sends the texture
+     * to OpenGL and gets its ID upon which it creates a new Texture object.
+     * @param path Path to the image to be mapped and sent to the GPU.
+     * @return Texture object containing information about the texture.
+     */
     public static Texture loadTexture(String path) {
         BufferedImage image = null;
         try {

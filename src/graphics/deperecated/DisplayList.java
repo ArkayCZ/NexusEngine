@@ -1,4 +1,4 @@
-package graphics;
+package graphics.deperecated;
 
 import math.Vector3;
 import static org.lwjgl.opengl.GL11.*;

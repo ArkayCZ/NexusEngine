@@ -1,7 +1,8 @@
-package graphics; /**
+package graphics.window; /**
  * Created by vesel on 30.10.2015.
  */
 
+import graphics.MatrixTransformation;
 import input.Input;
 import org.lwjgl.glfw.GLFWvidmode;
 import org.lwjgl.opengl.GL;
@@ -33,7 +34,7 @@ public class Window {
 
         mID = glfwCreateWindow(width, height, title, NULL, NULL);
         if(mID == NULL)
-            System.err.println("Failed to create graphics.Window!");
+            System.err.println("Failed to create graphics.window.Window!");
 
         glfwSetCursorPosCallback(mID, mInput.getCursorPosCallback());
         glfwSetMouseButtonCallback(mID, mInput.getMouseButtonCallback());
@@ -45,10 +46,15 @@ public class Window {
         glfwWindowHint(GLFW_RESIZABLE, value ? GL_TRUE : GL_FALSE);
     }
 
-    public void show() {
+    /**
+     * Shows the window. Must be called after setting size and changing size is not possible after showing the window.
+     * @param showCursor Wheter the cursor should be visible in the window.
+     */
+    public void show(boolean showCursor) {
         mShown = true;
         glfwMakeContextCurrent(mID);
-        glfwSetInputMode(mID, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+        if(!showCursor)
+            glfwSetInputMode(mID, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
         glfwShowWindow(mID);
     }
 
