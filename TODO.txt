@@ -1,2 +1,15 @@
 TODO: Replace using GLFW constants for keys in Camera class
 TODO: Possibly add some more Key constants in Input class
+TODO: Make this work like a library, possibly do some tuning to engine.NexusGame class so that no hacks are needed to use the engine
+
+Things that are wrong:
+
+Important:
+-some form of primitive meshes - rectangles, cubes, circles, triangles
+-Rendering engine
+-flexible level loader
+
+
+Convenience:
+-Better scratchpad support
+-automatic shaders
