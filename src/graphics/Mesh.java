@@ -1,5 +1,7 @@
 package graphics;
 
+import math.Maths;
+import math.Vector3;
 import utils.Utils;
 
 import static graphics.Vertex.*;
@@ -21,7 +23,10 @@ public class Mesh {
         mSize = 0;
     }
 
-    public void addVertices(Vertex[] vertices, int[] indices) {
+    public void addVertices(Vertex[] vertices, int[] indices, boolean calculateNormals) {
+        if(calculateNormals)
+            assignNormals(vertices, indices);
+
         mSize = indices.length;
 
         glBindBuffer(GL_ARRAY_BUFFER, mVBO);
@@ -31,22 +36,51 @@ public class Mesh {
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, Utils.createIndexBuffer(indices), GL_STATIC_DRAW);
     }
 
+    public void addVertices(Vertex[] vertices, int[] indices) {
+        addVertices(vertices, indices, false);
+    }
+
+    private void assignNormals(Vertex[] vertices, int[] indices) {
+        for (int i = 0; i < indices.length; i += 3) {
+            int firstIndex = indices[i];
+            int secondIndex = indices[i + 1];
+            int thirdIndex = indices[i + 2];
+
+            Vector3 firstVertex = Maths.sub(vertices[secondIndex].getPosition(), vertices[firstIndex].getPosition());
+            Vector3 secondVertex = Maths.sub(vertices[thirdIndex].getPosition(), vertices[firstIndex].getPosition());
+
+            Vector3 normalVector = Maths.cross(firstVertex, secondVertex).normalize();
+
+            vertices[firstIndex].setNormal(vertices[firstIndex].getNormal().add(normalVector));
+            vertices[secondIndex].setNormal(vertices[secondIndex].getNormal().add(normalVector));
+            vertices[thirdIndex].setNormal(vertices[thirdIndex].getNormal().add(normalVector));
+        }
+
+        for (int i = 0; i < vertices.length; i++) {
+            vertices[i].setNormal(vertices[i].getNormal().normalize());
+        }
+                
+    }
+
     public void render() {
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
+        glEnableVertexAttribArray(2);
 
         glBindBuffer(GL_ARRAY_BUFFER, mVBO);
 
-        // 20 stands for Vertex.SIZE * 4
+        // 32 stands for Vertex.SIZE * 4 (SIZE = 8 or at least it was like this when i created this)
 
-        glVertexAttribPointer(0, 3, GL_FLOAT, false, 20, 0);
-        glVertexAttribPointer(1, 2, GL_FLOAT, false, 20, 12);
+        glVertexAttribPointer(0, 3, GL_FLOAT, false, Vertex.SIZE * 4, 0);
+        glVertexAttribPointer(1, 2, GL_FLOAT, false, Vertex.SIZE * 4, 12);
+        glVertexAttribPointer(2, 3, GL_FLOAT, false, Vertex.SIZE * 4, 20);
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO);
         glDrawElements(GL_TRIANGLES, mSize, GL_UNSIGNED_INT, 0);
 
-        glDisableVertexAttribArray(0);
+        glDisableVertexAttribArray(2);
         glDisableVertexAttribArray(1);
+        glDisableVertexAttribArray(2);
     }
 
 }

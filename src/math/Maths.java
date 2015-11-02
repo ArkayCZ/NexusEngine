@@ -62,4 +62,9 @@ public class Maths {
         return vector.mul(second);
     }
 
+    public static Vector3 sub(Vector3 first, Vector3 second) {
+        Vector3 vector = new Vector3(first);
+        return vector.sub(second);
+    }
+
 }

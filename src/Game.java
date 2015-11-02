@@ -1,6 +1,8 @@
 import graphics.*;
+import graphics.shaders.PhongShader;
+import graphics.shaders.Shader;
 import input.Input;
-import graphics.shaders.BasicShader;
+import math.Maths;
 import math.Vector2;
 import math.Vector3;
 import org.lwjgl.glfw.GLFW;
@@ -13,7 +15,7 @@ import utils.ContentLoader;
 public class Game extends NexusGame {
 
     private Mesh mesh;
-    private BasicShader shader;
+    private Shader shader;
     private MatrixTransformation transform;
     private Camera camera;
     private Material material;
@@ -29,41 +31,53 @@ public class Game extends NexusGame {
     public void init() {
         getGameWindow().initProjection(70f, 0.1f, 1000f);
 
-        Vertex[] vertices = new Vertex[] {
+        /*Vertex[] vertices = new Vertex[] {
                 new Vertex(new Vector3(-1, -1, 0), new Vector2(0.0f, 0.0f)),
                 new Vertex(new Vector3( 0,  1, 0), new Vector2(0.5f, 0.0f)),
                 new Vertex(new Vector3( 1, -1, 0), new Vector2(1.0f, 0.0f)),
                 new Vertex(new Vector3( 0, -1, 1), new Vector2(0.0f, 0.5f))
-        };
+        };*/
 
-        int[] indices = new int[] {
-                3, 1, 0,
-                2, 1, 3,
-                0, 1, 2,
-                0, 2, 3
-        };
+        Vertex[] vertices = new Vertex[] { new Vertex( new Vector3(-1.0f, -1.0f, 0.5773f),	new Vector2(0.0f, 0.0f)),
+                        new Vertex( new Vector3(0.0f, -1.0f, -1.15475f),		new Vector2(0.5f, 0.0f)),
+                        new Vertex( new Vector3(1.0f, -1.0f, 0.5773f),		new Vector2(1.0f, 0.0f)),
+                        new Vertex( new Vector3(0.0f, 1.0f, 0.0f),      new Vector2(0.5f, 1.0f)) };
+        //
+
+        int indices[] = { 0, 3, 1,
+                		1, 3, 2,
+                		2, 3, 0,
+                		1, 2, 0 };
+
+        mesh = new Mesh();
+        mesh.addVertices(vertices, indices, true);
 
         camera = new Camera();
         MatrixTransformation.setCamera(camera);
 
-        //mesh = ContentLoader.loadMesh("res/models/cube.obj");
-        mesh = new Mesh();
-        mesh.addVertices(vertices, indices);
+        material = new Material(ContentLoader.loadTexture("res/textures/checkerboard.png"), new Vector3(1, 1, 1));
 
-
-        material = new Material(ContentLoader.loadTexture("res/textures/checkerboard.png"), new Vector3(0, 1, 1));
-        shader = new BasicShader();
+        shader = PhongShader.getInstance();
+        PhongShader.setAmbientLight(new Vector3(0.1f, 0.1f, 0.1f));
+        PhongShader.setDirectionalLight(new DirectionalLight(new BaseLight(new Vector3(1, 1, 1), 1f), new Vector3(1, 1, 1)));
 
         transform = new MatrixTransformation();
     }
 
     @Override
     public void update(Input inputStatus) {
-        transform.mPosition.setZ(20f);
+        transform.mPosition.setZ(10f);
+        //transform.mPosition.setX(Maths.sin(counter) * 5);
+        //transform.mPosition.setY(Maths.sin(counter) * 5);
+        //transform.mRotation.setX(Maths.sin(counter) * 360);
+        //transform.mRotation.setY(Maths.sin(counter) * 360);
 
+        transform.mPosition.setX(Maths.sin(counter) * 5);
+        transform.mRotation.setY(Maths.sin(counter) * 180);
         camera.update(inputStatus);
+        shader.updateUniforms(transform.createTransformationMatrix(), transform.getProjectionMatrix(), material);
 
-        shader.updateTransformations(transform.createTransformationMatrix(), transform.getProjectionMatrix(), material);
+        counter += 1f;
 
         if(inputStatus.isKeyDown(GLFW.GLFW_KEY_ESCAPE))
             stop();

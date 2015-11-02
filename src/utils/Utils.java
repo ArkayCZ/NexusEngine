@@ -47,6 +47,9 @@ public class Utils {
             buffer.put(vertex.getPosition().getZ());
             buffer.put(vertex.getTextureCoordinate().getX());
             buffer.put(vertex.getTextureCoordinate().getY());
+            buffer.put(vertex.getNormal().getX());
+            buffer.put(vertex.getNormal().getY());
+            buffer.put(vertex.getNormal().getZ());
         }
 
         buffer.flip();

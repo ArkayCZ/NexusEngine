@@ -35,6 +35,9 @@ public class Shader {
             return uniformLocations.get(name);
         else {
             int location = glGetUniformLocation(mProgramID, name);
+            if(location == -1) {
+                Log.w("Failed to find uniform variable '" + name + "'! Check your uniform names, there is possibly a typo.");
+            }
             uniformLocations.put(name, location);
 
             return location;
@@ -43,7 +46,7 @@ public class Shader {
 
     public void registerUniform(String name) {
         if(!uniformLocations.containsKey(name))
-            uniformLocations.put(name, glGetUniformLocation(mProgramID, name));
+            uniformLocations.put(name, getUniformLocation(name));
         else
             Log.w("An uniform variable has been registered twice. " +
                     "Even thought this wan't cause any errors you should get rid of the unnecessary code.");
@@ -99,7 +102,7 @@ public class Shader {
         glValidateProgram(mProgramID);
     }
 
-    public void updateTransformations(Matrix4 worldMatrix, Matrix4 projectionMatrix, Material material) {
+    public void updateUniforms(Matrix4 worldMatrix, Matrix4 projectionMatrix, Material material) {
 
     }
 

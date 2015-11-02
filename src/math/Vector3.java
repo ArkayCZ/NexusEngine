@@ -69,12 +69,25 @@ public class Vector3 {
     }
 
     public Vector3 cross(Vector3 other) {
+        /*float xx = y * other.getZ() - z * other.getY();
+        float yy = z * other.getX() - x * other.getZ();
+        float zz = x * other.getY() - y * other.getX();
+
+        return new Vector3(xx, yy, zz);*/
+
+
         float xx = y * other.getZ() - z * other.getY();
         float yy = z * other.getX() - x * other.getZ();
         float zz = x * other.getY() - y * other.getX();
 
-        return new Vector3(xx, yy, zz);
+        this.x = xx;
+        this.y = yy;
+        this.z = zz;
+        return this;
+
+
     }
+
 
     public Vector3 abs() {
         x = Maths.abs(x);

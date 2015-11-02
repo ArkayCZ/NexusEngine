@@ -8,18 +8,32 @@ import math.Vector3;
  */
 public class Vertex {
 
-    public static final int SIZE = 5;
+    public static final int SIZE = 8;
 
     private Vector2 mTextureCoordinate;
     private Vector3 mPosition;
+    private Vector3 mNormal;
+
+    public Vertex(Vector3 position, Vector2 textureCoordinate, Vector3 normal) {
+        mTextureCoordinate = textureCoordinate;
+        mPosition = position;
+        mNormal = normal;
+    }
 
     public Vertex(Vector3 position, Vector2 textureCoordinate) {
-        mPosition = position;
-        mTextureCoordinate = textureCoordinate;
+        this(position, textureCoordinate, new Vector3(0, 0, 0));
     }
 
     public Vertex(Vector3 position) {
         this(position, new Vector2(0, 0));
+    }
+
+    public Vector3 getNormal() {
+        return mNormal;
+    }
+
+    public void setNormal(Vector3 normal) {
+        mNormal = normal;
     }
 
     public Vector3 getPosition() {

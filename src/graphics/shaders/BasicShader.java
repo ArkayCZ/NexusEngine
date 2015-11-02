@@ -18,6 +18,17 @@ public class BasicShader extends Shader {
     private final String UNIFORM_PROJECTION_MATRIX = "projectionMatrix";
     private final String UNIFORM_COLOR_VEC3 = "color";
 
+    private static BasicShader sInstance;
+
+    public static BasicShader getInstance() {
+        if(sInstance != null)
+            return sInstance;
+        else {
+            sInstance = new BasicShader();
+            return sInstance;
+        }
+    }
+
     public BasicShader() {
         super();
 
@@ -32,8 +43,8 @@ public class BasicShader extends Shader {
     }
 
     @Override
-    public void updateTransformations(Matrix4 worldMatrix, Matrix4 projectionMatrix, Material material) {
-        //super.updateTransformations(worldMatrix, projectionMatrix, material);
+    public void updateUniforms(Matrix4 worldMatrix, Matrix4 projectionMatrix, Material material) {
+        //super.updateUniforms(worldMatrix, projectionMatrix, material);
 
         if(material.getTexture() == null)
             Texture.unbind();

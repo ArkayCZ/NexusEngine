@@ -142,9 +142,9 @@ public class Matrix4 {
 
         Vector3 r = up;
         r.normalize();
-        r = r.cross(fw);
+        r = Maths.cross(r, fw);
 
-        Vector3 u = fw.cross(r);
+        Vector3 u = Maths.cross(fw, r);
 
         set(0, 0, r.getX());
         set(0, 1, r.getY());
