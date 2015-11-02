@@ -1,4 +1,4 @@
-package graphics;
+package graphics.shaders.lighting;
 
 import math.Vector3;
 
