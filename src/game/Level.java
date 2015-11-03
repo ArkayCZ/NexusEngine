@@ -57,7 +57,8 @@ public class Level {
     }
 
     public boolean isSolid(int x, int y) {
-        return (mSource.getPixel(x, y) & 0xFFFFFF) == 0;
+        int pixel = mSource.getPixel(x, y) & 0xFFFFFF;
+        return pixel == 0 || pixel == 0xBBBBBB;
     }
 
     public Vector3 checkCollision(Vector3 originalPostition, Vector3 newPostition, float objectWidth, float objectHeight) {
