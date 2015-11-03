@@ -30,8 +30,8 @@ public class BasicShader extends Shader {
     public BasicShader() {
         super();
 
-        attachProgram(ContentLoader.readFileAsString("shaders/sprite_fragment.glsl"), Shader.FRAG);
-        attachProgram(ContentLoader.readFileAsString("shaders/sprite_vertex.glsl"), Shader.VERT);
+        attachProgram(ContentLoader.readFileAsString("shaders/basic_fragment_120.glsl"), Shader.FRAG);
+        attachProgram(ContentLoader.readFileAsString("shaders/basic_vertex_120.glsl"), Shader.VERT);
 
         compile();
 
