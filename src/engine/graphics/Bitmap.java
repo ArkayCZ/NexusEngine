@@ -20,6 +20,9 @@ public class Bitmap {
     }
 
     public int getPixel(int x, int y) {
+        int pixelNumber = x + y * getWidth();
+        if(pixelNumber < 0 || pixelNumber >= mPixels.length)
+            return 0;
         return mPixels[x + y * getWidth()];
     }
 

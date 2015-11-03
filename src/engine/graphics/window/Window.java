@@ -29,7 +29,7 @@ public class Window {
     private Input mInput;
 
     public Window(int width, int height, final String title) {
-        mInput = new Input();
+        mInput = new Input(this);
         mWidth = width;
         mHeight = height;
 
@@ -63,6 +63,7 @@ public class Window {
      */
     public void show(boolean showCursor) {
         mShown = true;
+        mInput.init();
         glfwMakeContextCurrent(mID);
         if(!showCursor)
             glfwSetInputMode(mID, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
@@ -136,6 +137,12 @@ public class Window {
     public Input getInputStatus() {
         return mInput;
     }
+
+    public long getID() { return mID; }
+
+    public int getWidth() { return mWidth; }
+
+    public int getHeight() { return mHeight; }
 
     public void destroy() {
         glfwDestroyWindow(mID);

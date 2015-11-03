@@ -185,4 +185,9 @@ public class Vector3 {
     public void setZ(float z) {
         this.z = z;
     }
+
+    @Override
+    public String toString() {
+        return "X: " + x + " Y: " + y + " Z: " + z;
+    }
 }

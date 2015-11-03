@@ -62,8 +62,6 @@ public class LevelLoader {
 
                 float ts = Level.TILE_SIZE;
 
-
-
                 //Floor
                 remapTexture(floorTexture);
                 addFaces(true);
@@ -158,6 +156,10 @@ public class LevelLoader {
             mLevelIndices.add(mLevelVertices.size() + 2);
             mLevelIndices.add(mLevelVertices.size());
         }
+    }
+
+    public Bitmap getBitmap() {
+        return mLevelBitmap;
     }
 
 }

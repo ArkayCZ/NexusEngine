@@ -47,6 +47,7 @@ public class Input {
     public static final int KEY_LEFT = GLFW_KEY_LEFT;
     public static final int KEY_RIGHT = GLFW_KEY_RIGHT;
     public static final int KEY_ESC = GLFW_KEY_ESCAPE;
+    public static final int KEY_SHIFT = GLFW_KEY_LEFT_SHIFT;
 
     private HashMap<Integer, Boolean> mKeys;
     private boolean mRightMouseButton, mLeftMouseButton;
@@ -55,40 +56,29 @@ public class Input {
     private int mMouseLastX, mMouseLastY;
     private int mMouseDeltaX, mMouseDeltaY;
 
-    private boolean mMouseLocked = false;
+    private int mCapturedX, mCapturedY;
+
+    private int mMouseUnlockCounter = 5;
 
     private GLFWCursorPosCallback mCursorPosCallback;
     private GLFWKeyCallback mKeyCallback;
     private GLFWMouseButtonCallback mMouseButtonCallback;
 
-    public Input() {
+    private Window mWindowContext;
+    private int mWindowHalfWidth;
+    private int mWindowHalfHeight;
+
+    public Input(Window window) {
         mKeys = new HashMap<>();
+        mWindowContext = window;
+
+
 
         mCursorPosCallback = new GLFWCursorPosCallback() {
             @Override
             public void invoke(long window, double xpos, double ypos) {
-                if(!mMouseLocked) {
-                    glfwSetCursorPos(window, Window.WIDTH / 2, Window.HEIGHT / 2);
-                    mMouseLocked = true;
-                    return;
-                }
-                mMouseLastX = mMouseX == 0 ? (int)xpos : mMouseX;
-                mMouseLastY = mMouseY == 0 ? (int)xpos : mMouseY;
-
-                mMouseX = (int)xpos;
-                mMouseY = (int)ypos;
-
-                mMouseDeltaX = mMouseX - mMouseLastX;
-                mMouseDeltaY = mMouseY - mMouseLastY;
-
-                Log.i("mouseX: " + mMouseX);
-                Log.i("mouseY: " + mMouseY);
-                Log.i("mouseLastY: " + mMouseLastX);
-                Log.i("mouseLastY: " + mMouseLastY);
-                Log.i("mouseDeltaX: " + mMouseDeltaX);
-                Log.i("mouseDeltaY: " + mMouseDeltaY);
-
-
+                mCapturedX = (int) xpos;
+                mCapturedY = (int) ypos;
             }
         };
 
@@ -116,9 +106,27 @@ public class Input {
         else return false;
     }
 
+    public void init() {
+        mWindowHalfHeight = mWindowContext.getHeight() / 2;
+        mWindowHalfWidth = mWindowContext.getWidth() / 2;
+    }
+
     public void update() {
-        mMouseDeltaY = 0;
-        mMouseDeltaX = 0;
+        if(mMouseUnlockCounter > 0) {
+            mMouseUnlockCounter--;
+            setCursorPos(mWindowContext.getID(), mWindowHalfWidth, mWindowHalfHeight);
+            return;
+        }
+        mMouseLastX = mMouseX;
+        mMouseLastY = mMouseY;
+
+        mMouseX = mCapturedX;
+        mMouseY = mCapturedY;
+
+        mMouseDeltaX = mMouseX - mWindowHalfWidth;
+        mMouseDeltaY = mMouseY - mWindowHalfHeight;
+
+        setCursorPos(mWindowContext.getID(), mWindowHalfWidth, mWindowHalfHeight);
     }
 
     public void setCursorPos(long window, int x, int y) {

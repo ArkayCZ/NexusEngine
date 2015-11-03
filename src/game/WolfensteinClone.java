@@ -29,7 +29,7 @@ public class WolfensteinClone extends NexusGame {
         LevelLoader loader = new LevelLoader();
         loader.setBitmap(ContentLoader.loadBitmap("res/level/level1.png"));
 
-        mLevel = new Level(loader.generateLevelMesh());
+        mLevel = new Level(loader.generateLevelMesh(), loader.getBitmap());
     }
 
     @Override

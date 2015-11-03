@@ -51,7 +51,7 @@ public abstract class NexusGame implements Runnable {
         mGameWindow = new Window(mWindowWidth, mWindowHeight, mTitle);
         mGameWindow.setResizable(true);
         mGameWindow.centerWindow();
-        mGameWindow.show(true);
+        mGameWindow.show(false);
 
         mGameWindow.initGL();
         mGameWindow.setClearColor(0.0f, 0.0f, 0.0f, 1.0f);

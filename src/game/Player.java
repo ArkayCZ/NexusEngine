@@ -11,13 +11,15 @@ import engine.utils.Log;
  */
 public class Player {
 
-    private Vector3 mPosition;
     private Camera mCamera;
+    private Level mLevel;
 
-    public Player(Vector3 position) {
-        mPosition = position;
+    private boolean mSprinting = false;
+
+    public Player(Vector3 position, Level level) {
         mCamera = new Camera();
-        //mCamera.move(Maths.normalize(position), position.getLenght());
+        mCamera.move(Maths.normalize(position), position.getLenght());
+        mLevel = level;
     }
 
     public void update(Input input) {
@@ -25,21 +27,36 @@ public class Player {
 
         if(input.isKeyDown(Input.KEY_W)) {
             movementVector.add(mCamera.getForward());
-        } else if(input.isKeyDown(Input.KEY_S)) {
+        }
+        if(input.isKeyDown(Input.KEY_S)) {
             movementVector.add(Maths.multiply(mCamera.getForward(), new Vector3(-1)));
-        } else if (input.isKeyDown(Input.KEY_A)) {
+        }
+        if (input.isKeyDown(Input.KEY_A)) {
             movementVector.add(mCamera.getLeft());
-        } else if(input.isKeyDown(Input.KEY_D)) {
+        }
+        if(input.isKeyDown(Input.KEY_D)) {
             movementVector.add(mCamera.getRight());
         }
+        if(input.isKeyDown(Input.KEY_SHIFT)) {
+            mSprinting = true;
+        } else {
+            mSprinting = false;
+        }
 
-        mCamera.move(movementVector, 0.5f);
+        movementVector.setY(0.0f);
+
+        Vector3 oldPosition = mCamera.getPosition();
+        Vector3 newPosition = new Vector3(oldPosition);
+        newPosition = newPosition.add(movementVector.mul(0.1f));
+
+        Vector3 collisionVector = mLevel.checkCollision(oldPosition, newPosition, 0.2f, 0.2f);
+
+        movementVector = movementVector.mul(collisionVector);
+
+        mCamera.move(movementVector, mSprinting ? 1.5f : 1f);
 
         float xDelta = input.getMouseDeltaX();
         float yDelta = input.getMouseDeltaY();
-
-        //Log.i("MouseDeltaX:" + xDelta);
-        //Log.i("MouseDeltaY:" + yDelta);
 
         mCamera.rotateY(xDelta / 4);
         mCamera.rotateX(yDelta / 4);
