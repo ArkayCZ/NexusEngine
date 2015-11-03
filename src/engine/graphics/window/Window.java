@@ -4,6 +4,7 @@ package engine.graphics.window; /**
 
 import engine.graphics.MatrixTransformation;
 import engine.input.Input;
+import org.lwjgl.glfw.GLFWWindowFocusCallback;
 import org.lwjgl.glfw.GLFWvidmode;
 import org.lwjgl.opengl.GL;
 import engine.utils.Log;
@@ -20,8 +21,11 @@ public class Window {
     private long mID;
     private int mWidth, mHeight;
 
+    public static int WIDTH, HEIGHT;
+
     private boolean mShown = false;
 
+    private GLFWWindowFocusCallback mFocusCallback;
     private Input mInput;
 
     public Window(int width, int height, final String title) {
@@ -29,12 +33,19 @@ public class Window {
         mWidth = width;
         mHeight = height;
 
+        WIDTH = width;
+        HEIGHT = height;
+
         if(glfwInit() != GL_TRUE)
             System.err.println("Failed to init GLFW!");
 
         mID = glfwCreateWindow(width, height, title, NULL, NULL);
         if(mID == NULL)
             System.err.println("Failed to create engine.graphics.window.Window!");
+
+        glfwMakeContextCurrent(mID);
+
+        mInput.setCursorPos(mID, Window.WIDTH / 2, Window.HEIGHT / 2);
 
         glfwSetCursorPosCallback(mID, mInput.getCursorPosCallback());
         glfwSetMouseButtonCallback(mID, mInput.getMouseButtonCallback());

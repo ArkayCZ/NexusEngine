@@ -1,6 +1,10 @@
 package engine.input;
 
 import static org.lwjgl.glfw.GLFW.*;
+
+import engine.NexusGame;
+import engine.graphics.window.Window;
+import engine.utils.Log;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
@@ -51,6 +55,8 @@ public class Input {
     private int mMouseLastX, mMouseLastY;
     private int mMouseDeltaX, mMouseDeltaY;
 
+    private boolean mMouseLocked = false;
+
     private GLFWCursorPosCallback mCursorPosCallback;
     private GLFWKeyCallback mKeyCallback;
     private GLFWMouseButtonCallback mMouseButtonCallback;
@@ -61,14 +67,28 @@ public class Input {
         mCursorPosCallback = new GLFWCursorPosCallback() {
             @Override
             public void invoke(long window, double xpos, double ypos) {
-                mMouseLastX = mMouseX;
-                mMouseLastY = mMouseY;
+                if(!mMouseLocked) {
+                    glfwSetCursorPos(window, Window.WIDTH / 2, Window.HEIGHT / 2);
+                    mMouseLocked = true;
+                    return;
+                }
+                mMouseLastX = mMouseX == 0 ? (int)xpos : mMouseX;
+                mMouseLastY = mMouseY == 0 ? (int)xpos : mMouseY;
 
                 mMouseX = (int)xpos;
                 mMouseY = (int)ypos;
 
-                mMouseDeltaX = mMouseLastX - mMouseX;
-                mMouseDeltaY = mMouseLastY - mMouseY;
+                mMouseDeltaX = mMouseX - mMouseLastX;
+                mMouseDeltaY = mMouseY - mMouseLastY;
+
+                Log.i("mouseX: " + mMouseX);
+                Log.i("mouseY: " + mMouseY);
+                Log.i("mouseLastY: " + mMouseLastX);
+                Log.i("mouseLastY: " + mMouseLastY);
+                Log.i("mouseDeltaX: " + mMouseDeltaX);
+                Log.i("mouseDeltaY: " + mMouseDeltaY);
+
+
             }
         };
 
@@ -94,6 +114,18 @@ public class Input {
         if(mKeys.containsKey(key))
             return mKeys.get(key);
         else return false;
+    }
+
+    public void update() {
+        mMouseDeltaY = 0;
+        mMouseDeltaX = 0;
+    }
+
+    public void setCursorPos(long window, int x, int y) {
+        mMouseLastX = x;
+        mMouseLastY = y;
+
+        glfwSetCursorPos(window, x, y);
     }
 
     public int getMouseY() {
