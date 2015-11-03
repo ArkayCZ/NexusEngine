@@ -10,6 +10,8 @@ import engine.math.Vector3;
 import engine.utils.ContentLoader;
 import engine.utils.Log;
 
+import java.util.ArrayList;
+
 /**
  * Created by vesel on 02.11.2015.
  */
@@ -19,8 +21,13 @@ public class Level {
     public static final float LEVEL_HEIGHT = 2f;
 
     private Renderable mMeshData;
+    private ArrayList<Door> mDoors;
+
     private Player mPlayer;
     private Bitmap mSource;
+
+    //Scratchpad
+    private Door door;
 
     public Level(Mesh levelMesh, Bitmap sourceBitmap) {
         mPlayer = new Player(new Vector3(11, 0.55f, 9), this);
@@ -28,8 +35,29 @@ public class Level {
                 new Material(ContentLoader.loadTexture("res/textures/spritesheet.png"), new Vector3(1, 1, 1)));
 
         mSource = sourceBitmap;
+        mDoors = new ArrayList<>();
 
         MatrixTransformation.setCamera(mPlayer.getCamera());
+        Material doorMaterial = new Material(ContentLoader.loadTexture("res/textures/spritesheet.png"), new Vector3(1, 1, 1));
+        door = new Door(new Renderable(new MatrixTransformation(), doorMaterial));
+        door.setTranslation(11.5f, 0, 10);
+    }
+
+
+
+    public void render(RenderingEngine engine) {
+        engine.submit(mMeshData);
+        for(Door d : mDoors) {
+            d.render(engine);
+        }
+    }
+
+    public void update(Input input) {
+        mPlayer.update(input);
+    }
+
+    public boolean isSolid(int x, int y) {
+        return (mSource.getPixel(x, y) & 0xFFFFFF) == 0;
     }
 
     public Vector3 checkCollision(Vector3 originalPostition, Vector3 newPostition, float objectWidth, float objectHeight) {
@@ -59,8 +87,7 @@ public class Level {
         return new Vector3(collisionVector.getX(), 0, collisionVector.getY());
     }
 
-    public Vector2 check2DCollision(Vector2 oldPosition, Vector2 newPosition,
-                                    Vector2 objectDimension, Vector2 blockPosition, Vector2 blockSize) {
+    public Vector2 check2DCollision(Vector2 oldPosition, Vector2 newPosition, Vector2 objectDimension, Vector2 blockPosition, Vector2 blockSize) {
 
         Vector2 collisionVector = new Vector2(0, 0);
 
@@ -69,7 +96,7 @@ public class Level {
         boolean cond3 = oldPosition.getY() + objectDimension.getY() < blockPosition.getY();
         boolean cond4 = oldPosition.getY() - objectDimension.getY() > blockPosition.getY() + blockSize.getY() * (blockSize.getY() - 1);
 
-       // Log.i("C1: " + cond1 + " C2: " + cond2 + " C3: " + cond3 + " C4: " + cond4);
+        // Log.i("C1: " + cond1 + " C2: " + cond2 + " C3: " + cond3 + " C4: " + cond4);
         if(cond1 || cond2 || cond3 || cond4) {
             collisionVector.setX(1);
         }
@@ -79,7 +106,7 @@ public class Level {
         cond2= oldPosition.getX() - objectDimension.getX() > blockPosition.getX() + blockSize.getX() * (blockSize.getX() - 1);
         cond3 = newPosition.getY() + objectDimension.getY() < blockPosition.getY();
         cond4 = newPosition.getY() - objectDimension.getY() > blockPosition.getY() + blockSize.getY() * (blockSize.getY() - 1);
-       // Log.i("C1: " + cond1 + " C2: " + cond2 + " C3: " + cond3 + " C4: " + cond4);
+        // Log.i("C1: " + cond1 + " C2: " + cond2 + " C3: " + cond3 + " C4: " + cond4);
 
         if(cond1 || cond2 || cond3 || cond4) {
             collisionVector.setY(1);
@@ -91,15 +118,7 @@ public class Level {
         return collisionVector;
     }
 
-    public void render(RenderingEngine engine) {
-        engine.submit(mMeshData);
-    }
-
-    public void update(Input input) {
-        mPlayer.update(input);
-    }
-
-    public boolean isSolid(int x, int y) {
-        return (mSource.getPixel(x, y) & 0xFFFFFF) == 0;
+    public ArrayList<Door> getDoors() {
+        return mDoors;
     }
 }

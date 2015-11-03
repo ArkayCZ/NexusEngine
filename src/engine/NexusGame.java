@@ -3,7 +3,11 @@ package engine;
 import engine.graphics.deperecated.ImmediateRenderer;
 import engine.graphics.window.Window;
 import engine.input.Input;
+import engine.utils.ConsoleWatcher;
 import engine.utils.Log;
+import engine.utils.Settings;
+
+import java.io.Console;
 
 /**
  * Created by vesel on 30.10.2015.
@@ -11,7 +15,9 @@ import engine.utils.Log;
 public abstract class NexusGame implements Runnable {
 
     private Thread mMainThread;
+    private Thread mConsoleWatcherThread;
     private Window mGameWindow;
+    private ConsoleWatcher mWatcher;
 
     /**
      *
@@ -31,6 +37,14 @@ public abstract class NexusGame implements Runnable {
     public void start() {
         mRunning = true;
         mMainThread = new Thread(this, "EngineThread");
+        mConsoleWatcherThread = new Thread(() -> {
+            mWatcher = new ConsoleWatcher();
+            while(mRunning) {
+                mWatcher.executeCommand(mWatcher.getCommand());
+            }
+        });
+
+        mConsoleWatcherThread.start();
         mMainThread.start();
     }
 
@@ -121,7 +135,8 @@ public abstract class NexusGame implements Runnable {
     }
 
     private void _secondlyUpdate() {
-        Log.r("FPS: " + mFPS + " TPS: " + mTPS);
+        if(Settings.FPS_LOGGING_ENABLED)
+            Log.r("FPS: " + mFPS + " TPS: " + mTPS);
 
         secondlyUpdate();
     }

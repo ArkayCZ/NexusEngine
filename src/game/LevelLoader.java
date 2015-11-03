@@ -2,6 +2,7 @@ package game;
 
 import engine.graphics.Bitmap;
 import engine.graphics.Mesh;
+import engine.graphics.Renderable;
 import engine.graphics.Vertex;
 import engine.math.Vector2;
 import engine.math.Vector3;
@@ -41,6 +42,20 @@ public class LevelLoader {
 
     public void setBitmap(Bitmap bitmap) {
         mLevelBitmap = bitmap.flipX();
+    }
+
+    public Level createLevel() {
+        Mesh mMesh = generateLevelMesh();
+        Level level = new Level(mMesh, mLevelBitmap);
+
+        for(int x = 0; x < mLevelBitmap.getWidth(); x++) {
+            for(int y = 0; y < mLevelBitmap.getHeight(); y++) {
+                if((mLevelBitmap.getPixel(x, y) & 0xFFFFFF) == 0xBBBBBB)
+                    level.getDoors().add(createDoor(x, y));
+            }
+        }
+
+        return level;
     }
 
     public Mesh generateLevelMesh() {
@@ -156,6 +171,24 @@ public class LevelLoader {
             mLevelIndices.add(mLevelVertices.size() + 2);
             mLevelIndices.add(mLevelVertices.size());
         }
+    }
+
+    private Door createDoor(int x, int y) {
+        Door door = new Door(new Renderable(WolfensteinClone.sSpriteSheet));
+        boolean rotate = false;
+        if((mLevelBitmap.getPixel(x - 1, y) & 0xFFFFFF) != 0 && (mLevelBitmap.getPixel(x + 1, y) & 0xFFFFFF) != 0)
+            rotate = true;
+
+
+        if(rotate) {
+            door.setRotation(new Vector3(0, 90, 0));
+            door.setTranslation(x * 2 + 0.25f, 0, y * 2);
+        } else {
+            door.setTranslation(x * 2, 0f, y * 2);
+        }
+
+
+        return door;
     }
 
     public Bitmap getBitmap() {

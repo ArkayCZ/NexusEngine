@@ -15,10 +15,11 @@ import engine.utils.ContentLoader;
 public class WolfensteinClone extends NexusGame {
 
     private Level mLevel;
+    public static Material sSpriteSheet;
 
     public WolfensteinClone() {
         super("Wolfenstein3D");
-        setWindowSize(1280, 800);
+        setWindowSize(600, 600);
         start();
     }
 
@@ -26,10 +27,12 @@ public class WolfensteinClone extends NexusGame {
     public void init() {
         getGameWindow().initProjection(70f, 0.1f, 1000f);
 
+        sSpriteSheet = new Material(ContentLoader.loadTexture("res/textures/spritesheet.png"), new Vector3(1));
+
         LevelLoader loader = new LevelLoader();
         loader.setBitmap(ContentLoader.loadBitmap("res/level/level1.png"));
 
-        mLevel = new Level(loader.generateLevelMesh(), loader.getBitmap());
+        mLevel = loader.createLevel();
     }
 
     @Override

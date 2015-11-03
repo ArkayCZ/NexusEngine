@@ -1,5 +1,6 @@
 package engine.graphics;
 
+import engine.graphics.shaders.BasicShader;
 import engine.graphics.shaders.Shader;
 
 import java.util.List;
@@ -29,6 +30,9 @@ public class RenderingEngine {
             Mesh mesh = renderable.getMesh();
             MatrixTransformation transform = renderable.getTransformation();
             Material material = renderable.getMaterial();
+
+            if(shader == null)
+                shader = BasicShader.getInstance();
 
             shader.updateUniforms(
                     transform.createTransformationMatrix(),

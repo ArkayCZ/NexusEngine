@@ -21,6 +21,18 @@ public class Renderable {
         mMaterial = material;
     }
 
+    public Renderable() {
+        this(null, null, null, null);
+    }
+
+    public Renderable(Material mat) {
+        this(null, null, null, mat);
+    }
+
+    public Renderable(MatrixTransformation transform, Material material) {
+        this(null, null, transform, material);
+    }
+
     public Mesh getMesh() {
         return mMesh;
     }

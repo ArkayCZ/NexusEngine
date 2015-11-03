@@ -5,6 +5,7 @@ import engine.input.Input;
 import engine.math.Maths;
 import engine.math.Vector3;
 import engine.utils.Log;
+import engine.utils.Settings;
 
 /**
  * Created by filip on 2.11.15.
@@ -49,9 +50,10 @@ public class Player {
         Vector3 newPosition = new Vector3(oldPosition);
         newPosition = newPosition.add(movementVector.mul(0.1f));
 
-        Vector3 collisionVector = mLevel.checkCollision(oldPosition, newPosition, 0.2f, 0.2f);
-
-        movementVector = movementVector.mul(collisionVector);
+        if(Settings.COLLISIONS_ENABLED) {
+            Vector3 collisionVector = mLevel.checkCollision(oldPosition, newPosition, 0.2f, 0.2f);
+            movementVector = movementVector.mul(collisionVector);
+        }
 
         mCamera.move(movementVector, mSprinting ? 1.5f : 1f);
 
