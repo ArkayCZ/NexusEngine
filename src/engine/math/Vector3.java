@@ -88,7 +88,6 @@ public class Vector3 {
 
     }
 
-
     public Vector3 abs() {
         x = Maths.abs(x);
         y = Maths.abs(y);
@@ -160,6 +159,15 @@ public class Vector3 {
 
         return this;
     }
+
+    public Vector2 getXY() {
+        return new Vector2(x, y);
+    }
+
+    public Vector2 getXZ() {
+        return new Vector2(x, z);
+    }
+
 
 
     public float getX() {

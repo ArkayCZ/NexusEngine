@@ -39,7 +39,7 @@ public class Level {
 
         MatrixTransformation.setCamera(mPlayer.getCamera());
         Material doorMaterial = new Material(ContentLoader.loadTexture("res/textures/spritesheet.png"), new Vector3(1, 1, 1));
-        door = new Door(new Renderable(new MatrixTransformation(), doorMaterial));
+        door = new Door(new Renderable(new MatrixTransformation(), doorMaterial), this);
         door.setTranslation(11.5f, 0, 10);
     }
 
@@ -54,11 +54,13 @@ public class Level {
 
     public void update(Input input) {
         mPlayer.update(input);
+        for(Door d : mDoors)
+            d.update(input);
     }
 
     public boolean isSolid(int x, int y) {
         int pixel = mSource.getPixel(x, y) & 0xFFFFFF;
-        return pixel == 0 || pixel == 0xBBBBBB;
+        return pixel == 0;
     }
 
     public Vector3 checkCollision(Vector3 originalPostition, Vector3 newPostition, float objectWidth, float objectHeight) {
@@ -112,11 +114,11 @@ public class Level {
         if(cond1 || cond2 || cond3 || cond4) {
             collisionVector.setY(1);
         }
-
-
-
-
         return collisionVector;
+    }
+
+    public Vector2 getPlayerPosition() {
+        return new Vector2(mPlayer.getPosition().getXZ());
     }
 
     public ArrayList<Door> getDoors() {

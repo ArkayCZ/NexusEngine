@@ -50,8 +50,8 @@ public class LevelLoader {
 
         for(int x = 0; x < mLevelBitmap.getWidth(); x++) {
             for(int y = 0; y < mLevelBitmap.getHeight(); y++) {
-                if((mLevelBitmap.getPixel(x, y) & 0xFFFFFF) == 0xBBBBBB)
-                    level.getDoors().add(createDoor(x, y));
+                if(((mLevelBitmap.getPixel(x, y) & 0xFFFFFF) == 0xBBBBBB))
+                    level.getDoors().add(createDoor(x, y, level));
             }
         }
 
@@ -173,8 +173,8 @@ public class LevelLoader {
         }
     }
 
-    private Door createDoor(int x, int y) {
-        Door door = new Door(new Renderable(WolfensteinClone.sSpriteSheet));
+    private Door createDoor(int x, int y, Level level) {
+        Door door = new Door(new Renderable(WolfensteinClone.sSpriteSheet), level);
         boolean rotate = false;
         if((mLevelBitmap.getPixel(x - 1, y) & 0xFFFFFF) != 0 && (mLevelBitmap.getPixel(x + 1, y) & 0xFFFFFF) != 0)
             rotate = true;
@@ -182,9 +182,12 @@ public class LevelLoader {
 
         if(rotate) {
             door.setRotation(new Vector3(0, 90, 0));
-            door.setTranslation(x * 2 + 0.25f, 0, y * 2);
+            door.setTranslation(x * 2 + 0.9f, 0, y * 2);
+            door.setDefaultTranslation(new Vector3(door.getTranslation()));
+            door.setIsRotated(true);
         } else {
-            door.setTranslation(x * 2, 0f, y * 2);
+            door.setTranslation(x * 2, 0f, y * 2 + 0.65f);
+            door.setDefaultTranslation(new Vector3(door.getTranslation()));
         }
 
 

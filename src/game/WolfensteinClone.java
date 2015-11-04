@@ -8,6 +8,7 @@ import engine.input.Input;
 import engine.math.Vector2;
 import engine.math.Vector3;
 import engine.utils.ContentLoader;
+import engine.utils.Log;
 
 /**
  * Created by vesel on 02.11.2015.
@@ -59,7 +60,6 @@ public class WolfensteinClone extends NexusGame {
 
     @Override
     public void secondlyUpdate() {
-
     }
 }
 

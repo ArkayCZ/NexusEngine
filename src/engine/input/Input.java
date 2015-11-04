@@ -79,6 +79,8 @@ public class Input {
             public void invoke(long window, double xpos, double ypos) {
                 mCapturedX = (int) xpos;
                 mCapturedY = (int) ypos;
+
+                setCursorPos(window, mWindowHalfWidth, mWindowHalfHeight);
             }
         };
 
@@ -117,6 +119,10 @@ public class Input {
             setCursorPos(mWindowContext.getID(), mWindowHalfWidth, mWindowHalfHeight);
             return;
         }
+        mMouseDeltaX = 0;
+        mMouseDeltaY = 0;
+
+
         mMouseLastX = mMouseX;
         mMouseLastY = mMouseY;
 

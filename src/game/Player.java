@@ -3,6 +3,7 @@ package game;
 import engine.graphics.Camera;
 import engine.input.Input;
 import engine.math.Maths;
+import engine.math.Vector2;
 import engine.math.Vector3;
 import engine.utils.Log;
 import engine.utils.Settings;
@@ -57,11 +58,34 @@ public class Player {
 
         mCamera.move(movementVector, mSprinting ? 1.5f : 1f);
 
-        float xDelta = input.getMouseDeltaX();
-        float yDelta = input.getMouseDeltaY();
+        if(Settings.MOUSE_CAMERA) {
+            float xDelta = input.getMouseDeltaX();
+            float yDelta = input.getMouseDeltaY();
 
-        mCamera.rotateY(xDelta / 4);
-        mCamera.rotateX(yDelta / 4);
+            mCamera.rotateY(xDelta / 4);
+            mCamera.rotateX(yDelta / 4);
+        } else if(Settings.KEY_CAMERA) {
+            if(input.isKeyDown(Input.KEY_LEFT))
+                mCamera.rotateY(-2);
+            if(input.isKeyDown(Input.KEY_RIGHT))
+                mCamera.rotateY(2);
+            if(input.isKeyDown(Input.KEY_UP))
+                mCamera.rotateX(-2);
+            if(input.isKeyDown(Input.KEY_DOWN))
+                mCamera.rotateX(2);
+        }
+    }
+
+    public Vector3 getPosition() {
+        return mCamera.getPosition();
+    }
+
+    public void setPosition(float x, float y, float z) {
+        mCamera.setPosition(new Vector3(x, y, z));
+    }
+
+    public void setPosition(Vector3 pos) {
+        mCamera.setPosition(pos);
     }
 
     public Camera getCamera() {
