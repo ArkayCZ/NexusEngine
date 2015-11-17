@@ -40,36 +40,59 @@ public class Vector2 {
         return this;
     }
 
+    public float distance(Vector2 other) {
+        float deltaX = Maths.abs(x - other.getX());
+        float deltaY = Maths.abs(y - other.getY());
+
+        return Maths.sqrt(deltaX * deltaX + deltaY * deltaY);
+    }
+
     public Vector2 add(Vector2 other) {
-        return new Vector2(x + other.getX(), y + other.getY());
+        x += other.getX();
+        y += other.getY();
+        return this;
     }
 
     public Vector2 add(float other) {
-        return new Vector2(x + other, y + other);
+        x += other;
+        y += other;
+        return this;
     }
 
     public Vector2 sub(Vector2 other) {
-        return new Vector2(x - other.getX(), y - other.getY());
+        x -= other.getX();
+        y -= other.getY();
+        return this;
     }
 
     public Vector2 sub(float other) {
-        return new Vector2(x - other, y - other);
+        x -= other;
+        y -= other;
+        return this;
     }
 
     public Vector2 mul(Vector2 other) {
-        return new Vector2(x * other.getX(), y * other.getY());
+        x *= other.getX();
+        y *= other.getY();
+        return this;
     }
 
     public Vector2 mul(float other) {
-        return new Vector2(x * other, y * other);
+        x *= other;
+        y *= other;
+        return this;
     }
 
     public Vector2 div(Vector2 other) {
-        return new Vector2(x / other.getX(), y / other.getY());
+        x /= other.getX();
+        y /= other.getY();
+        return this;
     }
 
     public Vector2 div(float other) {
-        return new Vector2(x / other, y / other);
+        x /= other;
+        y /= other;
+        return this;
     }
 
     public Vector2 rotate(float rotation) {

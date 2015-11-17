@@ -54,13 +54,14 @@ public class Level {
 
     public void update(Input input) {
         mPlayer.update(input);
+
         for(Door d : mDoors)
             d.update(input);
     }
 
     public boolean isSolid(int x, int y) {
         int pixel = mSource.getPixel(x, y) & 0xFFFFFF;
-        return pixel == 0;
+        return pixel == 0 ;
     }
 
     public Vector3 checkCollision(Vector3 originalPostition, Vector3 newPostition, float objectWidth, float objectHeight) {
@@ -86,6 +87,14 @@ public class Level {
 
             }
         }
+
+        /*for(Door d : mDoors) {
+            Vector2 doorSize = d.isRotated() ? new Vector2(Door.DOOR_WI, Door.DOOR_TH) :
+                    new Vector2(Door.DOOR_TH, Door.DOOR_WI);
+
+            Vector2 doorPos = d.getTranslation().getXZ();
+            collisionVector = collisionVector.mul(check2DCollision(oldPositionVector2, newPositionVector2, objectDimension, doorPos, doorSize));
+        }*/
 
         return new Vector3(collisionVector.getX(), 0, collisionVector.getY());
     }
@@ -114,14 +123,18 @@ public class Level {
         if(cond1 || cond2 || cond3 || cond4) {
             collisionVector.setY(1);
         }
-        return collisionVector;
-    }
 
-    public Vector2 getPlayerPosition() {
-        return new Vector2(mPlayer.getPosition().getXZ());
+
+
+
+        return collisionVector;
     }
 
     public ArrayList<Door> getDoors() {
         return mDoors;
+    }
+
+    public Vector2 getPlayerPosition() {
+        return mPlayer.getCamera().getPosition().getXZ();
     }
 }

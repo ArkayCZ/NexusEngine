@@ -14,10 +14,11 @@ public abstract class Entity {
     private Level mContext;
 
     public Entity(Renderable renderable, Level context) {
-        mContext = context;
         mRenderable = renderable;
         if(mRenderable.getTransformation() == null)
             mRenderable.setTransformation(new MatrixTransformation());
+
+        mContext = context;
     }
 
     public void render(RenderingEngine engine) {
@@ -26,24 +27,12 @@ public abstract class Entity {
 
     public abstract void update(Input inputStatus);
 
-    public Level getContext() {
-        return mContext;
-    }
-
     public void setTranslation(Vector3 translationVector) {
         getRenderable().getTransformation().setTranslation(translationVector);
     }
 
     public void setTranslation(float x, float y, float z) {
         setTranslation(new Vector3(x, y, z));
-    }
-
-    public Vector3 getTranslation() {
-        return getRenderable().getTransformation().mPosition;
-    }
-
-    public Vector3 getRotation() {
-        return getRenderable().getTransformation().mRotation;
     }
 
     public void setRotation(Vector3 rotation) {
@@ -70,5 +59,10 @@ public abstract class Entity {
         mRenderable = renderable;
     }
 
+    public Level getContext() {return mContext;}
+
+    public Vector3 getTranslation() {
+        return getRenderable().getTransformation().mPosition;
+    }
 
 }

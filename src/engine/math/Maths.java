@@ -1,7 +1,5 @@
 package engine.math;
 
-import java.util.Vector;
-
 /**
  * Created by vesel on 31.10.2015.
  */
@@ -67,20 +65,4 @@ public class Maths {
         return vector.sub(second);
     }
 
-    public static Vector3 interpolate(Vector3 first, Vector3 second, float factor) {
-        float deltaX = first.getX() - second.getX();
-        float deltaY = first.getY() - second.getY();
-        float deltaZ = first.getZ() - second.getZ();
-
-        Vector3 result = new Vector3(first);
-        result.add(new Vector3(deltaX, deltaY, deltaZ));
-        result.mul(factor);
-
-        return result;
-    }
-
-    public static Vector3 add(Vector3 first, Vector3 second) {
-        Vector3 vector = new Vector3(first);
-        return vector.add(second);
-    }
 }

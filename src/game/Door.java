@@ -6,7 +6,6 @@ import engine.graphics.Mesh;
 import engine.graphics.Renderable;
 import engine.graphics.Vertex;
 import engine.input.Input;
-import engine.math.Maths;
 import engine.math.Vector2;
 import engine.math.Vector3;
 import engine.utils.Log;
@@ -18,27 +17,25 @@ public class Door extends Entity {
 
     private static Mesh sMesh;
 
-    private static final float DOOR_TH = 0.25f;
-    private static final float DOOR_WI = 2.0f;
-    private static final float DOOR_HE = 2.0f;
-    private static final float DOOR_ST = 0.0f;
+    public static final float DOOR_TH = 0.25f;
+    public static final float DOOR_WI = 2.0f;
+    public static final float DOOR_HE = 2.0f;
+    public static final float DOOR_ST = 0.0f;
 
-    private boolean mIsOpenning = false;
+    private boolean mIsOpening = false;
     private float mOpeningFactor = 0.0f;
     private boolean mIsRotated = false;
 
-    private Vector3 mOpenTransaltion;
+    private Vector3 mOpenTranslation;
     private Vector3 mDefaultTranslation;
 
-    public Door(Renderable renderable, Level context) {
-        super(renderable, context);
+    public Door(Renderable renderable, Level level) {
+        super(renderable, level);
 
-        if(renderable.getMesh() == null)
+        if (renderable.getMesh() == null)
             renderable.setMesh(getMesh());
 
-        mDefaultTranslation = new Vector3(getTranslation());
-        mOpenTransaltion = new Vector3(0);
-        mOpenTransaltion.setX(1.8f);
+        mOpenTranslation = new Vector3(1.8f, 0, 0);
     }
 
     @Override
@@ -46,45 +43,42 @@ public class Door extends Entity {
         int playerX = (int)getContext().getPlayerPosition().getX();
         int playerY = (int)getContext().getPlayerPosition().getY();
 
-        int doorX = (int)getTranslation().getX();
-        int doorY = (int)getTranslation().getZ();
+        int doorX = (int)getRenderable().getTransformation().mPosition.getX();
+        int doorY = (int)getRenderable().getTransformation().mPosition.getZ();
 
-        if(playerX == doorX && playerY == doorY)
-            Log.i("PlayerX: " + playerX + " DoorX: " + doorX);
+        Vector2 playerPosition = new Vector2(playerX, playerY);
+        Vector2 doorPosition = new Vector2(doorX, doorY);
 
-        if(playerX == doorX - 1 && playerY == doorY ||
-                playerX == doorX && playerY == doorY ||
-                playerX == doorX + 1 && playerY == doorY
-                ) mIsOpenning = true;
-        else mIsOpenning = false;
+        Vector2 resultVector = doorPosition.sub(playerPosition);
 
-        float distance = Maths.abs(getContext().getPlayerPosition().getLength() -
-                mDefaultTranslation.getLenght());
-        Log.i("" + distance);
-
-        if(distance < 1.5f) {
-            mOpeningFactor += 0.02f;
+        float distance = resultVector.getLength();
+        if(distance < 2.8f) {
+            mOpeningFactor += 0.05f;
+            mIsOpening = true;
+        } else  {
+            mIsOpening = false;
+            mOpeningFactor -= 0.05f;
         }
-        else mOpeningFactor -= 0.02f;
 
-        mOpeningFactor = mOpeningFactor > 1.0f ? 1.0f : mOpeningFactor;
-        mOpeningFactor = mOpeningFactor < 0.0f ? 0.0f : mOpeningFactor;
+        mOpeningFactor = mOpeningFactor < 0f ? 0f : mOpeningFactor;
+        mOpeningFactor = mOpeningFactor > 1f ? 1f : mOpeningFactor;
 
-        Vector3 oTranslation = Maths.interpolate(new Vector3(0), mOpenTransaltion, mOpeningFactor);
-        setTranslation(Maths.add(new Vector3(mDefaultTranslation), oTranslation));
+        if(mOpeningFactor > 0) {
+            Vector3 openingTranslation = new Vector3(mOpenTranslation).mul(mOpeningFactor);
+            setTranslation(isRotated() ?  new Vector3(mDefaultTranslation).add(new Vector3(
+                    openingTranslation.getZ(), 0, openingTranslation.getX()))
+                    : new Vector3(mDefaultTranslation).add(openingTranslation));
+        } else {
+            setTranslation(new Vector3(mDefaultTranslation));
+        }
+
     }
 
-
-    public void setDefaultTranslation(Vector3 translation) {
-        mDefaultTranslation = translation;
-    }
 
     private static Mesh getMesh() {
         if(sMesh != null)
             return sMesh;
         else {
-
-            //TODO: create something that actually looks like a door
             Vertex[] vertices = new Vertex[] {
                     new Vertex(new Vector3(DOOR_ST, DOOR_ST, DOOR_ST), new Vector2(0.0f, 0.75f)),
                     new Vertex(new Vector3(DOOR_ST, DOOR_HE, DOOR_ST), new Vector2(0, 0.5f)),
@@ -128,8 +122,11 @@ public class Door extends Entity {
         return sMesh;
     }
 
-    public void setIsRotated(boolean b) {
-        mIsRotated = true;
-        mOpenTransaltion = new Vector3(0, 0, 2);
+    public void setDefaultTranslation(Vector3 defaultTranslation) {
+        mDefaultTranslation = new Vector3(defaultTranslation);
+    }
+
+    public boolean isRotated() {
+        return getRenderable().getTransformation().mRotation.getY() == 90;
     }
 }

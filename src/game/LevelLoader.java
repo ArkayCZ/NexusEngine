@@ -50,7 +50,7 @@ public class LevelLoader {
 
         for(int x = 0; x < mLevelBitmap.getWidth(); x++) {
             for(int y = 0; y < mLevelBitmap.getHeight(); y++) {
-                if(((mLevelBitmap.getPixel(x, y) & 0xFFFFFF) == 0xBBBBBB))
+                if((mLevelBitmap.getPixel(x, y) & 0xFFFFFF) == 0xBBBBBB)
                     level.getDoors().add(createDoor(x, y, level));
             }
         }
@@ -182,14 +182,12 @@ public class LevelLoader {
 
         if(rotate) {
             door.setRotation(new Vector3(0, 90, 0));
-            door.setTranslation(x * 2 + 0.9f, 0, y * 2);
-            door.setDefaultTranslation(new Vector3(door.getTranslation()));
-            door.setIsRotated(true);
+            door.setTranslation(x * 2 + 0.25f, 0, y * 2);
         } else {
-            door.setTranslation(x * 2, 0f, y * 2 + 0.65f);
-            door.setDefaultTranslation(new Vector3(door.getTranslation()));
+            door.setTranslation(x * 2, 0f, y * 2 + 0.25f);
         }
 
+        door.setDefaultTranslation(door.getRenderable().getTransformation().mPosition);
 
         return door;
     }
