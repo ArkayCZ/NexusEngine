@@ -1,5 +1,6 @@
 package game;
 
+import engine.Entity;
 import engine.graphics.*;
 import engine.graphics.shaders.BasicShader;
 import engine.graphics.shaders.Shader;
@@ -22,12 +23,12 @@ public class Level {
 
     private Renderable mMeshData;
     private ArrayList<Door> mDoors;
+    private ArrayList<Enemy> mEnemies;
 
     private Player mPlayer;
     private Bitmap mSource;
-
     //Scratchpad
-    private Door door;
+    public Enemy enemy;
 
     public Level(Mesh levelMesh, Bitmap sourceBitmap) {
         mPlayer = new Player(new Vector3(11, 0.55f, 9), this);
@@ -36,11 +37,11 @@ public class Level {
 
         mSource = sourceBitmap;
         mDoors = new ArrayList<>();
+        mEnemies = new ArrayList<>();
+
 
         MatrixTransformation.setCamera(mPlayer.getCamera());
         Material doorMaterial = new Material(ContentLoader.loadTexture("res/textures/spritesheet.png"), new Vector3(1, 1, 1));
-        door = new Door(new Renderable(new MatrixTransformation(), doorMaterial), this);
-        door.setTranslation(11.5f, 0, 10);
     }
 
 
@@ -52,6 +53,10 @@ public class Level {
         }
 
         mPlayer.render(engine);
+
+        for(Enemy e : mEnemies)
+            if(e != null)
+                e.render(engine);
     }
 
     public void update(Input input) {
@@ -59,11 +64,15 @@ public class Level {
 
         for(Door d : mDoors)
             d.update(input);
+
+        for(Enemy e : mEnemies)
+            if(e != null)
+                e.update(input);
     }
 
     public boolean isSolid(int x, int y) {
         int pixel = mSource.getPixel(x, y) & 0xFFFFFF;
-        return pixel == 0 ;
+        return pixel == 0;
     }
 
     public Vector3 checkCollision(Vector3 originalPostition, Vector3 newPostition, float objectWidth, float objectHeight) {
@@ -90,15 +99,35 @@ public class Level {
             }
         }
 
-        /*for(Door d : mDoors) {
+        for(Door d : mDoors) {
             Vector2 doorSize = d.isRotated() ? new Vector2(Door.DOOR_WI, Door.DOOR_TH) :
                     new Vector2(Door.DOOR_TH, Door.DOOR_WI);
 
             Vector2 doorPos = d.getTranslation().getXZ();
-            collisionVector = collisionVector.mul(check2DCollision(oldPositionVector2, newPositionVector2, objectDimension, doorPos, doorSize));
-        }*/
+            collisionVector = collisionVector.mul(
+                    check2DCollision(oldPositionVector2, newPositionVector2, objectDimension, doorPos, doorSize));
+        }
 
         return new Vector3(collisionVector.getX(), 0, collisionVector.getY());
+    }
+
+    public boolean checkEntityCollision(Vector2 origin, Vector2 direction, Entity e) {
+        Vector2 calcVector = new Vector2(origin);
+        direction = direction.normalize();
+
+        while(calcVector.getX() > 0 && calcVector.getX() < 150 && calcVector.getY() > 0  && calcVector.getY() < 150) {
+            if (!check2DCollision(new Vector2(calcVector), new Vector2(calcVector).add(new Vector2(direction).mul(0.2f)), new Vector2(0.2f, 0.2f), e.getTranslation().getXZ().destoryDecPointData(), new Vector2(1, 1)).equals(new Vector2(1, 1)))
+                return true;
+
+            Vector2 blockPosition = new Vector2(calcVector).destoryDecPointData();
+
+            if(isSolid((int)blockPosition.getX() / 2, (int)blockPosition.getY() / 2))
+                return false;
+
+            calcVector.add(new Vector2(direction).mul(0.2f));
+        }
+
+        return false;
     }
 
     public Vector2 check2DCollision(Vector2 oldPosition, Vector2 newPosition, Vector2 objectDimension, Vector2 blockPosition, Vector2 blockSize) {
@@ -126,11 +155,9 @@ public class Level {
             collisionVector.setY(1);
         }
 
-
-
-
         return collisionVector;
     }
+
 
     public ArrayList<Door> getDoors() {
         return mDoors;
@@ -138,5 +165,13 @@ public class Level {
 
     public Vector2 getPlayerPosition() {
         return mPlayer.getCamera().getPosition().getXZ();
+    }
+
+    public ArrayList<Enemy> getEnemies() {
+        return mEnemies;
+    }
+
+    public Player getPlayer() {
+        return mPlayer;
     }
 }

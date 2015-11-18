@@ -102,6 +102,13 @@ public class Vector2 {
         return new Vector2(x * cos - y * sin, x * sin + y * cos);
     }
 
+    public Vector2 destoryDecPointData() {
+        x = (int) x;
+        y = (int) y;
+
+        return this;
+    }
+
     public float getX() {
         return x;
     }
@@ -118,5 +125,12 @@ public class Vector2 {
         this.y = y;
     }
 
+    public boolean equals(Vector2 obj) {
+        return obj.getX() == x && obj.getY() == y;
+    }
 
+    @Override
+    public String toString() {
+        return "X: " + x + " Y: " + y;
+    }
 }

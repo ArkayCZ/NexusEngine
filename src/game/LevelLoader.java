@@ -52,6 +52,8 @@ public class LevelLoader {
             for(int y = 0; y < mLevelBitmap.getHeight(); y++) {
                 if((mLevelBitmap.getPixel(x, y) & 0xFFFFFF) == 0xBBBBBB)
                     level.getDoors().add(createDoor(x, y, level));
+                else if((mLevelBitmap.getPixel(x, y) & 0xFFFFFF) == 0xE5CCCC)
+                    level.getEnemies().add(createEnemy(x, y, level));
             }
         }
 
@@ -75,65 +77,65 @@ public class LevelLoader {
                 float ymTexture = (rgbComponents & 0xF0) >> 4;
                 float ypTexture = (rgbComponents & 0xF);
 
-                float ts = Level.TILE_SIZE;
+                float tileSize = Level.TILE_SIZE;
 
                 //Floor
                 remapTexture(floorTexture);
                 addFaces(true);
 
-                mLevelVertices.add(new Vertex(new Vector3(x * ts, 0, y * ts), new Vector2(x0, y0)));
-                mLevelVertices.add(new Vertex(new Vector3((x + 1) * ts, 0, y * ts), new Vector2(x1, y0)));
-                mLevelVertices.add(new Vertex(new Vector3((x + 1) * ts, 0, (y + 1) * ts), new Vector2(x1, y1)));
-                mLevelVertices.add(new Vertex(new Vector3(x * ts, 0, (y + 1) * ts), new Vector2(x0, y1)));
+                mLevelVertices.add(new Vertex(new Vector3(x * tileSize, 0, y * tileSize), new Vector2(x0, y0)));
+                mLevelVertices.add(new Vertex(new Vector3((x + 1) * tileSize, 0, y * tileSize), new Vector2(x1, y0)));
+                mLevelVertices.add(new Vertex(new Vector3((x + 1) * tileSize, 0, (y + 1) * tileSize), new Vector2(x1, y1)));
+                mLevelVertices.add(new Vertex(new Vector3(x * tileSize, 0, (y + 1) * tileSize), new Vector2(x0, y1)));
 
                 //Top
                 remapTexture(topTexture);
                 addFaces(false);
 
-                mLevelVertices.add(new Vertex(new Vector3(x * ts, 2, y * ts), new Vector2(x0, y0)));
-                mLevelVertices.add(new Vertex(new Vector3((x + 1) * ts, 2, y * ts), new Vector2(x1, y0)));
-                mLevelVertices.add(new Vertex(new Vector3((x + 1) * ts, 2, (y + 1) * ts), new Vector2(x1, y1)));
-                mLevelVertices.add(new Vertex(new Vector3(x * ts, 2, (y + 1) * ts), new Vector2(x0, y1)));
+                mLevelVertices.add(new Vertex(new Vector3(x * tileSize, 2, y * tileSize), new Vector2(x0, y0)));
+                mLevelVertices.add(new Vertex(new Vector3((x + 1) * tileSize, 2, y * tileSize), new Vector2(x1, y0)));
+                mLevelVertices.add(new Vertex(new Vector3((x + 1) * tileSize, 2, (y + 1) * tileSize), new Vector2(x1, y1)));
+                mLevelVertices.add(new Vertex(new Vector3(x * tileSize, 2, (y + 1) * tileSize), new Vector2(x0, y1)));
 
                 //Walls
                 if((mLevelBitmap.getPixel(x, y - 1) & 0xFFFFFF) == 0) {
                     remapTexture(ymTexture);
                     addFaces(false);
 
-                    mLevelVertices.add(new Vertex(new Vector3(x * ts, 0, y * ts), new Vector2(x0, y0)));
-                    mLevelVertices.add(new Vertex(new Vector3((x + 1) * ts, 0, y * ts), new Vector2(x1, y0)));
-                    mLevelVertices.add(new Vertex(new Vector3((x + 1) * ts, 2, y * ts), new Vector2(x1, y1)));
-                    mLevelVertices.add(new Vertex(new Vector3(x * ts, 2, y * ts), new Vector2(x0, y1)));
+                    mLevelVertices.add(new Vertex(new Vector3(x * tileSize, 0, y * tileSize), new Vector2(x0, y0)));
+                    mLevelVertices.add(new Vertex(new Vector3((x + 1) * tileSize, 0, y * tileSize), new Vector2(x1, y0)));
+                    mLevelVertices.add(new Vertex(new Vector3((x + 1) * tileSize, 2, y * tileSize), new Vector2(x1, y1)));
+                    mLevelVertices.add(new Vertex(new Vector3(x * tileSize, 2, y * tileSize), new Vector2(x0, y1)));
                 }
 
                 if((mLevelBitmap.getPixel(x, y + 1) & 0xFFFFFF) == 0) {
                     remapTexture(ypTexture);
                     addFaces(true);
 
-                    mLevelVertices.add(new Vertex(new Vector3(x * ts, 0, (y + 1) * ts), new Vector2(x0, y0)));
-                    mLevelVertices.add(new Vertex(new Vector3((x + 1) * ts, 0, (y + 1) * ts), new Vector2(x1, y0)));
-                    mLevelVertices.add(new Vertex(new Vector3((x + 1) * ts, 2, (y + 1) * ts), new Vector2(x1, y1)));
-                    mLevelVertices.add(new Vertex(new Vector3(x * ts, 2, (y + 1) * ts), new Vector2(x0, y1)));
+                    mLevelVertices.add(new Vertex(new Vector3(x * tileSize, 0, (y + 1) * tileSize), new Vector2(x0, y0)));
+                    mLevelVertices.add(new Vertex(new Vector3((x + 1) * tileSize, 0, (y + 1) * tileSize), new Vector2(x1, y0)));
+                    mLevelVertices.add(new Vertex(new Vector3((x + 1) * tileSize, 2, (y + 1) * tileSize), new Vector2(x1, y1)));
+                    mLevelVertices.add(new Vertex(new Vector3(x * tileSize, 2, (y + 1) * tileSize), new Vector2(x0, y1)));
                 }
 
                 if((mLevelBitmap.getPixel(x - 1, y) & 0xFFFFFF) == 0) {
                     remapTexture(xmTexture);
                     addFaces(true);
 
-                    mLevelVertices.add(new Vertex(new Vector3(x * ts, 0, (y) * ts), new Vector2(x0, y0)));
-                    mLevelVertices.add(new Vertex(new Vector3(x * ts, 0, (y + 1) * ts), new Vector2(x1, y0)));
-                    mLevelVertices.add(new Vertex(new Vector3(x * ts, 2, (y + 1) * ts), new Vector2(x1, y1)));
-                    mLevelVertices.add(new Vertex(new Vector3(x * ts, 2, (y) * ts), new Vector2(x0, y1)));
+                    mLevelVertices.add(new Vertex(new Vector3(x * tileSize, 0, (y) * tileSize), new Vector2(x0, y0)));
+                    mLevelVertices.add(new Vertex(new Vector3(x * tileSize, 0, (y + 1) * tileSize), new Vector2(x1, y0)));
+                    mLevelVertices.add(new Vertex(new Vector3(x * tileSize, 2, (y + 1) * tileSize), new Vector2(x1, y1)));
+                    mLevelVertices.add(new Vertex(new Vector3(x * tileSize, 2, (y) * tileSize), new Vector2(x0, y1)));
                 }
 
                 if((mLevelBitmap.getPixel(x + 1, y) & 0xFFFFFF) == 0) {
                     remapTexture(xpTexture);
                     addFaces(false);
 
-                    mLevelVertices.add(new Vertex(new Vector3((x + 1) * ts, 0, (y) * ts), new Vector2(x0, y0)));
-                    mLevelVertices.add(new Vertex(new Vector3((x + 1) * ts, 0, (y + 1) * ts), new Vector2(x1, y0)));
-                    mLevelVertices.add(new Vertex(new Vector3((x + 1) * ts, 2, (y + 1) * ts), new Vector2(x1, y1)));
-                    mLevelVertices.add(new Vertex(new Vector3((x + 1) * ts, 2, (y) * ts), new Vector2(x0, y1)));
+                    mLevelVertices.add(new Vertex(new Vector3((x + 1) * tileSize, 0, (y) * tileSize), new Vector2(x0, y0)));
+                    mLevelVertices.add(new Vertex(new Vector3((x + 1) * tileSize, 0, (y + 1) * tileSize), new Vector2(x1, y0)));
+                    mLevelVertices.add(new Vertex(new Vector3((x + 1) * tileSize, 2, (y + 1) * tileSize), new Vector2(x1, y1)));
+                    mLevelVertices.add(new Vertex(new Vector3((x + 1) * tileSize, 2, (y) * tileSize), new Vector2(x0, y1)));
                 }
             }
         }
@@ -190,6 +192,14 @@ public class LevelLoader {
         door.setDefaultTranslation(door.getRenderable().getTransformation().mPosition);
 
         return door;
+    }
+
+    private Enemy createEnemy(int x, int y, Level level) {
+        Enemy e = new Enemy(level);
+
+        e.setTranslation(new Vector3(x * 2, 0, y * 2));
+
+        return e;
     }
 
     public Bitmap getBitmap() {

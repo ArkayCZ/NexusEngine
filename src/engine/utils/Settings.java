@@ -7,5 +7,6 @@ public class Settings {
 
     public static boolean COLLISIONS_ENABLED = false;
     public static boolean FPS_LOGGING_ENABLED = false;
+    public static boolean MOUSE_CONTROL = true;
 
 }

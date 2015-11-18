@@ -14,19 +14,15 @@ public class Vector3 {
     }
 
     public Vector3(float x) {
-        this.x = x;
-        this.y = x;
-        this.z = x;
+        this(x, x, x);
     }
 
     public Vector3() {
-
+        this(0, 0, 0);
     }
 
     public Vector3(Vector3 other) {
-        x = other.x;
-        y = other.y;
-        z = other.z;
+        this(other.x, other.y, other.z);
     }
 
     public float getLenght() {

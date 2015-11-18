@@ -19,7 +19,7 @@ public class WolfensteinClone extends NexusGame {
 
     public WolfensteinClone() {
         super("Wolfenstein3D");
-        setWindowSize(600, 600);
+        setWindowSize(1280, 720);
         start();
     }
 
@@ -63,4 +63,3 @@ public class WolfensteinClone extends NexusGame {
     }
 }
 
-//TODO: Create a level loader

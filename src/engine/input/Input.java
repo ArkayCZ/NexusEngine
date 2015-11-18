@@ -48,6 +48,7 @@ public class Input {
     public static final int KEY_RIGHT = GLFW_KEY_RIGHT;
     public static final int KEY_ESC = GLFW_KEY_ESCAPE;
     public static final int KEY_SHIFT = GLFW_KEY_LEFT_SHIFT;
+    public static final int KEY_SPACE = GLFW_KEY_SPACE;
 
     private HashMap<Integer, Boolean> mKeys;
     private boolean mRightMouseButton, mLeftMouseButton;
