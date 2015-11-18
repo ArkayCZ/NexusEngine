@@ -65,4 +65,8 @@ public class Maths {
         return vector.sub(second);
     }
 
+    public static float atan2(float x, float y) {
+        return (float)Math.toDegrees(Math.atan2(x, y));
+    }
+
 }

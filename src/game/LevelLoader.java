@@ -182,9 +182,9 @@ public class LevelLoader {
 
         if(rotate) {
             door.setRotation(new Vector3(0, 90, 0));
-            door.setTranslation(x * 2 + 0.25f, 0, y * 2);
+            door.setTranslation(x * 2 + 1f, 0, y * 2);
         } else {
-            door.setTranslation(x * 2, 0f, y * 2 + 0.25f);
+            door.setTranslation(x * 2, 0f, y * 2 + 1f);
         }
 
         door.setDefaultTranslation(door.getRenderable().getTransformation().mPosition);

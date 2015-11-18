@@ -5,7 +5,7 @@ package engine.utils;
  */
 public class Settings {
 
-    public static boolean COLLISIONS_ENABLED = true;
+    public static boolean COLLISIONS_ENABLED = false;
     public static boolean FPS_LOGGING_ENABLED = false;
 
 }

@@ -89,6 +89,8 @@ public class Window {
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_DEPTH_CLAMP);
 
+        glEnable(GL_BLEND);
+
         //glEnable(GL_FRAMEBUFFER_SRGB);
     }
 

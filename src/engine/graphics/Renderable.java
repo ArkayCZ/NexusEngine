@@ -65,6 +65,10 @@ public class Renderable {
         mMaterial = material;
     }
 
+    public void initTransformation() {
+        mTransformation = new MatrixTransformation();
+    }
+
     public void render() {
 
     }

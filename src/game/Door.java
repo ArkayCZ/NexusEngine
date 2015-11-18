@@ -6,6 +6,7 @@ import engine.graphics.Mesh;
 import engine.graphics.Renderable;
 import engine.graphics.Vertex;
 import engine.input.Input;
+import engine.math.Maths;
 import engine.math.Vector2;
 import engine.math.Vector3;
 import engine.utils.Log;
@@ -71,7 +72,6 @@ public class Door extends Entity {
         } else {
             setTranslation(new Vector3(mDefaultTranslation));
         }
-
     }
 
 

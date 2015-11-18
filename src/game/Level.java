@@ -50,6 +50,8 @@ public class Level {
         for(Door d : mDoors) {
             d.render(engine);
         }
+
+        mPlayer.render(engine);
     }
 
     public void update(Input input) {

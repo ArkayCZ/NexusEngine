@@ -68,6 +68,10 @@ public class Vector3 {
         return this;
     }
 
+    public float getRotation() {
+        return Maths.atan2(x, z);
+    }
+
     public Vector3 cross(Vector3 other) {
         /*float xx = y * other.getZ() - z * other.getY();
         float yy = z * other.getX() - x * other.getZ();

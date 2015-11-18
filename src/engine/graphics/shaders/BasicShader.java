@@ -44,6 +44,8 @@ public class BasicShader extends Shader {
     public void updateUniforms(Matrix4 worldMatrix, Matrix4 projectionMatrix, Material material) {
         //super.updateUniforms(worldMatrix, projectionMatrix, material);
 
+        if(material == null)
+            return;
         if(material.getTexture() == null)
             Texture.unbind();
         else material.getTexture().bind();
