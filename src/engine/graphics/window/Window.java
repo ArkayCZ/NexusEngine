@@ -132,10 +132,6 @@ public class Window {
         glfwSetWindowPos(mID, x, y);
     }
 
-    public void setClearColor(float r, float g, float b, float a) {
-        glClearColor(r, g, b, a);
-    }
-
     public Input getInputStatus() {
         return mInput;
     }

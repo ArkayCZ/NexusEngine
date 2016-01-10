@@ -13,7 +13,7 @@ public class Material {
     private float mSpecularExponent;
 
     public Material(Texture texture, Vector3 color) {
-        this(texture, color, 2, 32);
+        this(texture, color, 0.5f, 10);
     }
 
     public Material(Texture texture, Vector3 color, float intensity, float exponent) {

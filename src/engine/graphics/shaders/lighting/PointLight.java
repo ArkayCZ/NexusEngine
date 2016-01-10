@@ -5,22 +5,17 @@ import engine.math.Vector3;
 /**
  * Created by vesel on 02.11.2015.
  */
-public class PointLight {
+public class PointLight extends BaseLight {
 
     private Attenuation mAttenuation;
-    private BaseLight mBaseLight;
     private Vector3 mPosition;
     private float mRange;
 
-
-
-    public PointLight( BaseLight baseLight, Attenuation attenuation, Vector3 position, float range) {
+    public PointLight(Vector3 color, float intensity, Attenuation attenuation, Vector3 position, float range) {
+        super(color, intensity);
         mAttenuation = attenuation;
-        mBaseLight = baseLight;
         mPosition = position;
         mRange = range;
-
-
     }
 
     public float getRange() {
@@ -39,19 +34,19 @@ public class PointLight {
         mAttenuation = attenuation;
     }
 
-    public BaseLight getBaseLight() {
-        return mBaseLight;
-    }
-
-    public void setBaseLight(BaseLight baseLight) {
-        mBaseLight = baseLight;
-    }
-
     public Vector3 getPosition() {
         return mPosition;
     }
 
     public void setPosition(Vector3 position) {
         mPosition = position;
+    }
+
+    @Override
+    public void map() {
+        super.map();
+        addVector3("attenuation", mAttenuation.toVector3());
+        addVector3("light_position", mPosition);
+        addFloat("range", mRange);
     }
 }

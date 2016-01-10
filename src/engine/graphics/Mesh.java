@@ -55,8 +55,9 @@ public class Mesh {
             vertices[thirdIndex].setNormal(vertices[thirdIndex].getNormal().add(normalVector));
         }
 
+        //TODO: in case this doesn't work just rewrite it the way it was, but it should.
         for (int i = 0; i < vertices.length; i++) {
-            vertices[i].setNormal(vertices[i].getNormal().normalize());
+            vertices[i].getNormal().normalize();
         }
                 
     }

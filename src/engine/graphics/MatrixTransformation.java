@@ -1,6 +1,6 @@
 package engine.graphics;
 
-import engine.math.Matrix4;
+import engine.math.Matrix;
 import engine.math.Vector3;
 
 /**
@@ -12,30 +12,34 @@ public class MatrixTransformation {
 
     private static float sNear = 0.001f, sFar = 10000f, sWidth, sHeight, sFOV;
 
-    public Vector3 mPosition;
-    public Vector3 mRotation;
-    public Vector3 mScale;
+    private Vector3 mPosition;
+    private Vector3 mRotation;
+    private Vector3 mScale;
 
     public MatrixTransformation() {
-        mPosition = new Vector3();
-        mRotation = new Vector3();
-        mScale = new Vector3(1.0f, 1.0f, 1.0f);
+        mPosition = new Vector3(0);
+        mRotation = new Vector3(0);
+        mScale = new Vector3(1);
     }
 
-    public Matrix4 createTransformationMatrix() {
-        Matrix4 translationMatrix = new Matrix4(1.0f).setToTranslation(mPosition);
-        Matrix4 rotationMatrix = new Matrix4(1.0f).setToRotation(mRotation);
-        Matrix4 scaleMatrix = new Matrix4(1.0f).setToScale(mScale);
+    public Matrix createTransformationMatrix() {
+        Matrix translationMatrix = new Matrix(1.0f).setToTranslation(mPosition);
+        Matrix rotationMatrix = new Matrix(1.0f).setToRotation(mRotation);
+        Matrix scaleMatrix = new Matrix(1.0f).setToScale(mScale);
 
         return translationMatrix.multiply(rotationMatrix.multiply(scaleMatrix));
     }
 
-    public Matrix4 getProjectionMatrix() {
-        Matrix4 projectionMatrix = new Matrix4().setToPerspective(sFOV, sWidth, sHeight, sNear, sFar);
-        Matrix4 cameraMatrix = new Matrix4().setToCamera(sCamera.getForward(), sCamera.getUp());
-        Matrix4 cameraTranslation = new Matrix4().setToTranslation(-sCamera.getPosition().getX(), -sCamera.getPosition().getY(), -sCamera.getPosition().getZ());
+    /**
+     * Assembles the final matrix for determining the position of the vertices using camera projection.
+     * @return
+     */
+    public Matrix getProjectionMatrix() {
+        Matrix projectionMatrix = new Matrix().setToPerspective(sFOV, sWidth, sHeight, sNear, sFar);
+        Matrix cameraMatrix = new Matrix().setToCamera(sCamera.getForward(), sCamera.getUp());
+        Matrix cameraTranslation = new Matrix().setToTranslation(-sCamera.getPosition().getX(), -sCamera.getPosition().getY(), -sCamera.getPosition().getZ());
 
-        Matrix4 transformationMatrix = createTransformationMatrix();
+        Matrix transformationMatrix = createTransformationMatrix();
 
         return projectionMatrix.multiply(cameraMatrix.multiply(cameraTranslation.multiply(transformationMatrix)));
     }
@@ -48,16 +52,20 @@ public class MatrixTransformation {
         sFar = far;
     }
 
-    public void setTranslation(Vector3 position) {
+    public void setPosition(Vector3 position) {
         this.mPosition = position;
     }
 
-    public void setTranslation(float x, float y, float z) {
+    public void setPosition(float x, float y, float z) {
         this.mPosition = new Vector3(x, y, z);
     }
 
     public void setRotation(Vector3 rotation) {
         this.mRotation = rotation;
+    }
+
+    public void setRotation(float x, float y, float z) {
+        setRotation(new Vector3(x, y, z));
     }
 
     public void setScale(float x, float y, float z) {
@@ -74,6 +82,18 @@ public class MatrixTransformation {
 
     public static void setCamera(Camera cam) {
         sCamera = cam;
+    }
+
+    public Vector3 getPosition() {
+        return mPosition;
+    }
+
+    public Vector3 getRotation() {
+        return mRotation;
+    }
+
+    public Vector3 getScale() {
+        return mScale;
     }
 
     @Override

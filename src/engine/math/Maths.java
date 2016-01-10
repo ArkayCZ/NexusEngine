@@ -45,8 +45,8 @@ public class Maths {
         return new Vector3(first).cross(second);
     }
 
-    public static Matrix4 multiply(Matrix4 first, Matrix4 second) {
-        Matrix4 matrix = new Matrix4(first);
+    public static Matrix multiply(Matrix first, Matrix second) {
+        Matrix matrix = new Matrix(first);
         return matrix.multiply(second);
     }
 

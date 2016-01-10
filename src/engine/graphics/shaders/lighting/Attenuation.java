@@ -1,5 +1,7 @@
 package engine.graphics.shaders.lighting;
 
+import engine.math.Vector3;
+
 /**
  * Created by vesel on 02.11.2015.
  */
@@ -36,4 +38,9 @@ public class Attenuation {
     public void setQuadratical(float quadratical) {
         mQuadratical = quadratical;
     }
+
+    public Vector3 toVector3() {
+        return new Vector3(mQuadratical, mLinear, mAbsolute);
+    }
+
 }

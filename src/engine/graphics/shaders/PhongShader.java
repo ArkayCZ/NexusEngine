@@ -5,7 +5,7 @@ import engine.graphics.shaders.lighting.BaseLight;
 import engine.graphics.shaders.lighting.DirectionalLight;
 import engine.graphics.shaders.lighting.PointLight;
 import engine.graphics.shaders.lighting.SpotLight;
-import engine.math.Matrix4;
+import engine.math.Matrix;
 import engine.math.Vector3;
 import engine.utils.ContentLoader;
 import engine.utils.Log;
@@ -17,7 +17,7 @@ public class PhongShader extends Shader {
 
     //TODO: Make sure the shader file name always matches the class name.
 
-    private static final int MAX_POINT_LIGHTS = 4;
+    /*private static final int MAX_POINT_LIGHTS = 4;
     private static final int MAX_SPOT_LIGHTS = 4;
 
     private static PhongShader sInstance;
@@ -83,7 +83,7 @@ public class PhongShader extends Shader {
 
 
     @Override
-    public void updateUniforms(Matrix4 worldMatrix, Matrix4 projectionMatrix, Material material) {
+    public void updateUniforms(Matrix worldMatrix, Matrix projectionMatrix, Material material) {
         if(material.getTexture() == null)
             Texture.unbind();
         else material.getTexture().bind();
@@ -171,5 +171,5 @@ public class PhongShader extends Shader {
 
         Log.e("Cannot add any more spotlights! The maximum amount is 4!");
         System.exit(-1);
-    }
+    }*/
 }

@@ -5,11 +5,11 @@ TODO: Make this work like a library, possibly do some tuning to engine.NexusGame
 Things that are wrong:
 
 Important:
--some form of primitive meshes - rectangles, cubes, circles, triangles
--Rendering engine
--flexible level loader
+TODO: some form of primitive meshes - rectangles, cubes, circles, triangles
+TODO: Rendering engine
+TODO: flexible level loader
 
 
 Convenience:
--Better scratchpad support
--automatic shaders
+TODO: Better scratchpad support
+TODO: automatic shaders

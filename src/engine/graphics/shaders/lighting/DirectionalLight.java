@@ -5,21 +5,13 @@ import engine.math.Vector3;
 /**
  * Created by vesel on 01.11.2015.
  */
-public class DirectionalLight {
-    private BaseLight mBaseLight;
+public class DirectionalLight extends BaseLight {
+
     private Vector3 mDirection;
 
-    public DirectionalLight(BaseLight baseLight, Vector3 direction) {
-        mBaseLight = baseLight;
+    public DirectionalLight(Vector3 color, float intensity, Vector3 direction) {
+        super(color, intensity);
         mDirection = direction.normalize();
-    }
-
-    public BaseLight getBaseLight() {
-        return mBaseLight;
-    }
-
-    public void setBaseLight(BaseLight baseLight) {
-        mBaseLight = baseLight;
     }
 
     public Vector3 getDirection() {
@@ -28,5 +20,11 @@ public class DirectionalLight {
 
     public void setDirection(Vector3 direction) {
         mDirection = direction;
+    }
+
+    @Override
+    public void map() {
+        super.map();
+        addVector3("direction", mDirection);
     }
 }

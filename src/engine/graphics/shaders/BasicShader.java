@@ -2,7 +2,7 @@ package engine.graphics.shaders;
 
 import engine.graphics.Material;
 import engine.graphics.Texture;
-import engine.math.Matrix4;
+import engine.math.Matrix;
 import engine.utils.ContentLoader;
 
 /**
@@ -41,7 +41,7 @@ public class BasicShader extends Shader {
     }
 
     @Override
-    public void updateUniforms(Matrix4 worldMatrix, Matrix4 projectionMatrix, Material material) {
+    public void updateUniforms(Matrix worldMatrix, Matrix projectionMatrix, Material material) {
         //super.updateUniforms(worldMatrix, projectionMatrix, material);
 
         if(material == null)

@@ -5,26 +5,16 @@ import engine.math.Vector3;
 /**
  * Created by vesel on 02.11.2015.
  */
-public class SpotLight {
+public class SpotLight extends PointLight {
 
-    private PointLight mPointLight;
     private Vector3 mDirection;
     private float mLength;
 
-    public SpotLight(PointLight pointLight, Vector3 direction, float length) {
-        mPointLight = pointLight;
+    public SpotLight(Vector3 color, float intensity, Attenuation attenuation, Vector3 position,
+                     float range, Vector3 direction, float length) {
+        super(color, intensity, attenuation, position, range);
         mDirection = direction.normalize();
         mLength = length;
-
-        mDirection.normalize();
-    }
-
-    public PointLight getPointLight() {
-        return mPointLight;
-    }
-
-    public void setPointLight(PointLight pointLight) {
-        mPointLight = pointLight;
     }
 
     public Vector3 getDirection() {
@@ -41,5 +31,12 @@ public class SpotLight {
 
     public void setLength(float length) {
         mLength = length;
+    }
+
+    @Override
+    public void map() {
+        super.map();
+        addVector3("light-direction", mDirection);
+        addFloat("length", mLength);
     }
 }

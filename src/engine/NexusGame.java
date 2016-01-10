@@ -1,13 +1,12 @@
 package engine;
 
-import engine.graphics.deperecated.ImmediateRenderer;
+import engine.graphics.BufferedRenderer;
+import engine.graphics.ForwardRenderer;
 import engine.graphics.window.Window;
 import engine.input.Input;
 import engine.utils.ConsoleWatcher;
 import engine.utils.Log;
 import engine.utils.Settings;
-
-import java.io.Console;
 
 /**
  * Created by vesel on 30.10.2015.
@@ -19,16 +18,18 @@ public abstract class NexusGame implements Runnable {
     private Window mGameWindow;
     private ConsoleWatcher mWatcher;
 
-    /**
-     *
-     */
-    private ImmediateRenderer mImmediateRenderer;
-
     private String mTitle;
+    private boolean mExitOnEsc = true;
 
     private boolean mRunning = false;
     private int mFPS = 0, mTPS = 0, mWindowWidth = 600, mWindowHeight = 600;
-    public static int TPS = 60;
+    public static int sTPS = 60;
+
+    private BufferedRenderer mRenderer;
+
+    private ForwardRenderer mRenderingEngine;
+
+    private GameObject mRootObject;
 
     public NexusGame(String title) {
         mTitle = title;
@@ -54,31 +55,16 @@ public abstract class NexusGame implements Runnable {
 
     public void setWindowSize(int width, int height) {
         if(mGameWindow != null) {
-            Log.e("engine.Game window has already been created and it's impossible to change it's size after that!");
+            Log.e("game.Game window has already been created and it's impossible to change it's size after that!");
             System.exit(-1);
         }
         mWindowHeight = height;
         mWindowWidth = width;
     }
 
-    private void _init() {
-        mGameWindow = new Window(mWindowWidth, mWindowHeight, mTitle);
-        mGameWindow.setResizable(true);
-        mGameWindow.centerWindow();
-        mGameWindow.show(false);
-
-        mGameWindow.initGL();
-        mGameWindow.setClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
-        init();
-    }
-
-    public void initializeImmediateRenderer() {
-        mImmediateRenderer = new ImmediateRenderer();
-    }
-
-    public ImmediateRenderer getImmediateRenderer() {
-        return mImmediateRenderer;
+    public void initializeRenderingSystem() {
+        mRenderer = new BufferedRenderer();
+        mRenderer.initOpenGL();
     }
 
     public void run() {
@@ -86,7 +72,7 @@ public abstract class NexusGame implements Runnable {
 
         long last = System.nanoTime();
         long lastOut = System.currentTimeMillis();
-        double nsPerTick = Math.pow(10, 9) / TPS;
+        double nsPerTick = Math.pow(10, 9) / sTPS;
         double unprocessedTicks = 0;
         int measuredFPS = 0;
         int measuredTPS = 0;
@@ -120,18 +106,36 @@ public abstract class NexusGame implements Runnable {
         }
 
         mGameWindow.destroy();
+        System.exit(0);
+    }
+
+    private void _init() {
+        mGameWindow = new Window(mWindowWidth, mWindowHeight, mTitle);
+        mGameWindow.setResizable(true);
+        mGameWindow.centerWindow();
+        mGameWindow.show(false);
+
+        mRootObject = new GameObject();
+        mRenderingEngine = new ForwardRenderer();
+        init();
+
+        mRootObject.init();
     }
 
     private void _render() {
         mGameWindow.clear();
 
+        mRenderingEngine.render(getRootObject());
         render();
 
         mGameWindow.update();
     }
 
     private void _update() {
+        getRootObject().update(mGameWindow.getInputStatus());
         update(mGameWindow.getInputStatus());
+        if(mExitOnEsc && mGameWindow.getInputStatus().isKeyDown(Input.KEY_ESC))
+            mRunning = false;
     }
 
     private void _secondlyUpdate() {
@@ -156,4 +160,95 @@ public abstract class NexusGame implements Runnable {
         return mGameWindow;
     }
 
+    public Thread getMainThread() {
+        return mMainThread;
+    }
+
+    public void setMainThread(Thread mainThread) {
+        mMainThread = mainThread;
+    }
+
+    public Thread getConsoleWatcherThread() {
+        return mConsoleWatcherThread;
+    }
+
+    public void setConsoleWatcherThread(Thread consoleWatcherThread) {
+        mConsoleWatcherThread = consoleWatcherThread;
+    }
+
+    public void setGameWindow(Window gameWindow) {
+        mGameWindow = gameWindow;
+    }
+
+    public ConsoleWatcher getWatcher() {
+        return mWatcher;
+    }
+
+    public void setWatcher(ConsoleWatcher watcher) {
+        mWatcher = watcher;
+    }
+
+    public String getTitle() {
+        return mTitle;
+    }
+
+    public void setTitle(String title) {
+        mTitle = title;
+    }
+
+    public boolean isExitOnEsc() {
+        return mExitOnEsc;
+    }
+
+    public void setExitOnEsc(boolean exitOnEsc) {
+        mExitOnEsc = exitOnEsc;
+    }
+
+    public boolean isRunning() {
+        return mRunning;
+    }
+
+    public void setRunning(boolean running) {
+        mRunning = running;
+    }
+
+    public int getFPS() {
+        return mFPS;
+    }
+
+    public void setFPS(int FPS) {
+        mFPS = FPS;
+    }
+
+    public int getTPS() {
+        return mTPS;
+    }
+
+    public void setTPS(int TPS) {
+        mTPS = TPS;
+    }
+
+    public int getWindowWidth() {
+        return mWindowWidth;
+    }
+
+    public void setWindowWidth(int windowWidth) {
+        mWindowWidth = windowWidth;
+    }
+
+    public int getWindowHeight() {
+        return mWindowHeight;
+    }
+
+    public void setWindowHeight(int windowHeight) {
+        mWindowHeight = windowHeight;
+    }
+
+    public BufferedRenderer getRenderer() {
+        return mRenderer;
+    }
+
+    public GameObject getRootObject() {
+        return mRootObject;
+    }
 }

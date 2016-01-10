@@ -1,7 +1,8 @@
 package engine.graphics.shaders;
 
 import engine.graphics.Material;
-import engine.math.Matrix4;
+import engine.graphics.MatrixTransformation;
+import engine.math.Matrix;
 import engine.math.Vector2;
 import engine.math.Vector3;
 import engine.utils.Log;
@@ -52,6 +53,10 @@ public class Shader {
                     "Even thought this wan't cause any errors you should get rid of the unnecessary code.");
     }
 
+    public void setAttributeLocation(String attrib, int location) {
+        glBindAttribLocation(mProgramID, location, attrib);
+    }
+
     public void setUniform1i(String name, int value) {
         glUniform1i(getUniformLocation(name), value);
     }
@@ -68,7 +73,7 @@ public class Shader {
         glUniform3f(getUniformLocation(name), value.getX(), value.getY(), value.getZ());
     }
 
-    public void setUniformMatrix(String name, Matrix4 matrix) {
+    public void setUniformMatrix(String name, Matrix matrix) {
         glUniformMatrix4fv(getUniformLocation(name), true, Utils.createFloatBuffer(matrix.getData()));
     }
 
@@ -102,7 +107,7 @@ public class Shader {
         glValidateProgram(mProgramID);
     }
 
-    public void updateUniforms(Matrix4 worldMatrix, Matrix4 projectionMatrix, Material material) {
+    public void updateUniforms(MatrixTransformation transform, Material material) {
 
     }
 
