@@ -2,7 +2,7 @@ package game.wolf3dgame;
 
 import engine.deprecated.Entity;
 import engine.graphics.*;
-import engine.graphics.shaders.BasicShader;
+import engine.graphics.deperecated.BasicShader;
 import engine.input.Input;
 import engine.math.Maths;
 import engine.math.Vector2;

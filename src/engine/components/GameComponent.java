@@ -1,5 +1,7 @@
-package engine;
+package engine.components;
 
+import engine.GameObject;
+import engine.MappedClass;
 import engine.graphics.shaders.Shader;
 import engine.input.Input;
 

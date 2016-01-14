@@ -89,7 +89,7 @@ public class ContentLoader {
             int[] indexArray = Utils.createIntArray(integers);
 
             Mesh mesh = new Mesh();
-            mesh.addVertices(vertexArray, indexArray);
+            mesh.addVertices(vertexArray, indexArray, true);
 
             return mesh;
         }

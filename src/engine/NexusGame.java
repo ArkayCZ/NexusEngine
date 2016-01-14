@@ -25,9 +25,7 @@ public abstract class NexusGame implements Runnable {
     private int mFPS = 0, mTPS = 0, mWindowWidth = 600, mWindowHeight = 600;
     public static int sTPS = 60;
 
-    private BufferedRenderer mRenderer;
-
-    private ForwardRenderer mRenderingEngine;
+    private ForwardRenderer mRenderer;
 
     private GameObject mRootObject;
 
@@ -63,7 +61,7 @@ public abstract class NexusGame implements Runnable {
     }
 
     public void initializeRenderingSystem() {
-        mRenderer = new BufferedRenderer();
+        mRenderer = new ForwardRenderer();
         mRenderer.initOpenGL();
     }
 
@@ -115,17 +113,16 @@ public abstract class NexusGame implements Runnable {
         mGameWindow.centerWindow();
         mGameWindow.show(false);
 
-        mRootObject = new GameObject();
-        mRenderingEngine = new ForwardRenderer();
-        init();
 
+        mRootObject = new GameObject();
+        init();
         mRootObject.init();
     }
 
     private void _render() {
         mGameWindow.clear();
 
-        mRenderingEngine.render(getRootObject());
+        mRenderer.render(getRootObject());
         render();
 
         mGameWindow.update();
@@ -244,7 +241,7 @@ public abstract class NexusGame implements Runnable {
         mWindowHeight = windowHeight;
     }
 
-    public BufferedRenderer getRenderer() {
+    public ForwardRenderer getRenderer() {
         return mRenderer;
     }
 

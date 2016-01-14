@@ -1,14 +1,15 @@
 package engine.graphics.shaders;
 
-import engine.graphics.Material;
-import engine.graphics.MatrixTransformation;
+import engine.MappedClass;
 import engine.math.Matrix;
 import engine.math.Vector2;
 import engine.math.Vector3;
 import engine.utils.Log;
 import engine.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import static org.lwjgl.opengl.GL20.*;
 
@@ -21,10 +22,12 @@ public class Shader {
 
     private int mProgramID;
 
-    private HashMap<String, Integer> uniformLocations;
+    private HashMap<String, Integer> mUniformLocations;
+    private List<String> mSources;
 
     public Shader() {
-        uniformLocations = new HashMap<>();
+        mUniformLocations = new HashMap<>();
+        mSources = new ArrayList<>();
         mProgramID = glCreateProgram();
 
         if(mProgramID == -1)
@@ -32,22 +35,22 @@ public class Shader {
     }
 
     public int getUniformLocation(String name) {
-        if(uniformLocations.containsKey(name))
-            return uniformLocations.get(name);
+        if(mUniformLocations.containsKey(name))
+            return mUniformLocations.get(name);
         else {
             int location = glGetUniformLocation(mProgramID, name);
             if(location == -1) {
-                Log.w("Failed to find uniform variable '" + name + "'! Check your uniform names, there is possibly a typo.");
+                Log.w("Unused uniform: '" + name + "'!");
             }
-            uniformLocations.put(name, location);
+            mUniformLocations.put(name, location);
 
             return location;
         }
     }
 
     public void registerUniform(String name) {
-        if(!uniformLocations.containsKey(name))
-            uniformLocations.put(name, getUniformLocation(name));
+        if(!mUniformLocations.containsKey(name))
+            mUniformLocations.put(name, getUniformLocation(name));
         else
             Log.w("An uniform variable has been registered twice. " +
                     "Even thought this wan't cause any errors you should get rid of the unnecessary code.");
@@ -88,14 +91,15 @@ public class Shader {
             System.exit(-1);
         }
 
+        mSources.add(source);
+
         int shaderProgram = glCreateShader(type);
         glShaderSource(shaderProgram, source);
         glCompileShader(shaderProgram);
 
         if(glGetShaderi(shaderProgram, GL_COMPILE_STATUS) == 0) {
-            Log.e("Failed to compile shader! Type: " + type);
+            Log.e("Failed to compile shader! Type: " + (type == VERT ? "VERTEX" : "FRAGMENT"));
             Log.e(glGetShaderInfoLog(shaderProgram));
-            System.exit(-1);
         }
 
         glAttachShader(mProgramID, shaderProgram);
@@ -105,10 +109,55 @@ public class Shader {
     public void compile() {
         glLinkProgram(mProgramID);
         glValidateProgram(mProgramID);
+
+        for(String source : mSources) {
+            for (String s : source.split("\n")) {
+                if (s.startsWith("uniform")) {
+                    s = s.replace("uniform", "").replace(";", "").trim().split(" ")[1];
+                    registerUniform(s);
+                    Log.r("Added an uniform: " + s);
+                }
+            }
+        }
     }
 
-    public void updateUniforms(MatrixTransformation transform, Material material) {
+    /**
+     * Updates the shader uniforms with values from a MappedClass.
+     * @param map Mapped class with values for the Shader.
+     */
+    public void updateUniforms(MappedClass map) {
+        /* Assign floats */
+        //Log.i("Updating uniforms...");
 
+        for(String s : map.getFloats().keySet())
+            if(mUniformLocations.containsKey(s))
+                setUniform1f(s, map.getFloat(s));
+
+        for(String s : map.getVector2s().keySet())
+            if(mUniformLocations.containsKey(s))
+                setUniform2f(s, map.getVector2(s));
+
+        for(String s : map.getVector3s().keySet())
+            if(mUniformLocations.containsKey(s))
+                setUniform3f(s, map.getVector3(s));
+
+        for(String s : map.getMatrices().keySet())
+            if(mUniformLocations.containsKey(s))
+                setUniformMatrix(s, map.getMatrix(s));
+
+        for(String s : map.getIntegers().keySet())
+            if(mUniformLocations.containsKey(s))
+                setUniform1i(s, map.getInteger(s));
+
+        /* Assign materials */
+        for(String s : map.getMaterials().keySet()) {
+            if(mUniformLocations.containsKey(s + "_exponent"))
+                setUniform1f(s + "_exponent", map.getMaterial(s).getSpecularExponent());
+            if(mUniformLocations.containsKey(s + "_intensity"))
+                setUniform1f(s + "_intensity", map.getMaterial(s).getSpecularIntensity());
+            if(mUniformLocations.containsKey(s + "_color"))
+                setUniform3f(s + "_color", map.getMaterial(s).getColor());
+        }
     }
 
     public void bind() {
@@ -118,5 +167,22 @@ public class Shader {
     public void unbind() {
         glUseProgram(0);
     }
+
+    /*
+    /*map.getFloats().keySet().stream().filter(s ->
+                mUniformLocations.containsKey(s)).forEach(s -> setUniform1f(s, map.getFloat(s)));
+
+    map.getVector2s().keySet().stream().filter(s ->
+            mUniformLocations.containsKey(s)).forEach(s -> setUniform2f(s, map.getVector2(s)));
+
+    map.getVector3s().keySet().stream().filter(s ->
+            mUniformLocations.containsKey(s)).forEach(s -> setUniform3f(s, map.getVector3(s)));
+
+    map.getMatrices().keySet().stream().filter(s ->
+            mUniformLocations.containsKey(s)).forEach(s -> setUniformMatrix(s, map.getMatrix(s)));
+
+    map.getIntegers().keySet().stream().filter(s ->
+            mUniformLocations.containsKey(s)).forEach(s -> setUniform1i(s, map.getInteger(s)));
+    */
 
 }

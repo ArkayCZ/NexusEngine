@@ -1,6 +1,6 @@
 package engine.graphics.shaders.lighting;
 
-import engine.GameComponent;
+import engine.components.GameComponent;
 import engine.graphics.shaders.Shader;
 import engine.input.Input;
 import engine.math.Vector3;

@@ -34,7 +34,7 @@ public class MatrixTransformation {
      * Assembles the final matrix for determining the position of the vertices using camera projection.
      * @return
      */
-    public Matrix getProjectionMatrix() {
+    public Matrix createWorldMatrix() {
         Matrix projectionMatrix = new Matrix().setToPerspective(sFOV, sWidth, sHeight, sNear, sFar);
         Matrix cameraMatrix = new Matrix().setToCamera(sCamera.getForward(), sCamera.getUp());
         Matrix cameraTranslation = new Matrix().setToTranslation(-sCamera.getPosition().getX(), -sCamera.getPosition().getY(), -sCamera.getPosition().getZ());

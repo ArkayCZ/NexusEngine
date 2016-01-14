@@ -1,6 +1,7 @@
-package engine.graphics.shaders;
+package engine.graphics.deperecated;
 
 import engine.graphics.*;
+import engine.graphics.shaders.Shader;
 import engine.graphics.shaders.lighting.BaseLight;
 import engine.graphics.shaders.lighting.DirectionalLight;
 import engine.graphics.shaders.lighting.PointLight;

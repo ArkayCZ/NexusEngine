@@ -1,12 +1,11 @@
 package engine.graphics;
 
-import engine.graphics.shaders.BasicShader;
+import engine.graphics.deperecated.BasicShader;
 import engine.graphics.shaders.Shader;
 import engine.math.Vector3;
 import engine.utils.Log;
 import org.lwjgl.opengl.GL;
 
-import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -42,10 +41,10 @@ public class BufferedRenderer {
             if(shader == null)
                 shader = BasicShader.getInstance();
 
-            shader.updateUniforms(
+            /*shader.updateUniforms(
                     transform.createTransformationMatrix(),
-                    transform.getProjectionMatrix(),
-                    material);
+                    transform.createWorldMatrix(),
+                    material);*/
 
             shader.bind();
             mesh.render();

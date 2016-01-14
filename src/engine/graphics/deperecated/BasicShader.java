@@ -1,7 +1,8 @@
-package engine.graphics.shaders;
+package engine.graphics.deperecated;
 
 import engine.graphics.Material;
 import engine.graphics.Texture;
+import engine.graphics.shaders.Shader;
 import engine.math.Matrix;
 import engine.utils.ContentLoader;
 
@@ -40,7 +41,6 @@ public class BasicShader extends Shader {
         //registerUniform(UNIFORM_WORLD_MATRIX);
     }
 
-    @Override
     public void updateUniforms(Matrix worldMatrix, Matrix projectionMatrix, Material material) {
         //super.updateUniforms(worldMatrix, projectionMatrix, material);
 

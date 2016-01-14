@@ -31,10 +31,10 @@ public class ForwardAmbient extends Shader {
     }
 
     public void updateUniforms(MatrixTransformation transform, Material material, BaseLight ambientLight) {
-        super.updateUniforms(transform, material);
+        //super.updateUniforms(transform, material);
 
         Matrix worldMatrix = transform.createTransformationMatrix();
-        Matrix projected = transform.getProjectionMatrix();
+        Matrix projected = transform.createWorldMatrix();
         material.getTexture().bind();
 
         setUniformMatrix("modelview_projected", projected);

@@ -1,10 +1,10 @@
 #version 120
 
-varying tex_coord;
+varying vec2 tex_coord;
 
 uniform vec3 ambient;
-uniform sampler2D texture;
+uniform sampler2D material_texture;
 
 void main() {
-    gl_FragColor = texture2DD(texture, tex_coord.xy) * vec4(ambient, 1.0);
+    gl_FragColor = texture2D(material_texture, tex_coord.xy) * vec4(ambient, 1.0);
 }
