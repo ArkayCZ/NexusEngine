@@ -1,21 +1,18 @@
 package game;
 
-import engine.GameObject;
+import engine.entities.Entity;
 import engine.NexusGame;
-import engine.components.RenderingComponent;
-import engine.graphics.Camera;
-import engine.graphics.ForwardRenderer;
-import engine.graphics.Material;
-import engine.graphics.Mesh;
+import engine.entities.components.RenderComponent;
+import engine.entities.components.TransformComponent;
+import engine.graphics.*;
 import engine.input.Input;
-import engine.math.Maths;
 import engine.math.Vector3;
 import engine.utils.ContentLoader;
 
 public class Game extends NexusGame {
 
-    private GameObject monkey;
-    private Camera cam;
+    private Entity monkey;
+    private Camera mCamera;
 
     public Game() {
         super("TestGame");
@@ -28,24 +25,23 @@ public class Game extends NexusGame {
         this.initializeRenderingSystem();
         this.getRenderer().setClearColor(new Vector3(0));
 
-        cam = new Camera();
-        ForwardRenderer.setCamera(cam);
+        mCamera = new Camera();
+        ForwardRenderer.setCamera(mCamera);
 
-        monkey = new GameObject();
+        monkey = new Entity();
 
         Mesh mesh = ContentLoader.loadMesh("res/models/monkey3.obj");
         Material material = new Material(ContentLoader.loadTexture("res/textures/brick.jpg"), new Vector3(1, 1, 1));
 
-        monkey.addComponent(new RenderingComponent(mesh, material));
-        monkey.getTransform().setPosition(0, 0, -2f);
-        monkey.getTransform().setScale(new Vector3(2));
+        monkey.addComponent(new RenderComponent(mesh, material));
+        monkey.addComponent(new TransformComponent(new Transform()));
 
         getRootObject().addChild(monkey);
     }
 
     @Override
     public void update(Input inputStatus) {
-        cam.update(inputStatus);
+        mCamera.update(inputStatus);
     }
 
     @Override

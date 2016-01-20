@@ -6,7 +6,7 @@ import engine.math.Vector3;
 /**
  * Created by vesel on 30.10.2015.
  */
-public class MatrixTransformation {
+public class Transform {
 
     private static Camera sCamera;
 
@@ -16,10 +16,22 @@ public class MatrixTransformation {
     private Vector3 mRotation;
     private Vector3 mScale;
 
-    public MatrixTransformation() {
-        mPosition = new Vector3(0);
-        mRotation = new Vector3(0);
-        mScale = new Vector3(1);
+    public Transform() {
+        this(new Vector3(0), new Vector3(0), new Vector3(1));
+    }
+
+    public Transform(Vector3 position) {
+        this(position, new Vector3(0), new Vector3(1));
+    }
+
+    public Transform(Vector3 position, Vector3 rotation) {
+        this(position, rotation, new Vector3(1));
+    }
+
+    public Transform(Vector3 position, Vector3 rotation, Vector3 scale) {
+        mPosition = position;
+        mRotation = rotation;
+        mScale = scale;
     }
 
     public Matrix createTransformationMatrix() {

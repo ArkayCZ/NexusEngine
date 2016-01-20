@@ -1,15 +1,17 @@
 package engine.graphics;
 
-import engine.GameObject;
+import engine.entities.Entity;
 import engine.MappedClass;
-import engine.graphics.deperecated.BasicShader;
 import engine.graphics.shaders.Shader;
 import engine.graphics.shaders.lighting.BaseLight;
 import engine.graphics.shaders.lighting.DirectionalLight;
+import engine.graphics.shaders.lighting.PointLight;
 import engine.math.Vector3;
 import engine.utils.ContentLoader;
 import engine.utils.Log;
 import org.lwjgl.opengl.GL;
+
+import java.util.List;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11.GL_BLEND;
@@ -25,6 +27,8 @@ public class ForwardRenderer extends MappedClass {
 
     private BaseLight mAmbientLight;
     private DirectionalLight mDirectionalLight;
+    private List<PointLight> mPointLights;
+    private List<DirectionalLight> mDirectionalLights;
 
     private Shader mAmbientShader;
     private Shader mDirectionalShader;
@@ -34,25 +38,29 @@ public class ForwardRenderer extends MappedClass {
     public ForwardRenderer() {
         /* Initialize super-class */
         super();
-
-
         mAmbientLight = new BaseLight(new Vector3(1, 1, 1), 0.2f);
     }
 
     @Override
-    public void map() {
+    public void onMap() {
         addVector3("ambient", mAmbientLight.getIntesifiedColor());
         addVector3("camera_pos", getCamera().getPosition());
         addVector3("camera_dir", getCamera().getForward());
     }
 
-    public void render(GameObject object) {
-        this.map();
-        MatrixTransformation.setCamera(sMainCamera);
+    public void render(Entity object) {
+        this.onMap();
+        object.onMap();
+        Transform.setCamera(sMainCamera);
         mAmbientShader.bind();
         mAmbientShader.updateUniforms(this);
-        object.render(mAmbientShader);
+        object.onRender(mAmbientShader);
         mAmbientShader.unbind();
+
+        mDirectionalShader.bind();
+        mDirectionalShader.updateUniforms(this);
+        object.onRender(mDirectionalShader);
+        mDirectionalShader.unbind();
     }
 
     public void initOpenGL() {
@@ -75,9 +83,10 @@ public class ForwardRenderer extends MappedClass {
         mAmbientShader.compile();
 
         /* Initialize directional shader */
-        //mDirectionalShader = new Shader();
-        //mDirectionalShader.attachProgram(ContentLoader.readFileAsString("shaders/forward/directional_fragment.glsl"), Shader.FRAG);
-        //mDirectionalShader.attachProgram(ContentLoader.readFileAsString("shaders/forward/directional_vertex.glsl"), Shader.VERT);
+        mDirectionalShader = new Shader();
+        mDirectionalShader.attachProgram(ContentLoader.readFileAsString("shaders/forward/directional_fragment.glsl"), Shader.FRAG);
+        mDirectionalShader.attachProgram(ContentLoader.readFileAsString("shaders/forward/directional_vertex.glsl"), Shader.VERT);
+        mDirectionalShader.compile();
 
         /* Initialize lights to their basic values. */
 

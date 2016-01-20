@@ -1,7 +1,7 @@
-package engine.graphics.shaders.forward;
+package engine.graphics.deperecated;
 
 import engine.graphics.Material;
-import engine.graphics.MatrixTransformation;
+import engine.graphics.Transform;
 import engine.graphics.shaders.Shader;
 import engine.graphics.shaders.lighting.BaseLight;
 import engine.math.Matrix;
@@ -30,7 +30,7 @@ public class ForwardAmbient extends Shader {
         this.registerUniform("texture");
     }
 
-    public void updateUniforms(MatrixTransformation transform, Material material, BaseLight ambientLight) {
+    public void updateUniforms(Transform transform, Material material, BaseLight ambientLight) {
         //super.updateUniforms(transform, material);
 
         Matrix worldMatrix = transform.createTransformationMatrix();

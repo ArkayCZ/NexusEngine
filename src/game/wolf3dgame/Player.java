@@ -122,7 +122,7 @@ public class Player extends Entity {
         getRenderable().getTransformation().getPosition().add(new Vector3(0f, -0.0575f, 0));
         getRenderable().getTransformation().setScale(new Vector3(0.0625f));
 
-        Vector3 cameraVector = new Vector3(MatrixTransformation.getCamera().getPosition())
+        Vector3 cameraVector = new Vector3(Transform.getCamera().getPosition())
                 .sub(getRenderable().getTransformation().getPosition());
 
         float cameraAngle =  Maths.atan2(cameraVector.getZ(), cameraVector.getX());

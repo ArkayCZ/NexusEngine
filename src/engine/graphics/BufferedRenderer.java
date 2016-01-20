@@ -35,7 +35,7 @@ public class BufferedRenderer {
 
             Shader shader = renderable.getShader();
             Mesh mesh = renderable.getMesh();
-            MatrixTransformation transform = renderable.getTransformation();
+            Transform transform = renderable.getTransformation();
             Material material = renderable.getMaterial();
 
             if(shader == null)

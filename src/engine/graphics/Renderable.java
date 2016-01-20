@@ -1,7 +1,5 @@
 package engine.graphics;
 
-import engine.graphics.MatrixTransformation;
-import engine.graphics.Mesh;
 import engine.graphics.shaders.Shader;
 
 /**
@@ -11,10 +9,10 @@ public class Renderable {
 
     private Mesh mMesh;
     private Shader mShader;
-    private MatrixTransformation mTransformation;
+    private Transform mTransformation;
     private Material mMaterial;
 
-    public Renderable(Mesh mesh, Shader shader, MatrixTransformation transformation, Material material) {
+    public Renderable(Mesh mesh, Shader shader, Transform transformation, Material material) {
         mMesh = mesh;
         mShader = shader;
         mTransformation = transformation;
@@ -29,7 +27,7 @@ public class Renderable {
         this(null, null, null, mat);
     }
 
-    public Renderable(MatrixTransformation transform, Material material) {
+    public Renderable(Transform transform, Material material) {
         this(null, null, transform, material);
     }
 
@@ -49,11 +47,11 @@ public class Renderable {
         mShader = shader;
     }
 
-    public MatrixTransformation getTransformation() {
+    public Transform getTransformation() {
         return mTransformation;
     }
 
-    public void setTransformation(MatrixTransformation transformation) {
+    public void setTransformation(Transform transformation) {
         mTransformation = transformation;
     }
 
@@ -66,7 +64,7 @@ public class Renderable {
     }
 
     public void initTransformation() {
-        mTransformation = new MatrixTransformation();
+        mTransformation = new Transform();
     }
 
     public void render() {

@@ -1,6 +1,6 @@
 package engine;
 
-import engine.graphics.BufferedRenderer;
+import engine.entities.Entity;
 import engine.graphics.ForwardRenderer;
 import engine.graphics.window.Window;
 import engine.input.Input;
@@ -27,7 +27,7 @@ public abstract class NexusGame implements Runnable {
 
     private ForwardRenderer mRenderer;
 
-    private GameObject mRootObject;
+    private Entity mRootObject;
 
     public NexusGame(String title) {
         mTitle = title;
@@ -114,9 +114,9 @@ public abstract class NexusGame implements Runnable {
         mGameWindow.show(false);
 
 
-        mRootObject = new GameObject();
+        mRootObject = new Entity();
         init();
-        mRootObject.init();
+        mRootObject.onInit();
     }
 
     private void _render() {
@@ -129,7 +129,7 @@ public abstract class NexusGame implements Runnable {
     }
 
     private void _update() {
-        getRootObject().update(mGameWindow.getInputStatus());
+        getRootObject().onUpdate(mGameWindow.getInputStatus());
         update(mGameWindow.getInputStatus());
         if(mExitOnEsc && mGameWindow.getInputStatus().isKeyDown(Input.KEY_ESC))
             mRunning = false;
@@ -245,7 +245,7 @@ public abstract class NexusGame implements Runnable {
         return mRenderer;
     }
 
-    public GameObject getRootObject() {
+    public Entity getRootObject() {
         return mRootObject;
     }
 }

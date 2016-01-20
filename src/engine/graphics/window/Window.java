@@ -2,7 +2,7 @@ package engine.graphics.window; /**
  * Created by vesel on 30.10.2015.
  */
 
-import engine.graphics.MatrixTransformation;
+import engine.graphics.Transform;
 import engine.input.Input;
 import org.lwjgl.glfw.GLFWWindowFocusCallback;
 import org.lwjgl.glfw.GLFWvidmode;
@@ -37,7 +37,7 @@ public class Window {
         HEIGHT = height;
 
         if(glfwInit() != GL_TRUE)
-            System.err.println("Failed to init GLFW!");
+            System.err.println("Failed to onInit GLFW!");
 
         mID = glfwCreateWindow(width, height, title, NULL, NULL);
         if(mID == NULL)
@@ -112,7 +112,7 @@ public class Window {
     }
 
     public void initProjection(float fov, float near, float far) {
-        MatrixTransformation.setProjection(fov, mWidth, mHeight, near, far);
+        Transform.setProjection(fov, mWidth, mHeight, near, far);
     }
 
     public void update() {

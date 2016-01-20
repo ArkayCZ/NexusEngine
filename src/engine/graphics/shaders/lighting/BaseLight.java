@@ -1,6 +1,6 @@
 package engine.graphics.shaders.lighting;
 
-import engine.components.GameComponent;
+import engine.entities.components.EntityComponent;
 import engine.graphics.shaders.Shader;
 import engine.input.Input;
 import engine.math.Vector3;
@@ -8,7 +8,7 @@ import engine.math.Vector3;
 /**
  * Created by vesel on 01.11.2015.
  */
-public class BaseLight extends GameComponent {
+public class BaseLight extends EntityComponent {
 
     private Vector3 mColor;
     private float mIntensity;
@@ -39,23 +39,28 @@ public class BaseLight extends GameComponent {
     }
 
     @Override
-    public void init() {
+    public void onInit() {
 
     }
 
     @Override
-    public void render(Shader shader) {
+    public void onRender(Shader shader) {
 
     }
 
     @Override
-    public void update(Input input) {
+    public void onUpdate(Input input) {
 
     }
 
     @Override
-    public void map() {
+    public void onMap() {
         addVector3("ambient", mColor);
         addFloat("intensity", mIntensity);
+    }
+
+    @Override
+    public void onDelete() {
+
     }
 }

@@ -86,7 +86,7 @@ public class Enemy extends Entity {
 
     @Override
     public void update(Input inputStatus) {
-        Vector3 cameraVector = new Vector3(MatrixTransformation.getCamera().getPosition())
+        Vector3 cameraVector = new Vector3(Transform.getCamera().getPosition())
                 .sub(getRenderable().getTransformation().getPosition());
 
         float cameraAngle =  Maths.atan2(cameraVector.getZ(), cameraVector.getX());
@@ -112,7 +112,7 @@ public class Enemy extends Entity {
     }
 
     private void chasingUpdate() {
-        Vector3 cameraVector = new Vector3(MatrixTransformation.getCamera().getPosition())
+        Vector3 cameraVector = new Vector3(Transform.getCamera().getPosition())
                 .sub(getRenderable().getTransformation().getPosition());
 
         float cameraAngle =  Maths.atan2(cameraVector.getZ(), cameraVector.getX());
@@ -159,7 +159,7 @@ public class Enemy extends Entity {
     }
 
     private boolean isPlayerVisible() {
-        Vector3 cameraVector = new Vector3(MatrixTransformation.getCamera().getPosition())
+        Vector3 cameraVector = new Vector3(Transform.getCamera().getPosition())
                 .sub(getRenderable().getTransformation().getPosition());
 
         float cameraAngle =  Maths.atan2(cameraVector.getZ(), cameraVector.getX());

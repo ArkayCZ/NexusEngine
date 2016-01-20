@@ -30,7 +30,7 @@ public class Level {
 
     public Level(Mesh levelMesh, Bitmap sourceBitmap) {
         mPlayer = new Player(new Vector3(11, 0.55f, 9), this);
-        mMeshData = new Renderable(levelMesh, BasicShader.getInstance(), new MatrixTransformation(),
+        mMeshData = new Renderable(levelMesh, BasicShader.getInstance(), new Transform(),
                 new Material(ContentLoader.loadTexture("res/textures/spritesheet.png"), new Vector3(1, 1, 1)));
 
         mSource = sourceBitmap;
@@ -38,7 +38,7 @@ public class Level {
         mEnemies = new ArrayList<>();
 
 
-        MatrixTransformation.setCamera(mPlayer.getCamera());
+        Transform.setCamera(mPlayer.getCamera());
         Material doorMaterial = new Material(ContentLoader.loadTexture("res/textures/spritesheet.png"), new Vector3(1, 1, 1));
     }
 

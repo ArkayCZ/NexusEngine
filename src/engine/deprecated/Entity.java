@@ -16,7 +16,7 @@ public abstract class Entity {
     public Entity(Renderable renderable, Level context) {
         mRenderable = renderable;
         if(mRenderable.getTransformation() == null)
-            mRenderable.setTransformation(new MatrixTransformation());
+            mRenderable.setTransformation(new Transform());
 
         mContext = context;
     }

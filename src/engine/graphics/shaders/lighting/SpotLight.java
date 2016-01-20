@@ -34,8 +34,8 @@ public class SpotLight extends PointLight {
     }
 
     @Override
-    public void map() {
-        super.map();
+    public void onMap() {
+        super.onMap();
         addVector3("light-direction", mDirection);
         addFloat("length", mLength);
     }

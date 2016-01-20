@@ -1,4 +1,4 @@
-package engine.graphics.shaders.forward;
+package engine.graphics.deperecated;
 
 import engine.graphics.shaders.Shader;
 import engine.utils.ContentLoader;

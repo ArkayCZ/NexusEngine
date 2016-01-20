@@ -127,8 +127,6 @@ public class Shader {
      */
     public void updateUniforms(MappedClass map) {
         /* Assign floats */
-        //Log.i("Updating uniforms...");
-
         for(String s : map.getFloats().keySet())
             if(mUniformLocations.containsKey(s))
                 setUniform1f(s, map.getFloat(s));
@@ -167,22 +165,4 @@ public class Shader {
     public void unbind() {
         glUseProgram(0);
     }
-
-    /*
-    /*map.getFloats().keySet().stream().filter(s ->
-                mUniformLocations.containsKey(s)).forEach(s -> setUniform1f(s, map.getFloat(s)));
-
-    map.getVector2s().keySet().stream().filter(s ->
-            mUniformLocations.containsKey(s)).forEach(s -> setUniform2f(s, map.getVector2(s)));
-
-    map.getVector3s().keySet().stream().filter(s ->
-            mUniformLocations.containsKey(s)).forEach(s -> setUniform3f(s, map.getVector3(s)));
-
-    map.getMatrices().keySet().stream().filter(s ->
-            mUniformLocations.containsKey(s)).forEach(s -> setUniformMatrix(s, map.getMatrix(s)));
-
-    map.getIntegers().keySet().stream().filter(s ->
-            mUniformLocations.containsKey(s)).forEach(s -> setUniform1i(s, map.getInteger(s)));
-    */
-
 }

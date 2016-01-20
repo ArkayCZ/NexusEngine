@@ -125,5 +125,5 @@ public abstract class MappedClass {
         mMaterials = materials;
     }
 
-    public abstract void map();
+    public abstract void onMap();
 }

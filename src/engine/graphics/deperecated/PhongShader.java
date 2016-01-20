@@ -98,7 +98,7 @@ public class PhongShader extends Shader {
 
         setUniform1f("specularIntensity", material.getSpecularIntensity());
         setUniform1f("specularExponent", material.getSpecularExponent());
-        setUniform3f("cameraPosition", MatrixTransformation.getCamera().getPosition());
+        setUniform3f("cameraPosition", Transform.getCamera().getPosition());
 
         for (int i = 0; i < MAX_POINT_LIGHTS; i++) {
             setUniformPL("pointLights[" + i + "]", sPointLights[i]);
