@@ -4,6 +4,7 @@ import engine.MappedClass;
 import engine.math.Matrix;
 import engine.math.Vector2;
 import engine.math.Vector3;
+import engine.utils.ContentLoader;
 import engine.utils.Log;
 import engine.utils.Utils;
 
@@ -15,6 +16,7 @@ import static org.lwjgl.opengl.GL20.*;
 
 /**
  * Created by vesel on 30.10.2015.
+ * Represents a GLSL shader within the engine.
  */
 public class Shader {
 
@@ -25,6 +27,8 @@ public class Shader {
     private HashMap<String, Integer> mUniformLocations;
     private List<String> mSources;
 
+    private String mShaderName;
+
     public Shader() {
         mUniformLocations = new HashMap<>();
         mSources = new ArrayList<>();
@@ -34,26 +38,32 @@ public class Shader {
             Log.e("Failed to create shader program!");
     }
 
-    public int getUniformLocation(String name) {
-        if(mUniformLocations.containsKey(name))
-            return mUniformLocations.get(name);
-        else {
-            int location = glGetUniformLocation(mProgramID, name);
-            if(location == -1) {
-                Log.w("Unused uniform: '" + name + "'!");
-            }
-            mUniformLocations.put(name, location);
-
-            return location;
-        }
+    public Shader(String shaderName) {
+        this();
+        mShaderName = shaderName;
+        attachProgram(ContentLoader.loadString("shaders/" + shaderName + "_vertex.glsl"), Shader.VERT);
+        attachProgram(ContentLoader.loadString("shaders/" + shaderName + "_fragment.glsl"), Shader.FRAG);
+        compile();
     }
 
-    public void registerUniform(String name) {
-        if(!mUniformLocations.containsKey(name))
-            mUniformLocations.put(name, getUniformLocation(name));
+    public int getUniformLocation(String name) {
+        return glGetUniformLocation(mProgramID, name);
+    }
+
+    public boolean registerUniform(String name) {
+        if(!mUniformLocations.containsKey(name)) {
+            int location = getUniformLocation(name);
+            if(location == -1) {
+                Log.w("Unused uniform '" + name + "' in shader '" + mShaderName + "'.");
+                return false;
+            }
+            mUniformLocations.put(name, location);
+        }
         else
             Log.w("An uniform variable has been registered twice. " +
-                    "Even thought this wan't cause any errors you should get rid of the unnecessary code.");
+                    "Even though this wan't cause any errors you should get rid of the unnecessary code.");
+
+        return true;
     }
 
     public void setAttributeLocation(String attrib, int location) {
@@ -111,11 +121,17 @@ public class Shader {
         glValidateProgram(mProgramID);
 
         for(String source : mSources) {
+            int attribCount = 0;
             for (String s : source.split("\n")) {
                 if (s.startsWith("uniform")) {
                     s = s.replace("uniform", "").replace(";", "").trim().split(" ")[1];
-                    registerUniform(s);
-                    Log.r("Added an uniform: " + s);
+                    if(registerUniform(s)) {
+                        Log.r("Added an uniform: " + s + " to shader: " + mShaderName);
+                    }
+                } else if(s.startsWith("attribute")) {
+                    glBindAttribLocation(mProgramID, attribCount,
+                            s.replace("attribute", "").replace(";", "").trim().split(" ")[1]);
+                    attribCount++;
                 }
             }
         }
@@ -148,14 +164,9 @@ public class Shader {
                 setUniform1i(s, map.getInteger(s));
 
         /* Assign materials */
-        for(String s : map.getMaterials().keySet()) {
-            if(mUniformLocations.containsKey(s + "_exponent"))
-                setUniform1f(s + "_exponent", map.getMaterial(s).getSpecularExponent());
-            if(mUniformLocations.containsKey(s + "_intensity"))
-                setUniform1f(s + "_intensity", map.getMaterial(s).getSpecularIntensity());
-            if(mUniformLocations.containsKey(s + "_color"))
-                setUniform3f(s + "_color", map.getMaterial(s).getColor());
-        }
+        for(String s : map.getTextures().keySet())
+            if(mUniformLocations.containsKey(s))
+                setUniform1i(s, map.getTexture(s).getID());
     }
 
     public void bind() {

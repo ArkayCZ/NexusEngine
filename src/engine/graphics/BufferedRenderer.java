@@ -1,6 +1,5 @@
 package engine.graphics;
 
-import engine.graphics.deperecated.BasicShader;
 import engine.graphics.shaders.Shader;
 import engine.math.Vector3;
 import engine.utils.Log;
@@ -16,6 +15,8 @@ import static org.lwjgl.opengl.GL32.GL_DEPTH_CLAMP;
 
 /**
  * Created by filip on 3.11.15.
+ * Simple Buffered renderer.
+ * @deprecated Slow.
  */
 public class BufferedRenderer {
 
@@ -39,7 +40,7 @@ public class BufferedRenderer {
             Material material = renderable.getMaterial();
 
             if(shader == null)
-                shader = BasicShader.getInstance();
+                shader = new Shader("basic_120");
 
             /*shader.updateUniforms(
                     transform.createTransformationMatrix(),

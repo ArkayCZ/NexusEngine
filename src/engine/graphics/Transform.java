@@ -2,9 +2,11 @@ package engine.graphics;
 
 import engine.math.Matrix;
 import engine.math.Vector3;
+import engine.utils.Log;
 
 /**
  * Created by vesel on 30.10.2015.
+ * Represents a combination if transformation matrices (scale, translation and rotation)
  */
 public class Transform {
 
@@ -44,7 +46,7 @@ public class Transform {
 
     /**
      * Assembles the final matrix for determining the position of the vertices using camera projection.
-     * @return
+     * @return Final world matrix.
      */
     public Matrix createWorldMatrix() {
         Matrix projectionMatrix = new Matrix().setToPerspective(sFOV, sWidth, sHeight, sNear, sFar);

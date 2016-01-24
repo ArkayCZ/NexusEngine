@@ -2,7 +2,6 @@ package game.wolf3dgame;
 
 import engine.deprecated.Entity;
 import engine.graphics.*;
-import engine.graphics.deperecated.BasicShader;
 import engine.input.Input;
 import engine.math.Maths;
 import engine.math.Vector2;
@@ -13,7 +12,9 @@ import java.util.ArrayList;
 
 /**
  * Created by vesel on 02.11.2015.
+ * Represents Wolf3D level.
  */
+@SuppressWarnings("ALL")
 public class Level {
 
     public static final float TILE_SIZE = 2f;
@@ -30,8 +31,8 @@ public class Level {
 
     public Level(Mesh levelMesh, Bitmap sourceBitmap) {
         mPlayer = new Player(new Vector3(11, 0.55f, 9), this);
-        mMeshData = new Renderable(levelMesh, BasicShader.getInstance(), new Transform(),
-                new Material(ContentLoader.loadTexture("res/textures/spritesheet.png"), new Vector3(1, 1, 1)));
+        //mMeshData = new Renderable(levelMesh, BasicShader.getInstance(), new Transform(),
+                //new Material(ContentLoader.loadTexture("res/textures/spritesheet.png"), new Vector3(1, 1, 1)));
 
         mSource = sourceBitmap;
         mDoors = new ArrayList<>();

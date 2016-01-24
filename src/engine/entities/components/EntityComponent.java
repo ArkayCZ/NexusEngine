@@ -11,12 +11,15 @@ import engine.math.Vector3;
 
 /**
  * Created by vesel on 09.01.2016.
+ * Represents a component of an Entity.
  */
 public abstract class EntityComponent {
 
     private boolean mShouldBeRemoved;
     private boolean mInitialized;
     private Entity mParentObject;
+
+    protected int mComponentID;
 
     public abstract void onInit();
     public abstract void onRender(Shader shader);
@@ -102,5 +105,15 @@ public abstract class EntityComponent {
 
     public int getInteger(String name) {
         return getParentObject().getInteger(name);
+    }
+
+    public int getComponentID() {
+        return mComponentID;
+    }
+
+    public void setComponentID(int id) { mComponentID = id; }
+
+    public EntityComponent getComponentFromParent(int id) {
+        return getParentObject().getComponent(id);
     }
 }

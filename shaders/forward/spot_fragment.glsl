@@ -1,7 +1,5 @@
 #version 120
 
-precision highp float;
-
 varying vec2 v_texture_coordinate;
 varying vec3 v_normal_vector;
 varying vec3 v_world_position;
@@ -16,6 +14,8 @@ uniform vec3 light_color;
 uniform vec3 light_position;
 uniform float light_range;
 uniform float light_intensity;
+uniform vec3 light_direction;
+uniform float light_length;
 
 uniform sampler2D material_texture;
 
@@ -56,7 +56,24 @@ vec4 calculate_point_light(vec3 color, float intensity, vec3 attenuation, vec3 p
     return light_c / attenuation_c;
 }
 
+vec4 calculate_spot_light(vec3 color, float intensity, vec3 attenuation,
+    vec3 position, float range, vec3 normal, vec3 direction, float length) {
+
+    vec3 direction_l = normalize(v_world_position - position);
+
+    float treshold = dot(direction_l, direction);
+
+    vec4 spot_color = vec4(0, 0, 0, 0);
+
+    if(treshold > length) {
+        spot_color = calculate_point_light(color, intensity, attenuation, position, range, normal);
+    }
+
+    return spot_color;
+}
+
 void main() {
     gl_FragColor = texture2D(material_texture, v_texture_coordinate) *
-        calculate_point_light(light_color, light_intensity, light_attenuation, light_position, light_range, v_normal_vector);
+        calculate_spot_light(light_color, light_intensity,
+        light_attenuation, light_position, light_range, v_normal_vector, light_direction, light_length);
 }

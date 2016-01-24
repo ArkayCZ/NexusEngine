@@ -7,6 +7,7 @@ import org.lwjgl.glfw.GLFW;
 
 /**
  * Created by vesel on 31.10.2015.
+ * Represents camera matrix for creating different camera views.
  */
 public class Camera {
     public static final Vector3 yAxis = new Vector3(0, 1, 0);
@@ -54,14 +55,14 @@ public class Camera {
 
     public void update(Input input) {
         if(input.isKeyDown(GLFW.GLFW_KEY_W))
-            move(getForward(), 0.4f);
+            move(getForward(), 0.2f);
         if(input.isKeyDown(GLFW.GLFW_KEY_S)) {
-            move(Maths.multiply(getForward(), new Vector3(-1f)), 0.4f);
+            move(Maths.multiply(getForward(), new Vector3(-1f)), 0.2f);
         }
         if(input.isKeyDown(GLFW.GLFW_KEY_A))
-            move(getLeft(), 0.4f);
+            move(getLeft(), 0.2f);
         if(input.isKeyDown(GLFW.GLFW_KEY_D))
-            move(getRight(), 0.4f);
+            move(getRight(), 0.2f);
 
         if(input.isKeyDown(GLFW.GLFW_KEY_UP))
             rotateX(-2);

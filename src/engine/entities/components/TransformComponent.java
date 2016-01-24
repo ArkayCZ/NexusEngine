@@ -7,10 +7,13 @@ import engine.math.Vector3;
 
 /**
  * Created by vesel on 19.01.2016.
+ * Component representing transformation of an Entity.
  */
 public class TransformComponent extends EntityComponent {
 
     private Transform mTransform;
+
+    public static final int ID = IDManager.getID();
 
     public TransformComponent() {
         this(new Transform());
@@ -26,8 +29,7 @@ public class TransformComponent extends EntityComponent {
 
     @Override
     public void onInit() {
-        addMatrix("transformation_matrix", mTransform.createTransformationMatrix());
-        addMatrix("world_matrix", mTransform.createWorldMatrix());
+
     }
 
     @Override
@@ -42,7 +44,8 @@ public class TransformComponent extends EntityComponent {
 
     @Override
     public void onMap() {
-
+        addMatrix("transformation_matrix", mTransform.createTransformationMatrix());
+        addMatrix("world_matrix", mTransform.createWorldMatrix());
     }
 
     @Override

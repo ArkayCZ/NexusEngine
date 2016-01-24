@@ -13,6 +13,7 @@ import engine.utils.Log;
 
 /**
  * Created by vesel on 01.11.2015.
+ * Represents a shader for rendering scenes with PhongShader.
  */
 public class PhongShader extends Shader {
 
@@ -40,8 +41,8 @@ public class PhongShader extends Shader {
     public PhongShader() {
         super();
 
-        attachProgram(ContentLoader.readFileAsString("shaders/phong_fragment.glsl"), Shader.FRAG);
-        attachProgram(ContentLoader.readFileAsString("shaders/phong_vertex.glsl"), Shader.VERT);
+        attachProgram(ContentLoader.loadString("shaders/phong_fragment.glsl"), Shader.FRAG);
+        attachProgram(ContentLoader.loadString("shaders/phong_vertex.glsl"), Shader.VERT);
 
         compile();
 

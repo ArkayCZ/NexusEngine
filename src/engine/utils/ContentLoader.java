@@ -18,20 +18,21 @@ import java.util.ArrayList;
 
 /**
  * Created by vesel on 30.10.2015.
+ * Provides static methods for loading different forms of content into the engine.
  */
 public class ContentLoader {
 
-    public static String readFileAsString(String path) {
+    public static String loadString(String path) {
         StringBuilder builder = new StringBuilder();
         try {
             BufferedReader reader = new BufferedReader(new FileReader(path));
             String line;
             while((line = reader.readLine()) != null) {
-                builder.append(line + "\n");
+                builder.append(line).append("\n");
             }
             reader.close();
         } catch(Exception e) {
-
+            Log.e("Failed to load String resource!");
         }
 
         return builder.toString();
@@ -52,6 +53,7 @@ public class ContentLoader {
                 while((line = reader.readLine()) != null) {
                     String[] data = line.split(" ");
                     ArrayList<String> checkedData = new ArrayList<>();
+                    //noinspection ForLoopReplaceableByForEach
                     for(int i = 0; i < data.length; i++) {
                         if(!data[i].equals(" ") || !data[i].equals(""))
                             checkedData.add(data[i]);

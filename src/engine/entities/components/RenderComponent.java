@@ -5,6 +5,7 @@ import engine.graphics.Material;
 import engine.graphics.Mesh;
 import engine.graphics.shaders.Shader;
 import engine.input.Input;
+import engine.utils.Log;
 
 public class RenderComponent extends EntityComponent {
 
@@ -12,6 +13,8 @@ public class RenderComponent extends EntityComponent {
     private Mesh mMesh;
     /** Contains the material required to render the component */
     private Material mMaterial;
+
+    public static final int ID = IDManager.getID();
 
     public RenderComponent(Mesh mesh, Material material) {
         mMesh = mesh;
@@ -25,10 +28,8 @@ public class RenderComponent extends EntityComponent {
 
     public void onRender(Shader shader) {
         shader.updateUniforms(getParentObject());
-        shader.bind();
         getMaterial().getTexture().bind();
         mMesh.render();
-        shader.unbind();
     }
 
     @Override
@@ -38,14 +39,16 @@ public class RenderComponent extends EntityComponent {
 
     @Override
     public void onMap() {
-        addMaterial("material", mMaterial);
-        addVector3("camera_pos", ForwardRenderer.getCamera().getPosition());
-        addVector3("camera_dir", ForwardRenderer.getCamera().getForward());
+        addMaterial("material", getMaterial());
+        addVector3("camera_position", ForwardRenderer.getCamera().getPosition());
+        addVector3("camera_direction", ForwardRenderer.getCamera().getForward());
+        addFloat("specular_intensity", getMaterial().getSpecularIntensity());
+        addFloat("specular_exponent", getMaterial().getSpecularExponent());
+        addVector3("material_color", getMaterial().getColor());
     }
 
     @Override
     public void onDelete() {
-
     }
 
 

@@ -4,12 +4,14 @@ import engine.MappedClass;
 import engine.entities.components.EntityComponent;
 import engine.graphics.shaders.Shader;
 import engine.input.Input;
+import engine.utils.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by vesel on 09.01.2016.
+ * Basic component of a scene.
  */
 public class Entity extends MappedClass {
 
@@ -32,7 +34,7 @@ public class Entity extends MappedClass {
 
     /**
      * Adds a child and initializes it in case it's not initialized already.
-     * @param child
+     * @param child Entity to be added.
      */
     public void addChild(Entity child) {
         mChildren.add(child);
@@ -44,7 +46,7 @@ public class Entity extends MappedClass {
 
     /**
      * Adds a component and initializes it in case it's not initialized already.
-     * @param comp
+     * @param comp Component to be added.
      */
     public void addComponent(EntityComponent comp) {
         mComponents.add(comp);
@@ -116,7 +118,20 @@ public class Entity extends MappedClass {
 
     @Override
     public void onMap() {
+        for(Entity e : mChildren)
+            e.onMap();
 
+        for(EntityComponent comp : mComponents)
+            comp.onMap();
+    }
+
+    public EntityComponent getComponent(int id) {
+        for(EntityComponent comp : mComponents)
+            if(comp.getComponentID() == id)
+                return comp;
+
+        Log.e("Component with id '" + id + "' was not found!");
+        return null;
     }
 
     public void setParent(Entity parent) {

@@ -1,5 +1,7 @@
-package engine.graphics.window; /**
+package engine.graphics.window;
+/**
  * Created by vesel on 30.10.2015.
+ * Represents a GLFW window within the engine.
  */
 
 import engine.graphics.Transform;
@@ -50,6 +52,7 @@ public class Window {
         glfwSetCursorPosCallback(mID, mInput.getCursorPosCallback());
         glfwSetMouseButtonCallback(mID, mInput.getMouseButtonCallback());
         glfwSetKeyCallback(mID, mInput.getKeyCallback());
+        glfwSwapInterval(0);
     }
 
     public void setResizable(boolean value) {

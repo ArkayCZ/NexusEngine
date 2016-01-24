@@ -1,9 +1,14 @@
 package engine.math;
 
+import java.util.Random;
+
 /**
  * Created by vesel on 31.10.2015.
+ * Provides static methods for doing math operation without modifying operands.
  */
 public class Maths {
+
+    private static Random sRNG = new Random();
 
     public static float sin(float angle) {
         return (float)Math.sin(Math.toRadians(angle));
@@ -65,8 +70,13 @@ public class Maths {
         return vector.sub(second);
     }
 
-    public static float atan2(float x, float y) {
-        return (float)Math.toDegrees(Math.atan2(x, y));
+    public static float atan2(float first, float second) {
+
+        return (float)Math.toDegrees(Math.atan2(first, second));
+    }
+
+    public static float getRandomFloat() {
+        return sRNG.nextInt(100) / 100.0f;
     }
 
 }
