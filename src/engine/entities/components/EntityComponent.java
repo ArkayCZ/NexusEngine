@@ -1,6 +1,8 @@
 package engine.entities.components;
 
 import engine.entities.Entity;
+import engine.entities.IDManager;
+import engine.graphics.IRenderer;
 import engine.graphics.Material;
 import engine.graphics.shaders.Shader;
 import engine.input.Input;
@@ -21,8 +23,12 @@ public abstract class EntityComponent {
 
     protected int mComponentID;
 
+    public EntityComponent() {
+        mComponentID = IDManager.getComponentID();
+    }
+
     public abstract void onInit();
-    public abstract void onRender(Shader shader);
+    public abstract void onRender(Shader shader, IRenderer renderer);
     public abstract void onUpdate(Input input);
     public abstract void onMap();
     public abstract void onDelete();

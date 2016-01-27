@@ -27,9 +27,14 @@ public class Window {
 
     private boolean mShown = false;
 
-    private GLFWWindowFocusCallback mFocusCallback;
     private Input mInput;
 
+    /**
+     * Creates a new window according to the parameters.
+     * @param width Width of the window.
+     * @param height Height of the window.
+     * @param title Title of the window.
+     */
     public Window(int width, int height, final String title) {
         mInput = new Input(this);
         mWidth = width;
@@ -73,6 +78,9 @@ public class Window {
         glfwShowWindow(mID);
     }
 
+    /**
+     * Positions the window in the center of the screen.
+     */
     public void centerWindow() {
         ByteBuffer displayMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
         int widthMargin = (GLFWvidmode.width(displayMode) - mWidth) / 2;
@@ -81,64 +89,73 @@ public class Window {
         setPosition(widthMargin, heightMargin);
     }
 
+    /**
+     * Initializes OpenGL.
+     */
     public void initGL() {
+        /* Register context withing LWJGL */
         GL.createCapabilities();
 
+        /* Print OpenGL version */
         Log.i(glGetString(GL_VERSION));
 
+        /* Culling */
         glFrontFace(GL_CW);
         glCullFace(GL_BACK);
         glEnable(GL_CULL_FACE);
+
+        /* Enables depth testing */
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_DEPTH_CLAMP);
 
+        /* Enables blending */
         glEnable(GL_BLEND);
-
-        //glEnable(GL_FRAMEBUFFER_SRGB);
     }
 
-    public void initGL(float viewportWidth, float viewportHeight) {
-        GL.createCapabilities();
-
-
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        //glOrtho(viewportWidth / -2.0f, viewportWidth / 2.0f, viewportHeight / -2.0f, viewportHeight / 2.0f, -1.0f, 1.0f);
-        glOrtho(0.0f, viewportWidth, 0.0f, viewportHeight, -1.0f, 1.0f);
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
-
-        glFrontFace(GL_CW);
-        glCullFace(GL_BACK);
-        glEnable(GL_CULL_FACE);
-        glEnable(GL_DEPTH_TEST);
-    }
-
-    public void initProjection(float fov, float near, float far) {
-        Transform.setProjection(fov, mWidth, mHeight, near, far);
-    }
-
+    /**
+     * Polls events and swaps buffers.
+     */
     public void update() {
         glfwSwapBuffers(mID);
         glfwPollEvents();
     }
 
+    /**
+     * Clears the windows color buffer bit and depth buffer bit.
+     */
     public void clear() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
+    /**
+     * Returns true if the window should close.
+     * @return Boolean value representing whether the window should close.
+     */
     public boolean shouldClose() {
         return glfwWindowShouldClose(mID) == GL_TRUE;
     }
 
+    /**
+     * Sets the position of the window.
+     * @param x X position of the window.
+     * @param y Y position of the window.
+     */
     public void setPosition(int x, int y) {
         glfwSetWindowPos(mID, x, y);
     }
 
+    /**
+     * Gets the current input status for the window.
+     * @return Input object representing the input status of the window.
+     */
     public Input getInputStatus() {
         return mInput;
     }
 
+    /**
+     * Gets the GLFW id of the window.
+     * @return ID of the window.
+     */
     public long getID() { return mID; }
 
     public int getWidth() { return mWidth; }

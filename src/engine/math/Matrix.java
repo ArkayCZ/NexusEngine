@@ -1,5 +1,6 @@
 package engine.math;
 
+import engine.graphics.window.Window;
 import engine.utils.Log;
 
 /**
@@ -153,6 +154,10 @@ public class Matrix {
         set(3, 2, 1.0f);
 
         return this;
+    }
+
+    public Matrix setToPerspective(Window win, float fov, float near, float far) {
+        return setToPerspective(fov, win.getWidth(), win.getHeight(), near, far);
     }
 
     /*public Matrix createPerspective(float fov, float width, float height, float near, float far) {

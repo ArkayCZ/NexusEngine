@@ -2,6 +2,7 @@ package engine.graphics;
 
 import engine.math.Maths;
 import engine.math.Vector3;
+import engine.utils.ContentLoader;
 import engine.utils.Utils;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -20,6 +21,16 @@ public class Mesh {
         mVBO = glGenBuffers();
         mIBO = glGenBuffers();
         mSize = 0;
+    }
+
+    public Mesh(String path) {
+        Mesh other = ContentLoader.loadMesh(path);
+        if(other == null)
+            return;
+
+        mVBO = other.getVBO();
+        mIBO = other.getIBO();
+        mSize = other.getSize();
     }
 
     public void addVertices(Vertex[] vertices, int[] indices, boolean calculateNormals) {
@@ -83,4 +94,27 @@ public class Mesh {
         glDisableVertexAttribArray(2);
     }
 
+    public int getVBO() {
+        return mVBO;
+    }
+
+    public void setVBO(int VBO) {
+        mVBO = VBO;
+    }
+
+    public int getIBO() {
+        return mIBO;
+    }
+
+    public void setIBO(int IBO) {
+        mIBO = IBO;
+    }
+
+    public int getSize() {
+        return mSize;
+    }
+
+    public void setSize(int size) {
+        mSize = size;
+    }
 }

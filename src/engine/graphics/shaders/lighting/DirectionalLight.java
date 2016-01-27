@@ -21,10 +21,4 @@ public class DirectionalLight extends BaseLight {
     public void setDirection(Vector3 direction) {
         mDirection = direction;
     }
-
-    @Override
-    public void onMap() {
-        super.onMap();
-        addVector3("direction", mDirection);
-    }
 }

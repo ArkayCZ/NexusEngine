@@ -1,5 +1,6 @@
 package engine.graphics;
 
+import engine.math.Maths;
 import engine.math.Matrix;
 import engine.math.Vector3;
 import engine.utils.Log;
@@ -11,8 +12,7 @@ import engine.utils.Log;
 public class Transform {
 
     private static Camera sCamera;
-
-    private static float sNear = 0.001f, sFar = 10000f, sWidth, sHeight, sFOV;
+    private static Matrix sProjection;
 
     private Vector3 mPosition;
     private Vector3 mRotation;
@@ -49,7 +49,7 @@ public class Transform {
      * @return Final world matrix.
      */
     public Matrix createWorldMatrix() {
-        Matrix projectionMatrix = new Matrix().setToPerspective(sFOV, sWidth, sHeight, sNear, sFar);
+        Matrix projectionMatrix = new Matrix(sProjection);
         Matrix cameraMatrix = new Matrix().setToCamera(sCamera.getForward(), sCamera.getUp());
         Matrix cameraTranslation = new Matrix().setToTranslation(-sCamera.getPosition().getX(), -sCamera.getPosition().getY(), -sCamera.getPosition().getZ());
 
@@ -58,12 +58,20 @@ public class Transform {
         return projectionMatrix.multiply(cameraMatrix.multiply(cameraTranslation.multiply(transformationMatrix)));
     }
 
-    public static void setProjection(float fov, float width, float height, float near, float far) {
-        sFOV = fov;
-        sWidth = width;
-        sHeight = height;
-        sNear = near;
-        sFar = far;
+    public Matrix createWorldMatrix(Matrix projection, Camera camera) {
+        Matrix cameraMatrix = new Matrix().setToCamera(camera.getForward(), camera.getUp());
+        Matrix cameraTranslation = new Matrix().setToTranslation(Maths.multiply(camera.getPosition(), new Vector3(-1)));
+        Matrix transformationMatrix = this.createTransformationMatrix();
+
+        return projection.multiply(cameraMatrix.multiply(cameraTranslation.multiply(transformationMatrix)));
+    }
+
+    public static void setProjection(Matrix matrix) {
+        sProjection = matrix;
+    }
+
+    public static Matrix getProjection() {
+        return sProjection;
     }
 
     public void setPosition(Vector3 position) {

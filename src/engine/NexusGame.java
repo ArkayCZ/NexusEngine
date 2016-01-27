@@ -4,9 +4,13 @@ import engine.entities.Entity;
 import engine.graphics.ForwardRenderer;
 import engine.graphics.window.Window;
 import engine.input.Input;
+import engine.layers.Layer;
 import engine.utils.ConsoleWatcher;
 import engine.utils.Log;
 import engine.utils.Settings;
+
+import java.util.Iterator;
+import java.util.Stack;
 
 /**
  * Created by vesel on 30.10.2015.
@@ -25,12 +29,11 @@ public abstract class NexusGame implements Runnable {
     private int mFPS = 0, mTPS = 0, mWindowWidth = 600, mWindowHeight = 600;
     public static int sTPS = 60;
 
-    private ForwardRenderer mRenderer;
-
-    private Entity mRootObject;
+    private Stack<Layer> mLayerStack;
 
     public NexusGame(String title) {
         mTitle = title;
+        mLayerStack = new Stack<>();
     }
 
     public void start() {
@@ -60,13 +63,8 @@ public abstract class NexusGame implements Runnable {
         mWindowWidth = width;
     }
 
-    public void initializeRenderingSystem() {
-        mRenderer = new ForwardRenderer();
-        mRenderer.initOpenGL();
-    }
-
     public void run() {
-        _init();
+        initInternal();
 
         long last = System.nanoTime();
         long lastOut = System.currentTimeMillis();
@@ -81,12 +79,12 @@ public abstract class NexusGame implements Runnable {
             last = now;
 
             while(unprocessedTicks > 1) {
-                _update();
+                updateInternal();
                 unprocessedTicks--;
                 measuredTPS++;
             }
 
-            _render();
+            renderInternal();
             measuredFPS++;
 
             if((System.currentTimeMillis() - lastOut) > 1000) {
@@ -96,7 +94,7 @@ public abstract class NexusGame implements Runnable {
                 measuredFPS = 0;
                 measuredTPS = 0;
 
-                _secondlyUpdate();
+                outputInternal();
             }
 
             if(mGameWindow.shouldClose())
@@ -107,52 +105,64 @@ public abstract class NexusGame implements Runnable {
         System.exit(0);
     }
 
-    private void _init() {
+    private void initInternal() {
         mGameWindow = new Window(mWindowWidth, mWindowHeight, mTitle);
         mGameWindow.setResizable(true);
         mGameWindow.centerWindow();
         mGameWindow.show(false);
+        mGameWindow.initGL();
 
-
-        mRootObject = new Entity();
         init();
-        mRootObject.onInit();
+
+        for(Iterator<Layer> it = mLayerStack.iterator(); it.hasNext();) {
+            Layer layer = it.next();
+            layer.onInit();
+        }
     }
 
-    private void _render() {
+    private void renderInternal() {
         mGameWindow.clear();
-
-        mRenderer.render(getRootObject());
         render();
+
+        for(Iterator<Layer> it = mLayerStack.iterator(); it.hasNext();) {
+            Layer layer = it.next();
+            layer.onRender();
+        }
 
         mGameWindow.update();
     }
 
-    private void _update() {
-        getRootObject().onUpdate(mGameWindow.getInputStatus());
+    private void updateInternal() {
         update(mGameWindow.getInputStatus());
         if(mExitOnEsc && mGameWindow.getInputStatus().isKeyDown(Input.KEY_ESC))
             mRunning = false;
+
+        for(Iterator<Layer> it = mLayerStack.iterator(); it.hasNext();) {
+            Layer layer = it.next();
+            layer.onUpdate(mGameWindow.getInputStatus());
+        }
     }
 
-    private void _secondlyUpdate() {
+    private void outputInternal() {
         if(Settings.FPS_LOGGING_ENABLED)
             Log.r("FPS: " + mFPS + " TPS: " + mTPS);
 
-        secondlyUpdate();
+        output();
     }
-
-
 
     public abstract void update(Input inputStatus);
     public abstract void render();
     public abstract void init();
-    public abstract void secondlyUpdate();
+    public abstract void output();
 
-    /**
-     * Returns the game GLFW window.
-     * @return Window class window.
-     */
+    public void pushLayer(Layer layer) {
+        mLayerStack.push(layer);
+    }
+
+    public void popLayer() {
+        mLayerStack.pop();
+    }
+
     public Window getGameWindow() {
         return mGameWindow;
     }
@@ -241,11 +251,4 @@ public abstract class NexusGame implements Runnable {
         mWindowHeight = windowHeight;
     }
 
-    public ForwardRenderer getRenderer() {
-        return mRenderer;
-    }
-
-    public Entity getRootObject() {
-        return mRootObject;
-    }
 }

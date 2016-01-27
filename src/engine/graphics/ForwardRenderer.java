@@ -5,6 +5,7 @@ import engine.MappedClass;
 import engine.graphics.shaders.Shader;
 import engine.graphics.shaders.lighting.*;
 import engine.math.Maths;
+import engine.math.Matrix;
 import engine.math.Vector3;
 import engine.utils.ContentLoader;
 import engine.utils.Log;
@@ -14,6 +15,10 @@ import org.lwjgl.opengl.GL;
 import java.lang.invoke.VolatileCallSite;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
+import java.util.Stack;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11.GL_BLEND;
@@ -22,12 +27,9 @@ import static org.lwjgl.opengl.GL32.GL_DEPTH_CLAMP;
 
 /**
  * Created by vesel on 09.01.2016.
- * Renderer based on ForwardRendering mechanichs. All shaders are in forward/ folder.
+ * Renderer based on ForwardRendering mechanics. All shaders are in forward/ folder.
  */
-public class ForwardRenderer extends MappedClass {
-
-    private static Camera sMainCamera;
-    private int shiftCounter = 100;
+public class ForwardRenderer extends MappedClass implements IRenderer {
 
     private BaseLight mAmbientLight;
     private DirectionalLight mDirectionalLight;
@@ -39,45 +41,55 @@ public class ForwardRenderer extends MappedClass {
     private Shader mPointShader;
     private Shader mSpotShader;
 
+    private Queue<Entity> mEntityStack;
+
     public ForwardRenderer() {
         /* Initialize super-class */
         super();
-        mAmbientLight = new BaseLight(new Vector3(1, 1, 1), 0.1f);
-        mDirectionalLight = new DirectionalLight(new Vector3(0.6f, 0.6f, 0.6f), 0.2f, new Vector3(-1, 1, -1));
+        mAmbientLight = new BaseLight(new Vector3(1, 1, 1), 0.2f);
+        mDirectionalLight = new DirectionalLight(new Vector3(1f, 1f, 1f), 0.6f, new Vector3(-1, 1, -1));
         mPointLights = new ArrayList<>();
         mSpotLights = new ArrayList<>();
 
-        /*for(int x = 1; x < 10; x += 2) {
-            for(int y = 1; y < 10; y += 2) {
-                mPointLights.add(new PointLight(
-                        new Vector3(x / 10.0f, y / 10.0f, x / 20.0f + y / 20.0f), 1f,
-                        new Attenuation(0, 0, 0.5f), new Vector3(x, 0.5f, y), 10));
-            }
-        }*/
+        mEntityStack = new LinkedBlockingQueue<>();
+        this.initOpenGL();
     }
 
     @Override
     public void onMap() {
         addVector3("ambient", mAmbientLight.getIntesifiedColor());
-        addVector3("camera_position", getCamera().getPosition());
-        addVector3("camera_direction", getCamera().getForward());
+        addVector3("camera_position", Transform.getCamera().getPosition());
+        addVector3("camera_direction", Transform.getCamera().getForward());
+    }
+
+    @Override
+    public void setProjection(Matrix matrix) {
+        Transform.setProjection(matrix);
+    }
+
+    @Override
+    public void clear() {
+        mSpotLights.clear();
+        mPointLights.clear();
+    }
+
+    @Override
+    public void submit(Entity e) {
+        mEntityStack.add(e);
+    }
+
+    public void flush() {
+        if(mEntityStack.isEmpty()) return;
+        while(mEntityStack.peek() != null)
+            render(mEntityStack.poll());
     }
 
     public void render(Entity object) {
-        /*shiftCounter--;
-        if(shiftCounter < 0) {
-            for(PointLight pl : mPointLights) {
-                pl.setColor(new Vector3(Maths.getRandomFloat(), Maths.getRandomFloat(), Maths.getRandomFloat()));
-            }
-            shiftCounter = 100;
-        }*/
-
-
         this.onMap();
         object.onMap();
         mAmbientShader.bind();
         mAmbientShader.updateUniforms(this);
-        object.onRender(mAmbientShader);
+        object.onRender(mAmbientShader, this);
         mAmbientShader.unbind();
 
         glEnable(GL_BLEND);
@@ -93,7 +105,7 @@ public class ForwardRenderer extends MappedClass {
             mDirectionalShader.setUniform3f("light_direction", mDirectionalLight.getDirection());
             mDirectionalShader.setUniform1f("light_intensity", mDirectionalLight.getIntensity());
 
-            object.onRender(mDirectionalShader);
+            object.onRender(mDirectionalShader, this);
             mDirectionalShader.unbind();
         }
 
@@ -106,7 +118,7 @@ public class ForwardRenderer extends MappedClass {
             mPointShader.setUniform1f("light_intensity", light.getIntensity());
 
             mPointShader.updateUniforms(this);
-            object.onRender(mPointShader);
+            object.onRender(mPointShader, this);
         }
         mPointShader.unbind();
 
@@ -121,7 +133,7 @@ public class ForwardRenderer extends MappedClass {
             mSpotShader.setUniform1f("light_length", light.getLength());
 
             mSpotShader.updateUniforms(this);
-            object.onRender(mSpotShader);
+            object.onRender(mSpotShader, this);
         }
         mSpotShader.unbind();
 
@@ -162,14 +174,6 @@ public class ForwardRenderer extends MappedClass {
         glClearColor(color.getX(), color.getY(), color.getZ(), 1.0f);
     }
 
-    public static Camera getCamera() {
-        return sMainCamera;
-    }
-
-    public static void setCamera(Camera camera) {
-        sMainCamera = camera;
-    }
-
     public List<PointLight> getPointLights() {
         return mPointLights;
     }
@@ -190,15 +194,27 @@ public class ForwardRenderer extends MappedClass {
         return mDirectionalLight;
     }
 
+    @Override
+    public void setAmbientLight(BaseLight ambientLight) {
+        mAmbientLight = ambientLight;
+    }
+
     public void setDirectionalLight(DirectionalLight directionalLight) {
         mDirectionalLight = directionalLight;
+    }
+
+    @Override
+    public void addPointLight(PointLight light) {
+        mPointLights.add(light);
+    }
+
+    @Override
+    public void addSpotLight(SpotLight light) {
+        mSpotLights.add(light);
     }
 
     public BaseLight getAmbientLight() {
         return mAmbientLight;
     }
 
-    public void setAmbientLight(BaseLight ambientLight) {
-        mAmbientLight = ambientLight;
-    }
 }

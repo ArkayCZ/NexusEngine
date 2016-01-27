@@ -1,6 +1,8 @@
 package engine.graphics.shaders.lighting;
 
+import engine.entities.IDManager;
 import engine.entities.components.EntityComponent;
+import engine.graphics.IRenderer;
 import engine.graphics.shaders.Shader;
 import engine.input.Input;
 import engine.math.Vector3;
@@ -12,6 +14,8 @@ public class BaseLight extends EntityComponent {
 
     private Vector3 mColor;
     private float mIntensity;
+
+    public static final int ID = IDManager.getComponentID();
 
     public BaseLight(Vector3 color, float intensity) {
         mColor = color;
@@ -44,8 +48,8 @@ public class BaseLight extends EntityComponent {
     }
 
     @Override
-    public void onRender(Shader shader) {
-
+    public void onRender(Shader shader, IRenderer renderer) {
+        renderer.setAmbientLight(this);
     }
 
     @Override
@@ -55,8 +59,7 @@ public class BaseLight extends EntityComponent {
 
     @Override
     public void onMap() {
-        addVector3("ambient", mColor);
-        addFloat("intensity", mIntensity);
+
     }
 
     @Override

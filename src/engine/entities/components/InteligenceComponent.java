@@ -1,5 +1,7 @@
 package engine.entities.components;
 
+import engine.entities.IDManager;
+import engine.graphics.IRenderer;
 import engine.graphics.shaders.Shader;
 import engine.input.Input;
 
@@ -9,7 +11,7 @@ import engine.input.Input;
  */
 public class InteligenceComponent extends EntityComponent {
 
-    public static final int ID = IDManager.getID();
+    public static final int ID = IDManager.getComponentID();
 
     @Override
     public void onInit() {
@@ -17,7 +19,7 @@ public class InteligenceComponent extends EntityComponent {
     }
 
     @Override
-    public void onRender(Shader shader) {
+    public void onRender(Shader shader, IRenderer renderer) {
 
     }
 

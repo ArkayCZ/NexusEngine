@@ -1,7 +1,5 @@
 #version 120
 
-precision highp float;
-
 varying vec2 v_texture_coordinate;
 varying vec3 v_normal_vector;
 varying vec3 v_world_position;

@@ -1,5 +1,7 @@
 package engine.entities.components;
 
+import engine.entities.IDManager;
+import engine.graphics.IRenderer;
 import engine.graphics.Transform;
 import engine.graphics.shaders.Shader;
 import engine.input.Input;
@@ -13,7 +15,7 @@ public class TransformComponent extends EntityComponent {
 
     private Transform mTransform;
 
-    public static final int ID = IDManager.getID();
+    public static final int ID = IDManager.getComponentID();
 
     public TransformComponent() {
         this(new Transform());
@@ -25,21 +27,20 @@ public class TransformComponent extends EntityComponent {
 
     public TransformComponent(Transform transform) {
         mTransform = transform;
+        mComponentID = TransformComponent.ID;
     }
 
     @Override
     public void onInit() {
-
     }
 
     @Override
-    public void onRender(Shader shader) {
+    public void onRender(Shader shader, IRenderer renderer) {
 
     }
 
     @Override
     public void onUpdate(Input input) {
-
     }
 
     @Override
@@ -50,7 +51,6 @@ public class TransformComponent extends EntityComponent {
 
     @Override
     public void onDelete() {
-
     }
 
     public void setPosition(float x, float y, float z) {

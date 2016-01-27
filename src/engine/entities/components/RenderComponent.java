@@ -1,11 +1,9 @@
 package engine.entities.components;
 
-import engine.graphics.ForwardRenderer;
-import engine.graphics.Material;
-import engine.graphics.Mesh;
+import engine.entities.IDManager;
+import engine.graphics.*;
 import engine.graphics.shaders.Shader;
 import engine.input.Input;
-import engine.utils.Log;
 
 public class RenderComponent extends EntityComponent {
 
@@ -14,7 +12,7 @@ public class RenderComponent extends EntityComponent {
     /** Contains the material required to render the component */
     private Material mMaterial;
 
-    public static final int ID = IDManager.getID();
+    public static final int ID = IDManager.getComponentID();
 
     public RenderComponent(Mesh mesh, Material material) {
         mMesh = mesh;
@@ -23,10 +21,10 @@ public class RenderComponent extends EntityComponent {
 
     @Override
     public void onInit() {
-        this.onMap();
     }
 
-    public void onRender(Shader shader) {
+    @Override
+    public void onRender(Shader shader, IRenderer renderer) {
         shader.updateUniforms(getParentObject());
         getMaterial().getTexture().bind();
         mMesh.render();
@@ -40,8 +38,8 @@ public class RenderComponent extends EntityComponent {
     @Override
     public void onMap() {
         addMaterial("material", getMaterial());
-        addVector3("camera_position", ForwardRenderer.getCamera().getPosition());
-        addVector3("camera_direction", ForwardRenderer.getCamera().getForward());
+        addVector3("camera_position", Transform.getCamera().getPosition());
+        addVector3("camera_direction", Transform.getCamera().getForward());
         addFloat("specular_intensity", getMaterial().getSpecularIntensity());
         addFloat("specular_exponent", getMaterial().getSpecularExponent());
         addVector3("material_color", getMaterial().getColor());

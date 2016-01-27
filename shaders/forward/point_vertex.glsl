@@ -1,7 +1,5 @@
 #version 120
 
-precision highp float;
-
 attribute vec3 position;
 attribute vec2 texture_coordinate;
 attribute vec3 normal;

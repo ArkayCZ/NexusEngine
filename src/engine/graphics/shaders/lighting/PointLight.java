@@ -42,11 +42,4 @@ public class PointLight extends BaseLight {
         mPosition = position;
     }
 
-    @Override
-    public void onMap() {
-        super.onMap();
-        addVector3("attenuation", mAttenuation.toVector3());
-        addVector3("light_position", mPosition);
-        addFloat("range", mRange);
-    }
 }

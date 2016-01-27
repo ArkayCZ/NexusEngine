@@ -16,6 +16,11 @@ public class Vector2 {
         this(vector.x, vector.y);
     }
 
+    public Vector2(int i) {
+        x = i;
+        y = i;
+    }
+
     public float getLength() {
         return (float)Math.sqrt(x*x + y*y);
     }
