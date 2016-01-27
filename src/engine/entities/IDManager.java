@@ -18,6 +18,4 @@ public class IDManager {
         sLastEntityID++;
         return sLastEntityID;
     }
-
-
 }
