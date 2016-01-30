@@ -1,0 +1,180 @@
+# 
+# Wavefront material file
+# Converted by the DEEP Exploration 
+# Right Hemisphere, LTD
+# http://www.righthemisphere.com/
+# 
+newmtl Default
+	 Ka 0.698039 0.698039 0.698039
+	 Kd 0.698039 0.698039 0.698039
+	 Ks 1 1 1
+	 illum 2
+	 Ns 64
+newmtl Default1
+	 Ka 0.698039 0.698039 0.698039
+	 Kd 0.698039 0.698039 0.698039
+	 Ks 1 1 1
+	 illum 2
+	 Ns 64
+newmtl Default2
+	 Ka 0.698039 0.698039 0.698039
+	 Kd 0.698039 0.698039 0.698039
+	 Ks 1 1 1
+	 illum 2
+	 Ns 64
+newmtl Default3
+	 Ka 0.698039 0.698039 0.698039
+	 Kd 0.698039 0.698039 0.698039
+	 Ks 1 1 1
+	 illum 2
+	 Ns 64
+newmtl Default4
+	 Ka 0.698039 0.698039 0.698039
+	 Kd 0.698039 0.698039 0.698039
+	 Ks 1 1 1
+	 illum 2
+	 Ns 64
+newmtl window_white_int
+	 Ka 0.6 0.6 0.6
+	 Kd 0.6 0.6 0.6
+	 Ks 1 0.909804 0.670588
+	 illum 2
+	 Ns 16
+newmtl window_white
+	 Ka 0.6 0.6 0.6
+	 Kd 0.6 0.6 0.6
+	 Ks 1 1 1
+	 illum 2
+	 Ns 16
+newmtl Default5
+	 Ka 0.698039 0.698039 0.698039
+	 Kd 0.698039 0.698039 0.698039
+	 Ks 1 1 1
+	 illum 2
+	 Ns 64
+newmtl Default6
+	 Ka 0.698039 0.698039 0.698039
+	 Kd 0.698039 0.698039 0.698039
+	 Ks 1 1 1
+	 illum 2
+	 Ns 64
+newmtl Default7
+	 Ka 0.698039 0.698039 0.698039
+	 Kd 0.698039 0.698039 0.698039
+	 Ks 1 1 1
+	 illum 2
+	 Ns 64
+newmtl Default8
+	 Ka 0.698039 0.698039 0.698039
+	 Kd 0.698039 0.698039 0.698039
+	 Ks 1 1 1
+	 illum 2
+	 Ns 64
+newmtl Default9
+	 Ka 0.698039 0.698039 0.698039
+	 Kd 0.698039 0.698039 0.698039
+	 Ks 1 1 1
+	 illum 2
+	 Ns 64
+newmtl Default10
+	 Ka 0.698039 0.698039 0.698039
+	 Kd 0.698039 0.698039 0.698039
+	 Ks 1 1 1
+	 illum 2
+	 Ns 64
+newmtl Default11
+	 Ka 0.698039 0.698039 0.698039
+	 Kd 0.698039 0.698039 0.698039
+	 Ks 1 1 1
+	 illum 2
+	 Ns 64
+newmtl Default12
+	 Ka 0.698039 0.698039 0.698039
+	 Kd 0.698039 0.698039 0.698039
+	 Ks 1 1 1
+	 illum 2
+	 Ns 64
+newmtl Default13
+	 Ka 0.698039 0.698039 0.698039
+	 Kd 0.698039 0.698039 0.698039
+	 Ks 1 1 1
+	 illum 2
+	 Ns 64
+newmtl Default14
+	 Ka 0.698039 0.698039 0.698039
+	 Kd 0.698039 0.698039 0.698039
+	 Ks 1 1 1
+	 illum 2
+	 Ns 64
+newmtl Default15
+	 Ka 0.698039 0.698039 0.698039
+	 Kd 0.698039 0.698039 0.698039
+	 Ks 1 1 1
+	 illum 2
+	 Ns 64
+newmtl Default16
+	 Ka 0.698039 0.698039 0.698039
+	 Kd 0.698039 0.698039 0.698039
+	 Ks 1 1 1
+	 illum 2
+	 Ns 64
+newmtl Default17
+	 Ka 0.698039 0.698039 0.698039
+	 Kd 0.698039 0.698039 0.698039
+	 Ks 1 1 1
+	 illum 2
+	 Ns 64
+newmtl Default18
+	 Ka 0.698039 0.698039 0.698039
+	 Kd 0.698039 0.698039 0.698039
+	 Ks 1 1 1
+	 illum 2
+	 Ns 64
+newmtl Default19
+	 Ka 0.698039 0.698039 0.698039
+	 Kd 0.698039 0.698039 0.698039
+	 Ks 1 1 1
+	 illum 2
+	 Ns 64
+newmtl Default20
+	 Ka 0.698039 0.698039 0.698039
+	 Kd 0.698039 0.698039 0.698039
+	 Ks 1 1 1
+	 illum 2
+	 Ns 64
+newmtl Default21
+	 Ka 0.698039 0.698039 0.698039
+	 Kd 0.698039 0.698039 0.698039
+	 Ks 1 1 1
+	 illum 2
+	 Ns 64
+newmtl Default22
+	 Ka 0.698039 0.698039 0.698039
+	 Kd 0.698039 0.698039 0.698039
+	 Ks 1 1 1
+	 illum 2
+	 Ns 64
+newmtl Default23
+	 Ka 0.698039 0.698039 0.698039
+	 Kd 0.698039 0.698039 0.698039
+	 Ks 1 1 1
+	 illum 2
+	 Ns 64
+newmtl Default24
+	 Ka 0.698039 0.698039 0.698039
+	 Kd 0.698039 0.698039 0.698039
+	 Ks 1 1 1
+	 illum 2
+	 Ns 64
+newmtl window_white1
+	 Ka 0.6 0.6 0.6
+	 Kd 0.6 0.6 0.6
+	 Ks 1 1 1
+	 illum 2
+	 Ns 16
+newmtl Default25
+	 Ka 0.698039 0.698039 0.698039
+	 Kd 0.698039 0.698039 0.698039
+	 Ks 1 1 1
+	 illum 2
+	 Ns 64
