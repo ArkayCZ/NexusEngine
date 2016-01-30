@@ -9,6 +9,7 @@ import engine.input.Input;
 import engine.layers.Scene;
 import engine.math.Matrix;
 import engine.math.Vector3;
+import engine.utils.ContentLoader;
 import engine.utils.meshes.MeshFactory;
 
 /**
@@ -16,7 +17,9 @@ import engine.utils.meshes.MeshFactory;
  */
 public class Test3D extends Scene {
 
-    Entity monkey;
+    private Entity monkey;
+
+    private float counter = 0;
 
     public Test3D(Window window) {
         super(new ForwardRenderer(), new Matrix().setToPerspective(
@@ -34,16 +37,12 @@ public class Test3D extends Scene {
         planeTransform.getPosition().setY(-1f);
         plane.addComponent(new TransformComponent(planeTransform));
 
+        monkey = new Entity();
+        monkey.addComponent(new RenderComponent(ContentLoader.loadMeshIndexed("res/models/monkey3.obj"),
+                new Material("res/textures/brick.jpg", new Vector3(1))));
+        monkey.addComponent(new TransformComponent(new Vector3(0, 1, 0)));
 
-
-        for(int i = 0; i < 90; i++) {
-            monkey = new Entity();
-            monkey.addComponent(new RenderComponent(new Mesh("res/models/donut.obj"), new Material("res/textures/black.png", new Vector3(1))));
-            Transform monkeyTransform = new Transform();
-            monkeyTransform.getPosition().setY(i * 1f);
-            monkey.addComponent(new TransformComponent(monkeyTransform));
-            add(monkey);
-        }
+        add(monkey);
         add(plane);
     }
 
@@ -52,7 +51,10 @@ public class Test3D extends Scene {
         super.onUpdate(input);
         getCamera().update(input);
 
-        TransformComponent transform = monkey.getComponent(TransformComponent.class);
-        transform.getRotation().setY(transform.getRotation().getY() + 1f);
+        Transform transform = monkey.getComponent(TransformComponent.class).getTransform();
+        if(input.isKeyDown(Input.KEY_NUMPAD_PLUS))
+            transform.getScale().add(0.1f);
+        if(input.isKeyDown(Input.KEY_NUMPAD_MINUS))
+            transform.getScale().add(-0.1f);
     }
 }

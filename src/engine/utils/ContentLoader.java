@@ -7,6 +7,8 @@ import engine.graphics.Mesh;
 import engine.graphics.Texture;
 import engine.graphics.Vertex;
 import engine.math.Vector3;
+import engine.utils.meshes.IndexedModel;
+import engine.utils.meshes.ModelOBJ;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -15,6 +17,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by vesel on 30.10.2015.
@@ -22,6 +25,11 @@ import java.util.ArrayList;
  */
 public class ContentLoader {
 
+    /**
+     * Loads a string using BufferedReader.
+     * @param path Path to the file to read.
+     * @return String containing contents of the file
+     */
     public static String loadString(String path) {
         StringBuilder builder = new StringBuilder();
         try {
@@ -38,6 +46,11 @@ public class ContentLoader {
         return builder.toString();
     }
 
+    /**
+     * Loads an OBJ mesh without texture coords and normals.
+     * @param path Path to the OBJ.
+     * @return Mesh representing the model.
+     */
     public static Mesh loadMesh(String path) {
         int lineNumber = 0;
         if(!path.split("\\.")[path.split("\\.").length - 1].equals("obj")) {
@@ -98,6 +111,36 @@ public class ContentLoader {
     }
 
     /**
+     * Loads an OBJ model using IndexedModel. Will replace the regular LoadMesh method.
+     * @param path Path to the OBJ model
+     * @return Mesh representing the OBJ model.
+     */
+    public static Mesh loadMeshIndexed(String path) {
+        ModelOBJ model = new ModelOBJ(path);
+        IndexedModel indexed = model.createIndexedModel();
+
+        List<Vertex> vertices = new ArrayList<>();
+        for(int i = 0; i < indexed.getPositions().size(); i++) {
+            vertices.add(new Vertex(indexed.getPositions().get(i),
+                    indexed.getTextureCoordinates().get(i), indexed.getNormals().get(i)));
+        }
+
+        Vertex[] vertexArray = new Vertex[vertices.size()];
+        vertices.toArray(vertexArray);
+
+        Integer[] indexArray = new Integer[indexed.getIndices().size()];
+        indexed.getIndices().toArray(indexArray);
+
+        Mesh mesh = new Mesh();
+        if(!indexed.containsNormals())
+            mesh.addVertices(vertexArray, Utils.createIntArray(indexArray), true);
+        else
+            mesh.addVertices(vertexArray, Utils.createIntArray(indexArray), false);
+
+        return mesh;
+    }
+
+    /**
      * Creates a texture object by loading in the pixels of the image using ImageIO and bitshifting. Then sends the texture
      * to OpenGL and gets its ID upon which it creates a new Texture object.
      * @param path Path to the image to be mapped and sent to the GPU.
@@ -142,6 +185,11 @@ public class ContentLoader {
         return new Texture(textureID, width, height);
     }
 
+    /**
+     * Loads a bitmap.
+     * @param path Path to the bitmap file.
+     * @return Bitmap with the contents of the file.
+     */
     public static Bitmap loadBitmap(String path) {
         int width = 0, height = 0;
         int[] pixels = new int[0];

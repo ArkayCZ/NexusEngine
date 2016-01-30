@@ -4,6 +4,7 @@ import engine.graphics.Vertex;
 import org.lwjgl.BufferUtils;
 
 import java.nio.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -81,5 +82,15 @@ public class Utils {
         }
 
         return indexArray;
+    }
+
+    public static void removeEmptyStrings(String[] strings) {
+        List<String> result = new ArrayList<>();
+        for(String s : strings) {
+            if(!s.equals(""))
+                result.add(s);
+        }
+
+        result.toArray(strings);
     }
 }

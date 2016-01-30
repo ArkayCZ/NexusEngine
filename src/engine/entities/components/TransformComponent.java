@@ -25,6 +25,10 @@ public class TransformComponent extends EntityComponent {
         this(new Transform(position, rotation, scale));
     }
 
+    public TransformComponent(Vector3 position) {
+        this(position, new Vector3(0), new Vector3(1));
+    }
+
     public TransformComponent(Transform transform) {
         mTransform = transform;
         mComponentID = TransformComponent.ID;
@@ -87,5 +91,9 @@ public class TransformComponent extends EntityComponent {
 
     public Vector3 getScale() {
         return mTransform.getScale();
+    }
+
+    public Transform getTransform() {
+        return mTransform;
     }
 }

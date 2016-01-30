@@ -45,6 +45,20 @@ public class Entity extends MappedClass {
         mEntityID = IDManager.getEntityID();
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Entity))
+            return false;
+        Entity ent = (Entity) obj;
+
+        return ent.getID() == mEntityID;
+    }
+
+    @Override
+    public int hashCode() {
+        return mEntityID;
+    }
+
     /**
      * Adds a child and initializes it in case it's not initialized already.
      * @param child Entity to be added.
@@ -175,6 +189,7 @@ public class Entity extends MappedClass {
         if (!EntityComponent.class.isAssignableFrom(clazz)) return null;
         for(EntityComponent comp : mComponents)
             if(comp.getClass().equals(clazz))
+                //noinspection unchecked
                 return (T)comp;
 
         return null;
@@ -190,5 +205,9 @@ public class Entity extends MappedClass {
 
     public void setInitialized(boolean initialized) {
         mInitialized = initialized;
+    }
+
+    public int getID() {
+        return mEntityID;
     }
 }
