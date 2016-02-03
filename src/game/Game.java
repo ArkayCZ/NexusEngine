@@ -2,6 +2,7 @@ package game;
 
 import engine.NexusGame;
 import engine.input.Input;
+import engine.layers.Layer2D;
 
 public class Game extends NexusGame {
 
@@ -14,6 +15,7 @@ public class Game extends NexusGame {
     @Override
     public void init() {
         pushLayer(new Test3D(getGameWindow()));
+        //pushLayer(new Test2D(getGameWindow()));
     }
 
     @Override

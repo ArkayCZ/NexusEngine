@@ -92,6 +92,11 @@ public class Mesh {
         glDisableVertexAttribArray(2);
     }
 
+    public void delete() {
+        glDeleteBuffers(mVBO);
+        glDeleteBuffers(mIBO);
+    }
+
     public int getVBO() {
         return mVBO;
     }

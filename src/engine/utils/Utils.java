@@ -84,13 +84,16 @@ public class Utils {
         return indexArray;
     }
 
-    public static void removeEmptyStrings(String[] strings) {
+    public static String[] removeEmptyStrings(String[] strings) {
         List<String> result = new ArrayList<>();
         for(String s : strings) {
             if(!s.equals(""))
                 result.add(s);
         }
 
+        strings = new String[result.size()];
         result.toArray(strings);
+
+        return strings;
     }
 }

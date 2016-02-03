@@ -1,6 +1,7 @@
 package engine.graphics.shaders;
 
 import engine.MappedClass;
+import engine.graphics.Material;
 import engine.math.Matrix;
 import engine.math.Vector2;
 import engine.math.Vector3;
@@ -167,6 +168,14 @@ public class Shader {
         for(String s : map.getTextures().keySet())
             if(mUniformLocations.containsKey(s))
                 setUniform1i(s, map.getTexture(s).getID());
+
+        for(String s : map.getMaterials().keySet())
+            if(mUniformLocations.containsKey(s)) {
+                setUniform1i(s + "_texture", map.getMaterial(s).getTexture().getID());
+                setUniform1f(s + "_specular_intensity", map.getMaterial(s).getSpecularIntensity());
+                setUniform1f(s + "_specular_exponent", map.getMaterial(s).getSpecularExponent());
+                setUniform3f(s + "_color", map.getMaterial(s).getColor());
+            }
     }
 
     public void bind() {

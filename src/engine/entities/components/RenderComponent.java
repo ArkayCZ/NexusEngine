@@ -38,8 +38,11 @@ public class RenderComponent extends EntityComponent {
     @Override
     public void onMap() {
         addMaterial("material", getMaterial());
-        addVector3("camera_position", Transform.getCamera().getPosition());
-        addVector3("camera_direction", Transform.getCamera().getForward());
+
+        if(Transform.getCamera() != null) {
+            addVector3("camera_position", Transform.getCamera().getPosition());
+            addVector3("camera_direction", Transform.getCamera().getForward());
+        }
         addFloat("specular_intensity", getMaterial().getSpecularIntensity());
         addFloat("specular_exponent", getMaterial().getSpecularExponent());
         addVector3("material_color", getMaterial().getColor());

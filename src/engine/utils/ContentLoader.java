@@ -6,6 +6,8 @@ import engine.graphics.Bitmap;
 import engine.graphics.Mesh;
 import engine.graphics.Texture;
 import engine.graphics.Vertex;
+import engine.graphics.font.FontSheet;
+import engine.graphics.font.FontSpecification;
 import engine.math.Vector3;
 import engine.utils.meshes.IndexedModel;
 import engine.utils.meshes.ModelOBJ;
@@ -209,6 +211,32 @@ public class ContentLoader {
         }
 
         return new Bitmap(width, height, pixels);
+    }
+
+    public static FontSheet loadFontSheet(String path) {
+        /* Already contains a file loading constructor, this has to eventually be moved to this class. */
+        FontSheet sheet = new FontSheet(ContentLoader.loadTexture(path));
+        return sheet;
+    }
+
+    public static FontSpecification loadFontSpecification(String path) {
+        List<String> lines = new ArrayList<>();
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(path));
+
+            String line;
+            while((line = reader.readLine()) != null) {
+                lines.add(line);
+            }
+
+        } catch(IOException e) {
+            Log.e("Failed to load font file '" + path + "'!");
+        }
+
+        FontSpecification spec = new FontSpecification(lines);
+
+        return spec;
     }
 
 }

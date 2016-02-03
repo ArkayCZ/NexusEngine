@@ -1,6 +1,7 @@
 package engine.graphics;
 
 import engine.entities.Entity;
+import engine.graphics.font.Font;
 import engine.graphics.shaders.lighting.BaseLight;
 import engine.graphics.shaders.lighting.DirectionalLight;
 import engine.graphics.shaders.lighting.PointLight;

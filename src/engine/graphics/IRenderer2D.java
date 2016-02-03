@@ -1,5 +1,6 @@
 package engine.graphics;
 
+import engine.graphics.font.Font;
 import engine.math.Matrix;
 import engine.math.Vector2;
 
