@@ -12,30 +12,38 @@ import static org.lwjgl.opengl.GL20.*;
 /**
  * Created by vesel on 30.10.2015.
  */
-public class Mesh {
+public class Mesh
+{
 
     private int mVBO, mIBO;
     private int mSize;
 
-    public Mesh() {
+    public Mesh()
+    {
         mVBO = glGenBuffers();
         mIBO = glGenBuffers();
         mSize = 0;
     }
 
-    public Mesh(String path) {
+    public Mesh(String path)
+    {
         Mesh other = ContentLoader.loadMesh(path);
-        if(other == null)
+        if (other == null)
+        {
             return;
+        }
 
         mVBO = other.getVBO();
         mIBO = other.getIBO();
         mSize = other.getSize();
     }
 
-    public void addVertices(Vertex[] vertices, int[] indices, boolean calculateNormals) {
-        if(calculateNormals)
+    public void addVertices(Vertex[] vertices, int[] indices, boolean calculateNormals)
+    {
+        if (calculateNormals)
+        {
             assignNormals(vertices, indices);
+        }
 
         mSize = indices.length;
 
@@ -46,12 +54,15 @@ public class Mesh {
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, Utils.createIndexBuffer(indices), GL_STATIC_DRAW);
     }
 
-    public void addVertices(Vertex[] vertices, int[] indices) {
+    public void addVertices(Vertex[] vertices, int[] indices)
+    {
         addVertices(vertices, indices, false);
     }
 
-    private void assignNormals(Vertex[] vertices, int[] indices) {
-        for (int i = 0; i < indices.length; i += 3) {
+    private void assignNormals(Vertex[] vertices, int[] indices)
+    {
+        for (int i = 0; i < indices.length; i += 3)
+        {
             int firstIndex = indices[i];
             int secondIndex = indices[i + 1];
             int thirdIndex = indices[i + 2];
@@ -66,12 +77,14 @@ public class Mesh {
             vertices[thirdIndex].setNormal(vertices[thirdIndex].getNormal().add(normalVector));
         }
 
-        for (int i = 0; i < vertices.length; i++) {
+        for (int i = 0; i < vertices.length; i++)
+        {
             vertices[i].getNormal().normalize();
         }
     }
 
-    public void render() {
+    public void render()
+    {
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
         glEnableVertexAttribArray(2);
@@ -92,32 +105,39 @@ public class Mesh {
         glDisableVertexAttribArray(2);
     }
 
-    public void delete() {
+    public void delete()
+    {
         glDeleteBuffers(mVBO);
         glDeleteBuffers(mIBO);
     }
 
-    public int getVBO() {
+    public int getVBO()
+    {
         return mVBO;
     }
 
-    public void setVBO(int VBO) {
+    public void setVBO(int VBO)
+    {
         mVBO = VBO;
     }
 
-    public int getIBO() {
+    public int getIBO()
+    {
         return mIBO;
     }
 
-    public void setIBO(int IBO) {
+    public void setIBO(int IBO)
+    {
         mIBO = IBO;
     }
 
-    public int getSize() {
+    public int getSize()
+    {
         return mSize;
     }
 
-    public void setSize(int size) {
+    public void setSize(int size)
+    {
         mSize = size;
     }
 }

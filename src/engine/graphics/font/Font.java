@@ -8,7 +8,8 @@ import engine.math.Vector3;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Font {
+public class Font
+{
 
     private FontSheet mSheet;
     private FontSpecification mSpec;
@@ -16,15 +17,18 @@ public class Font {
     private Vector2 mCursor;
     private Vector2 mScreenDimensions;
 
-    public Font(FontSheet sheet, FontSpecification spec) {
+    public Font(FontSheet sheet, FontSpecification spec)
+    {
         mSheet = sheet;
         mSpec = spec;
     }
 
-    public Mesh constructMesh(String s) {
+    public Mesh constructMesh(String s)
+    {
         List<Vertex> vertices = new ArrayList<>();
 
-        for(int i = 0; i < s.length(); i++) {
+        for (int i = 0; i < s.length(); i++)
+        {
             char character = s.toCharArray()[i];
 
             Vector2[] textureCoords = mSheet.getTextureCoords(
@@ -32,7 +36,7 @@ public class Font {
                     getSpec().getY(character),
                     getSpec().getWidth(character),
                     getSpec().getHeight(character)
-                    );
+            );
 
            /* vertices.add(new Vertex(new Vector3()))
             vertices.add(new Vertex())
@@ -42,27 +46,33 @@ public class Font {
         return null;
     }
 
-    public void enableRendering() {
+    public void enableRendering()
+    {
         mSheet.bindTexture();
     }
 
-    public void disableRendering() {
+    public void disableRendering()
+    {
         mSheet.unbindTexture();
     }
 
-    public float toRelativeWidth(int pixels) {
+    public float toRelativeWidth(int pixels)
+    {
         return pixels * (1.0f / mScreenDimensions.getY());
     }
 
-    public float toRelativeHeight(int pixels) {
+    public float toRelativeHeight(int pixels)
+    {
         return pixels * (1.0f / mScreenDimensions.getX());
     }
 
-    public FontSpecification getSpec() {
+    public FontSpecification getSpec()
+    {
         return mSpec;
     }
 
-    public FontSheet getSheet() {
+    public FontSheet getSheet()
+    {
         return mSheet;
     }
 }

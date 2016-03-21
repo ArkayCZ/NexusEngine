@@ -12,7 +12,8 @@ import java.util.List;
 /**
  * Created by vesel on 26.01.2016.
  */
-public class IndexedModel {
+public class IndexedModel
+{
 
     private List<Vector3> mPositions;
     private List<Vector2> mTextureCoordinates;
@@ -22,22 +23,26 @@ public class IndexedModel {
     private boolean mContainsNormals;
     private boolean mContainsTextureCoords;
 
-    public IndexedModel(List<Vector3> positions, List<Vector2> textureCoordinates, List<Vector3> normals, List<Integer> indices) {
+    public IndexedModel(List<Vector3> positions, List<Vector2> textureCoordinates, List<Vector3> normals, List<Integer> indices)
+    {
         mPositions = positions;
         mTextureCoordinates = textureCoordinates;
         mNormals = normals;
         mIndices = indices;
     }
 
-    public IndexedModel() {
+    public IndexedModel()
+    {
         mPositions = new ArrayList<>();
         mTextureCoordinates = new ArrayList<>();
         mNormals = new ArrayList<>();
         mIndices = new ArrayList<>();
     }
 
-    private void assignNormals(Vertex[] vertices, int[] indices) {
-        for (int i = 0; i < indices.length; i += 3) {
+    private void assignNormals(Vertex[] vertices, int[] indices)
+    {
+        for (int i = 0; i < indices.length; i += 3)
+        {
             int firstIndex = indices[i];
             int secondIndex = indices[i + 1];
             int thirdIndex = indices[i + 2];
@@ -52,69 +57,84 @@ public class IndexedModel {
             vertices[thirdIndex].setNormal(vertices[thirdIndex].getNormal().add(normalVector));
         }
 
-        for (int i = 0; i < vertices.length; i++) {
+        for (int i = 0; i < vertices.length; i++)
+        {
             vertices[i].getNormal().normalize();
         }
 
     }
 
-    public void calculateNormals() {
+    public void calculateNormals()
+    {
         Integer[] integerData = new Integer[mIndices.size()];
         mIndices.toArray(integerData);
         int[] indices = Utils.createIntArray(integerData);
         Vertex[] vertices = new Vertex[mPositions.size()];
-        for(int i = 0; i < vertices.length; i++) {
+        for (int i = 0; i < vertices.length; i++)
+        {
             vertices[i] = new Vertex(mPositions.get(i), mTextureCoordinates.get(i), mNormals.get(i));
         }
 
         assignNormals(vertices, indices);
     }
 
-    public boolean containsNormals() {
+    public boolean containsNormals()
+    {
         return mContainsNormals;
     }
 
-    public void setContainsNormals(boolean containsNormals) {
+    public void setContainsNormals(boolean containsNormals)
+    {
         mContainsNormals = containsNormals;
     }
 
-    public boolean containsTextureCoords() {
+    public boolean containsTextureCoords()
+    {
         return mContainsTextureCoords;
     }
 
-    public void setContainsTextureCoords(boolean containsTextureCoords) {
+    public void setContainsTextureCoords(boolean containsTextureCoords)
+    {
         mContainsTextureCoords = containsTextureCoords;
     }
 
-    public List<Vector3> getPositions() {
+    public List<Vector3> getPositions()
+    {
         return mPositions;
     }
 
-    public void setPositions(List<Vector3> positions) {
+    public void setPositions(List<Vector3> positions)
+    {
         mPositions = positions;
     }
 
-    public List<Vector2> getTextureCoordinates() {
+    public List<Vector2> getTextureCoordinates()
+    {
         return mTextureCoordinates;
     }
 
-    public void setTextureCoordinates(List<Vector2> textureCoordinates) {
+    public void setTextureCoordinates(List<Vector2> textureCoordinates)
+    {
         mTextureCoordinates = textureCoordinates;
     }
 
-    public List<Vector3> getNormals() {
+    public List<Vector3> getNormals()
+    {
         return mNormals;
     }
 
-    public void setNormals(List<Vector3> normals) {
+    public void setNormals(List<Vector3> normals)
+    {
         mNormals = normals;
     }
 
-    public List<Integer> getIndices() {
+    public List<Integer> getIndices()
+    {
         return mIndices;
     }
 
-    public void setIndices(List<Integer> indices) {
+    public void setIndices(List<Integer> indices)
+    {
         mIndices = indices;
     }
 }

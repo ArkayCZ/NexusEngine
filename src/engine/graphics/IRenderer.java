@@ -10,16 +10,24 @@ import engine.math.Matrix;
 /**
  * Created by vesel on 24.01.2016.
  */
-public interface IRenderer {
+public interface IRenderer
+{
 
     /* General functions */
     void setProjection(Matrix matrix);
+
     void clear();
+
     void submit(Entity e);
+
     void flush();
+
     void setAmbientLight(BaseLight ambientLight);
+
     void setDirectionalLight(DirectionalLight light);
+
     void addPointLight(PointLight light);
+
     void addSpotLight(SpotLight light);
 
 }

@@ -3,22 +3,31 @@ package engine.utils;
 /**
  * Created by vesel on 30.10.2015.
  */
-public class Log {
+public class Log
+{
 
-    private Log() {}
+    private Log()
+    {
+    }
 
-    public static void e(String message) {
+    public static void e(String message)
+    {
         System.err.println("[NexEngine][error] " + message);
     }
 
-    public static void i(String message) {
+    public static void i(String message)
+    {
         System.out.println("[NexEngine][info] " + message);
     }
 
-    public static void r(String message) {
+    public static void r(String message)
+    {
         System.out.println("[NexEngine][report] " + message);
     }
 
-    public static void w(String message) { System.err.println("[NexEngine][warning] " + message); }
+    public static void w(String message)
+    {
+        System.err.println("[NexEngine][warning] " + message);
+    }
 
 }

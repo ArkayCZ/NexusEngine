@@ -14,7 +14,8 @@ import java.util.HashMap;
 /**
  * Created by vesel on 30.10.2015.
  */
-public class Input {
+public class Input
+{
 
     public static final int KEY_A = GLFW_KEY_A;
     public static final int KEY_B = GLFW_KEY_B;
@@ -72,51 +73,70 @@ public class Input {
     private int mWindowHalfWidth;
     private int mWindowHalfHeight;
 
-    public Input(Window window) {
+    public Input(Window window)
+    {
         mKeys = new HashMap<>();
         mWindowContext = window;
 
 
-
-        mCursorPosCallback = new GLFWCursorPosCallback() {
+        mCursorPosCallback = new GLFWCursorPosCallback()
+        {
             @Override
-            public void invoke(long window, double xpos, double ypos) {
+            public void invoke(long window, double xpos, double ypos)
+            {
                 mCapturedX = (int) xpos;
                 mCapturedY = (int) ypos;
             }
         };
 
-        mKeyCallback = new GLFWKeyCallback() {
+        mKeyCallback = new GLFWKeyCallback()
+        {
             @Override
-            public void invoke(long window, int key, int scancode, int action, int mods) {
+            public void invoke(long window, int key, int scancode, int action, int mods)
+            {
                 mKeys.put(key, action != GLFW_RELEASE);
             }
         };
 
-        mMouseButtonCallback = new GLFWMouseButtonCallback() {
+        mMouseButtonCallback = new GLFWMouseButtonCallback()
+        {
             @Override
-            public void invoke(long window, int button, int action, int mods) {
-                if(button == GLFW_MOUSE_BUTTON_1)
+            public void invoke(long window, int button, int action, int mods)
+            {
+                if (button == GLFW_MOUSE_BUTTON_1)
+                {
                     mLeftMouseButton = action != GLFW_RELEASE;
-                if(button == GLFW_MOUSE_BUTTON_2)
+                }
+                if (button == GLFW_MOUSE_BUTTON_2)
+                {
                     mRightMouseButton = action != GLFW_RELEASE;
+                }
             }
         };
     }
 
-    public boolean isKeyDown(int key) {
-        if(mKeys.containsKey(key))
+    public boolean isKeyDown(int key)
+    {
+        if (mKeys.containsKey(key))
+        {
             return mKeys.get(key);
-        else return false;
+        }
+        else
+        {
+            return false;
+        }
     }
 
-    public void init() {
+    public void init()
+    {
         mWindowHalfHeight = mWindowContext.getHeight() / 2;
         mWindowHalfWidth = mWindowContext.getWidth() / 2;
     }
 
-    public void update() {
-        if(mMouseUnlockCounter > 0) {
+    public void update()
+    {
+        if (mMouseUnlockCounter > 0)
+        {
             mMouseUnlockCounter--;
             setCursorPos(mWindowContext.getID(), mWindowHalfWidth, mWindowHalfHeight);
             return;
@@ -133,54 +153,66 @@ public class Input {
         setCursorPos(mWindowContext.getID(), mWindowHalfWidth, mWindowHalfHeight);
     }
 
-    public void setCursorPos(long window, int x, int y) {
+    public void setCursorPos(long window, int x, int y)
+    {
         mMouseLastX = x;
         mMouseLastY = y;
 
         glfwSetCursorPos(window, x, y);
     }
 
-    public int getMouseY() {
+    public int getMouseY()
+    {
         return mMouseY;
     }
 
-    public int getMouseX() {
+    public int getMouseX()
+    {
         return mMouseX;
     }
 
-    public int getMouseDeltaX() {
+    public int getMouseDeltaX()
+    {
         return mMouseDeltaX;
     }
 
-    public void setMouseDeltaX(int mouseDeltaX) {
+    public void setMouseDeltaX(int mouseDeltaX)
+    {
         mMouseDeltaX = mouseDeltaX;
     }
 
-    public int getMouseDeltaY() {
+    public int getMouseDeltaY()
+    {
         return mMouseDeltaY;
     }
 
-    public void setMouseDeltaY(int mouseDeltaY) {
+    public void setMouseDeltaY(int mouseDeltaY)
+    {
         mMouseDeltaY = mouseDeltaY;
     }
 
-    public boolean isLeftMouseButton() {
+    public boolean isLeftMouseButton()
+    {
         return mLeftMouseButton;
     }
 
-    public boolean isRightMouseButton() {
+    public boolean isRightMouseButton()
+    {
         return mRightMouseButton;
     }
 
-    public GLFWCursorPosCallback getCursorPosCallback() {
+    public GLFWCursorPosCallback getCursorPosCallback()
+    {
         return mCursorPosCallback;
     }
 
-    public GLFWKeyCallback getKeyCallback() {
+    public GLFWKeyCallback getKeyCallback()
+    {
         return mKeyCallback;
     }
 
-    public GLFWMouseButtonCallback getMouseButtonCallback() {
+    public GLFWMouseButtonCallback getMouseButtonCallback()
+    {
         return mMouseButtonCallback;
     }
 }

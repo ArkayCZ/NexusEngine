@@ -18,29 +18,35 @@ import java.util.concurrent.LinkedBlockingQueue;
 /**
  * Created by vesel on 31.01.2016.
  */
-public class Renderer2D extends MappedClass implements IRenderer2D {
+public class Renderer2D extends MappedClass implements IRenderer2D
+{
 
     private Queue<Entity> mEntityStack;
     private Shader mShader;
 
-    public Renderer2D() {
+    public Renderer2D()
+    {
         mEntityStack = new LinkedBlockingQueue<>();
         mShader = new Shader("basic");
     }
 
     @Override
-    public void clear() {
+    public void clear()
+    {
 
     }
 
     @Override
-    public void submit(Entity e) {
+    public void submit(Entity e)
+    {
         mEntityStack.add(e);
     }
 
     @Override
-    public void flush() {
-        while(mEntityStack.peek() != null) {
+    public void flush()
+    {
+        while (mEntityStack.peek() != null)
+        {
             Entity e = mEntityStack.poll();
 
             this.onMap();
@@ -54,52 +60,62 @@ public class Renderer2D extends MappedClass implements IRenderer2D {
     }
 
     @Override
-    public void onMap() {
+    public void onMap()
+    {
 
     }
 
     @Override
-    public void drawRectangle(float x, float y, float width, float height, int color) {
+    public void drawRectangle(float x, float y, float width, float height, int color)
+    {
 
     }
 
     @Override
-    public void drawRectangle(Vector2 start, Vector2 size, int color) {
+    public void drawRectangle(Vector2 start, Vector2 size, int color)
+    {
 
     }
 
     @Override
-    public void drawString(float x, float y, Font font, String s) {
+    public void drawString(float x, float y, Font font, String s)
+    {
 
     }
 
     @Override
-    public void drawLine(Vector2 origin, Vector2 target, int color) {
+    public void drawLine(Vector2 origin, Vector2 target, int color)
+    {
 
     }
 
     @Override
-    public void setProjection(Matrix matrix) {
+    public void setProjection(Matrix matrix)
+    {
 
     }
 
     @Override
-    public void setAmbientLight(BaseLight ambientLight) {
+    public void setAmbientLight(BaseLight ambientLight)
+    {
 
     }
 
     @Override
-    public void setDirectionalLight(DirectionalLight light) {
+    public void setDirectionalLight(DirectionalLight light)
+    {
 
     }
 
     @Override
-    public void addPointLight(PointLight light) {
+    public void addPointLight(PointLight light)
+    {
 
     }
 
     @Override
-    public void addSpotLight(SpotLight light) {
+    public void addSpotLight(SpotLight light)
+    {
 
     }
 }

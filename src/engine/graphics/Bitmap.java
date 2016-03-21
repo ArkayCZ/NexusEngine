@@ -3,62 +3,78 @@ package engine.graphics;
 /**
  * Created by vesel on 02.11.2015.
  */
-public class Bitmap {
+public class Bitmap
+{
 
     private int mWidth;
     private int mHeight;
     private int[] mPixels;
 
-    public Bitmap(int width, int height) {
+    public Bitmap(int width, int height)
+    {
         this(width, height, new int[width * height]);
     }
 
-    public Bitmap(int width, int height, int[] pixels) {
+    public Bitmap(int width, int height, int[] pixels)
+    {
         mWidth = width;
         mHeight = height;
         mPixels = pixels;
     }
 
-    public int getPixel(int x, int y) {
+    public int getPixel(int x, int y)
+    {
         int pixelNumber = x + y * getWidth();
-        if(pixelNumber < 0 || pixelNumber >= mPixels.length)
+        if (pixelNumber < 0 || pixelNumber >= mPixels.length)
+        {
             return 0;
+        }
         return mPixels[x + y * getWidth()];
     }
 
-    public void setPixels(int x, int y, int color) {
+    public void setPixels(int x, int y, int color)
+    {
         mPixels[x + y * getWidth()] = color;
     }
 
-    public int getWidth() {
+    public int getWidth()
+    {
         return mWidth;
     }
 
-    public void setWidth(int width) {
+    public void setWidth(int width)
+    {
         mWidth = width;
     }
 
-    public int getHeight() {
+    public int getHeight()
+    {
         return mHeight;
     }
 
-    public void setHeight(int height) {
+    public void setHeight(int height)
+    {
         mHeight = height;
     }
 
-    public int[] getPixels() {
+    public int[] getPixels()
+    {
         return mPixels;
     }
 
-    public void setPixels(int[] pixels) {
+    public void setPixels(int[] pixels)
+    {
         mPixels = pixels;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         StringBuilder builder = new StringBuilder();
-        for (int x = 0; x < mWidth; x++) {
-            for (int y = 0; y < mHeight; y++) {
+        for (int x = 0; x < mWidth; x++)
+        {
+            for (int y = 0; y < mHeight; y++)
+            {
                 builder.append(getPixel(x, y) + ";");
             }
             builder.append("\n");
@@ -66,10 +82,13 @@ public class Bitmap {
         return builder.toString();
     }
 
-    public Bitmap flipX() {
+    public Bitmap flipX()
+    {
         int[] temp = new int[getPixels().length];
-        for (int x = 0; x < getWidth(); x++) {
-            for (int y = 0; y < getHeight(); y++) {
+        for (int x = 0; x < getWidth(); x++)
+        {
+            for (int y = 0; y < getHeight(); y++)
+            {
                 temp[x + y * getWidth()] = mPixels[(getWidth() - x - 1) + y * getWidth()];
             }
         }

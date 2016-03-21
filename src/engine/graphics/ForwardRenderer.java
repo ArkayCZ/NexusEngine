@@ -29,7 +29,8 @@ import static org.lwjgl.opengl.GL32.GL_DEPTH_CLAMP;
  * Created by vesel on 09.01.2016.
  * Renderer based on ForwardRendering mechanics. All shaders are in forward/ folder.
  */
-public class ForwardRenderer extends MappedClass implements IRenderer {
+public class ForwardRenderer extends MappedClass implements IRenderer
+{
 
     private BaseLight mAmbientLight;
     private DirectionalLight mDirectionalLight;
@@ -43,7 +44,8 @@ public class ForwardRenderer extends MappedClass implements IRenderer {
 
     private Queue<Entity> mEntityStack;
 
-    public ForwardRenderer() {
+    public ForwardRenderer()
+    {
         /* Initialize super-class */
         super();
         mAmbientLight = new BaseLight(new Vector3(1, 1, 1), 0.2f);
@@ -56,35 +58,46 @@ public class ForwardRenderer extends MappedClass implements IRenderer {
     }
 
     @Override
-    public void onMap() {
+    public void onMap()
+    {
         addVector3("ambient", mAmbientLight.getIntesifiedColor());
         addVector3("camera_position", Transform.getCamera().getPosition());
         addVector3("camera_direction", Transform.getCamera().getForward());
     }
 
     @Override
-    public void setProjection(Matrix matrix) {
+    public void setProjection(Matrix matrix)
+    {
         Transform.setProjection(matrix);
     }
 
     @Override
-    public void clear() {
+    public void clear()
+    {
         mSpotLights.clear();
         mPointLights.clear();
     }
 
     @Override
-    public void submit(Entity e) {
+    public void submit(Entity e)
+    {
         mEntityStack.add(e);
     }
 
-    public void flush() {
-        if(mEntityStack.isEmpty()) return;
-        while(mEntityStack.peek() != null)
+    public void flush()
+    {
+        if (mEntityStack.isEmpty())
+        {
+            return;
+        }
+        while (mEntityStack.peek() != null)
+        {
             render(mEntityStack.poll());
+        }
     }
 
-    public void render(Entity object) {
+    public void render(Entity object)
+    {
         this.onMap();
         object.onMap();
         mAmbientShader.bind();
@@ -97,7 +110,8 @@ public class ForwardRenderer extends MappedClass implements IRenderer {
         glDepthMask(false);
         glDepthFunc(GL_EQUAL);
 
-        if(mDirectionalLight != null) {
+        if (mDirectionalLight != null)
+        {
             mDirectionalShader.bind();
             mDirectionalShader.updateUniforms(this);
 
@@ -110,7 +124,8 @@ public class ForwardRenderer extends MappedClass implements IRenderer {
         }
 
         mPointShader.bind();
-        for(PointLight light : mPointLights) {
+        for (PointLight light : mPointLights)
+        {
             mPointShader.setUniform3f("light_color", light.getColor());
             mPointShader.setUniform3f("light_attenuation", light.getAttenuation().toVector3());
             mPointShader.setUniform3f("light_position", light.getPosition());
@@ -123,7 +138,8 @@ public class ForwardRenderer extends MappedClass implements IRenderer {
         mPointShader.unbind();
 
         mSpotShader.bind();
-        for(SpotLight light : mSpotLights) {
+        for (SpotLight light : mSpotLights)
+        {
             mSpotShader.setUniform3f("light_color", light.getColor());
             mSpotShader.setUniform3f("light_attenuation", light.getAttenuation().toVector3());
             mSpotShader.setUniform3f("light_position", light.getPosition());
@@ -143,7 +159,8 @@ public class ForwardRenderer extends MappedClass implements IRenderer {
         glDisable(GL_BLEND);
     }
 
-    public void initOpenGL() {
+    public void initOpenGL()
+    {
         /* Link LWJGL to GLFW context */
         GL.createCapabilities();
 
@@ -166,54 +183,66 @@ public class ForwardRenderer extends MappedClass implements IRenderer {
         mSpotShader = new Shader("forward/spot");
     }
 
-    public Vector3 getAmbient() {
+    public Vector3 getAmbient()
+    {
         return mAmbientLight.getIntesifiedColor();
     }
 
-    public void setClearColor(Vector3 color) {
+    public void setClearColor(Vector3 color)
+    {
         glClearColor(color.getX(), color.getY(), color.getZ(), 1.0f);
     }
 
-    public List<PointLight> getPointLights() {
+    public List<PointLight> getPointLights()
+    {
         return mPointLights;
     }
 
-    public void setPointLights(List<PointLight> pointLights) {
+    public void setPointLights(List<PointLight> pointLights)
+    {
         mPointLights = pointLights;
     }
 
-    public List<SpotLight> getSpotLights() {
+    public List<SpotLight> getSpotLights()
+    {
         return mSpotLights;
     }
 
-    public void setSpotLights(List<SpotLight> spotLights) {
+    public void setSpotLights(List<SpotLight> spotLights)
+    {
         mSpotLights = spotLights;
     }
 
-    public DirectionalLight getDirectionalLight() {
+    public DirectionalLight getDirectionalLight()
+    {
         return mDirectionalLight;
     }
 
     @Override
-    public void setAmbientLight(BaseLight ambientLight) {
+    public void setAmbientLight(BaseLight ambientLight)
+    {
         mAmbientLight = ambientLight;
     }
 
-    public void setDirectionalLight(DirectionalLight directionalLight) {
+    public void setDirectionalLight(DirectionalLight directionalLight)
+    {
         mDirectionalLight = directionalLight;
     }
 
     @Override
-    public void addPointLight(PointLight light) {
+    public void addPointLight(PointLight light)
+    {
         mPointLights.add(light);
     }
 
     @Override
-    public void addSpotLight(SpotLight light) {
+    public void addSpotLight(SpotLight light)
+    {
         mSpotLights.add(light);
     }
 
-    public BaseLight getAmbientLight() {
+    public BaseLight getAmbientLight()
+    {
         return mAmbientLight;
     }
 

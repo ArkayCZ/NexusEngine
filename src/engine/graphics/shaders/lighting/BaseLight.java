@@ -10,60 +10,72 @@ import engine.math.Vector3;
 /**
  * Created by vesel on 01.11.2015.
  */
-public class BaseLight extends EntityComponent {
+public class BaseLight extends EntityComponent
+{
 
     private Vector3 mColor;
     private float mIntensity;
 
     public static final int ID = IDManager.getComponentID();
 
-    public BaseLight(Vector3 color, float intensity) {
+    public BaseLight(Vector3 color, float intensity)
+    {
         mColor = color;
         mIntensity = intensity;
     }
 
-    public Vector3 getColor() {
+    public Vector3 getColor()
+    {
         return mColor;
     }
 
-    public void setColor(Vector3 color) {
+    public void setColor(Vector3 color)
+    {
         mColor = color;
     }
 
-    public float getIntensity() {
+    public float getIntensity()
+    {
         return mIntensity;
     }
 
-    public void setIntensity(float intensity) {
+    public void setIntensity(float intensity)
+    {
         mIntensity = intensity;
     }
 
-    public Vector3 getIntesifiedColor() {
+    public Vector3 getIntesifiedColor()
+    {
         return new Vector3(mColor).mul(mIntensity);
     }
 
     @Override
-    public void onInit() {
+    public void onInit()
+    {
 
     }
 
     @Override
-    public void onRender(Shader shader, IRenderer renderer) {
+    public void onRender(Shader shader, IRenderer renderer)
+    {
         renderer.setAmbientLight(this);
     }
 
     @Override
-    public void onUpdate(Input input) {
+    public void onUpdate(Input input)
+    {
 
     }
 
     @Override
-    public void onMap() {
+    public void onMap()
+    {
 
     }
 
     @Override
-    public void onDelete() {
+    public void onDelete()
+    {
 
     }
 }

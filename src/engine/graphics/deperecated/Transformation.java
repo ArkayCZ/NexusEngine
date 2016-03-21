@@ -1,15 +1,18 @@
 package engine.graphics.deperecated;
 
 import static org.lwjgl.opengl.GL11.*;
+
 /**
  * Created by vesel on 30.10.2015.
  */
-public class Transformation {
+public class Transformation
+{
 
     private float mTranslationX, mTranslationY, mTranslationZ;
     private float mRotation;
 
-    public void apply() {
+    public void apply()
+    {
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glLoadIdentity();
@@ -17,40 +20,49 @@ public class Transformation {
         glTranslatef(mTranslationX, mTranslationY, mTranslationZ);
     }
 
-    public void discard() {
+    public void discard()
+    {
         glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
     }
 
-    public float getTranslationX() {
+    public float getTranslationX()
+    {
         return mTranslationX;
     }
 
-    public void setTranslationX(float translationX) {
+    public void setTranslationX(float translationX)
+    {
         this.mTranslationX = translationX;
     }
 
-    public float getTranslationY() {
+    public float getTranslationY()
+    {
         return mTranslationY;
     }
 
-    public void setTranslationY(float translationY) {
+    public void setTranslationY(float translationY)
+    {
         this.mTranslationY = translationY;
     }
 
-    public float getTranslationZ() {
+    public float getTranslationZ()
+    {
         return mTranslationZ;
     }
 
-    public void setTranslationZ(float translationZ) {
+    public void setTranslationZ(float translationZ)
+    {
         this.mTranslationZ = translationZ;
     }
 
-    public float getRotation() {
+    public float getRotation()
+    {
         return mRotation;
     }
 
-    public void setRotation(float rotation) {
+    public void setRotation(float rotation)
+    {
         this.mRotation = rotation;
     }
 }

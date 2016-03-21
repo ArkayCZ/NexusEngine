@@ -1,22 +1,25 @@
 package engine.utils.meshes;
 
-public class IndexOBJ {
+public class IndexOBJ
+{
 
     private int mVertexIndex;
     private int mTextureCoordinateIndex;
     private int mNormalIndex;
 
     @Override
-    public boolean equals(Object obj) {
-        IndexOBJ index = (IndexOBJ)obj;
+    public boolean equals(Object obj)
+    {
+        IndexOBJ index = (IndexOBJ) obj;
 
-        return  mVertexIndex                == index.getVertexIndex()              &&
-                mTextureCoordinateIndex     == index.getTextureCoordinateIndex()   &&
-                mNormalIndex                == index.getNormalIndex();
+        return mVertexIndex == index.getVertexIndex() &&
+                mTextureCoordinateIndex == index.getTextureCoordinateIndex() &&
+                mNormalIndex == index.getNormalIndex();
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         final int BASE = 97;
         final int MULTIPLIER = 47;
 
@@ -28,27 +31,33 @@ public class IndexOBJ {
         return result;
     }
 
-    public int getVertexIndex() {
+    public int getVertexIndex()
+    {
         return mVertexIndex;
     }
 
-    public void setVertexIndex(int vertexIndex) {
+    public void setVertexIndex(int vertexIndex)
+    {
         mVertexIndex = vertexIndex;
     }
 
-    public int getTextureCoordinateIndex() {
+    public int getTextureCoordinateIndex()
+    {
         return mTextureCoordinateIndex;
     }
 
-    public void setTextureCoordinateIndex(int textureCoordinateIndex) {
+    public void setTextureCoordinateIndex(int textureCoordinateIndex)
+    {
         mTextureCoordinateIndex = textureCoordinateIndex;
     }
 
-    public int getNormalIndex() {
+    public int getNormalIndex()
+    {
         return mNormalIndex;
     }
 
-    public void setNormalIndex(int normalIndex) {
+    public void setNormalIndex(int normalIndex)
+    {
         mNormalIndex = normalIndex;
     }
 }

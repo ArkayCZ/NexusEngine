@@ -10,7 +10,8 @@ import java.util.List;
 /**
  * Created by vesel on 30.01.2016.
  */
-public class FontSpecification {
+public class FontSpecification
+{
 
     private String mFilePath;
     private List<String> mLines;
@@ -32,12 +33,14 @@ public class FontSpecification {
     private HashMap<Character, Integer> mYOffsetMap;
     private HashMap<Character, Integer> mAdvanceMap;
 
-    public FontSpecification(String path) {
+    public FontSpecification(String path)
+    {
         this(new ArrayList<>());
         mFilePath = path;
     }
 
-    public FontSpecification(List<String> lines) {
+    public FontSpecification(List<String> lines)
+    {
         mLines = lines;
 
         mXMap = new HashMap<>();
@@ -51,14 +54,19 @@ public class FontSpecification {
         parseFile(getLines());
     }
 
-    private void parseFile(List<String> lines) {
-        for(String line : lines) {
+    private void parseFile(List<String> lines)
+    {
+        for (String line : lines)
+        {
             /* Splits the data and removed empty strings */
             String[] data = line.split(" ");
             data = Utils.removeEmptyStrings(data);
 
             /* Skip line if it's not a char record */
-            if (!data[0].equals("char")) continue;
+            if (!data[0].equals("char"))
+            {
+                continue;
+            }
             /* Get the id of the character */
             int id = getValue(data[ID_INDEX]);
 
@@ -77,71 +85,89 @@ public class FontSpecification {
 
     /**
      * Helper function, parses the integer behind the equiv sign.
+     *
      * @param data String to be parsed.
      * @return Integer value behind the equiv sign.
      */
-    private int getValue(String data) {
+    private int getValue(String data)
+    {
         return Integer.parseInt(data.split("=")[1]);
     }
 
     /**
      * Retruns the entire parameter line for a character.
+     *
      * @param c The character bound to the line.
      * @return
      */
-    public String getCharLine(char c) {
-        int characterNumber = (int)c;
+    public String getCharLine(char c)
+    {
+        int characterNumber = (int) c;
 
-        for (String line: mLines) {
-            if(line.contains("char id=" + characterNumber))
+        for (String line : mLines)
+        {
+            if (line.contains("char id=" + characterNumber))
+            {
                 return line;
+            }
         }
 
         Log.e("Failed to find character '" + characterNumber + "' in the selected font-spec.");
         return null;
     }
 
-    public String getFilePath() {
+    public String getFilePath()
+    {
         return mFilePath;
     }
 
-    public List<String> getLines() {
+    public List<String> getLines()
+    {
         return mLines;
     }
 
-    public void setLines(List<String> lines) {
+    public void setLines(List<String> lines)
+    {
         mLines = lines;
     }
 
-    public void setFilePath(String path) {
+    public void setFilePath(String path)
+    {
         mFilePath = path;
     }
 
-    public int getX(char c) {
+    public int getX(char c)
+    {
         return mXMap.get(c);
     }
 
-    public int getY(char c) {
+    public int getY(char c)
+    {
         return mYMap.get(c);
     }
 
-    public int getHeight(char c) {
+    public int getHeight(char c)
+    {
         return mHeightMap.get(c);
     }
 
-    public int getWidth(char c) {
+    public int getWidth(char c)
+    {
         return mWidthMap.get(c);
     }
 
-    public int getAdvance(char c) {
+    public int getAdvance(char c)
+    {
         return mAdvanceMap.get(c);
     }
 
-    public int getXOffset(char c) {
+    public int getXOffset(char c)
+    {
         return mXOffsetMap.get(c);
     }
 
-    public int getYOffset(char c) {
+    public int getYOffset(char c)
+    {
         return mYOffsetMap.get(c);
     }
 

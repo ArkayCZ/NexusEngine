@@ -7,31 +7,37 @@ import engine.graphics.Transform;
 import engine.graphics.window.Window;
 import engine.math.Matrix;
 
-public class Scene extends Layer {
+public class Scene extends Layer
+{
 
     private Camera mCamera;
 
-    public Scene(IRenderer renderer, Matrix projection, Window window) {
+    public Scene(IRenderer renderer, Matrix projection, Window window)
+    {
         super(renderer, projection, window);
     }
 
-    public Scene(Matrix projection, Window window) {
+    public Scene(Matrix projection, Window window)
+    {
         super(projection, window);
         mCamera = new Camera();
     }
 
     @Override
-    public void onRender() {
+    public void onRender()
+    {
         Transform.setCamera(mCamera);
         Transform.setProjection(getProjection());
         super.onRender();
     }
 
-    public Camera getCamera() {
+    public Camera getCamera()
+    {
         return mCamera;
     }
 
-    public void setCamera(Camera camera) {
+    public void setCamera(Camera camera)
+    {
         mCamera = camera;
     }
 }

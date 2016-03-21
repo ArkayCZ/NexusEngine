@@ -7,9 +7,11 @@ import engine.math.Vector2;
 /**
  * Created by vesel on 26.01.2016.
  */
-public interface IRenderer2D extends IRenderer {
+public interface IRenderer2D extends IRenderer
+{
 
     void drawRectangle(float x, float y, float width, float height, int color);
+
     void drawRectangle(Vector2 start, Vector2 size, int color);
     /* TODO: Add Rectangle class and the possibility to add border */
 

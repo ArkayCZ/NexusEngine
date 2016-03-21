@@ -15,7 +15,8 @@ import engine.utils.Log;
  * Created by vesel on 01.11.2015.
  * Represents a shader for rendering scenes with PhongShader.
  */
-public class PhongShader extends Shader {
+public class PhongShader extends Shader
+{
 
     //TODO: Make sure the shader file name always matches the class name.
 

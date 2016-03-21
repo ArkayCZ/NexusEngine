@@ -16,22 +16,28 @@ import static org.lwjgl.opengl.GL32.GL_DEPTH_CLAMP;
 /**
  * Created by filip on 3.11.15.
  * Simple Buffered renderer.
+ *
  * @deprecated Slow.
  */
-public class BufferedRenderer {
+public class BufferedRenderer
+{
 
     private Queue<Renderable> mRenderables;
 
-    public BufferedRenderer() {
+    public BufferedRenderer()
+    {
         mRenderables = new LinkedBlockingQueue<>();
     }
 
-    public void submit(Renderable renderable) {
+    public void submit(Renderable renderable)
+    {
         mRenderables.add(renderable);
     }
 
-    public void flush() {
-        while(mRenderables.peek() != null) {
+    public void flush()
+    {
+        while (mRenderables.peek() != null)
+        {
             Renderable renderable = mRenderables.poll();
 
             Shader shader = renderable.getShader();
@@ -39,8 +45,10 @@ public class BufferedRenderer {
             Transform transform = renderable.getTransformation();
             Material material = renderable.getMaterial();
 
-            if(shader == null)
+            if (shader == null)
+            {
                 shader = new Shader("basic_120");
+            }
 
             /*shader.updateUniforms(
                     transform.createTransformationMatrix(),
@@ -53,7 +61,8 @@ public class BufferedRenderer {
         }
     }
 
-    public void initOpenGL() {
+    public void initOpenGL()
+    {
         GL.createCapabilities();
 
         Log.i(glGetString(GL_VERSION));
@@ -69,7 +78,8 @@ public class BufferedRenderer {
         //glEnable(GL_FRAMEBUFFER_SRGB);
     }
 
-    public void setClearColor(Vector3 color) {
+    public void setClearColor(Vector3 color)
+    {
         glClearColor(color.getX(), color.getY(), color.getZ(), 1.0f);
     }
 }

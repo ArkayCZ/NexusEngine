@@ -10,16 +10,19 @@ import engine.math.Matrix;
 /**
  * Created by vesel on 30.01.2016.
  */
-public class Test2D extends Layer2D {
+public class Test2D extends Layer2D
+{
 
     private Entity stringEntity;
 
-    public Test2D(Window window) {
+    public Test2D(Window window)
+    {
         super(new Renderer2D(), new Matrix().setToOrthogonal(-1, 1, -1, 1, -1, 1), window);
     }
 
     @Override
-    public void onInit() {
+    public void onInit()
+    {
         super.onInit();
 
         /*stringEntity = new Entity();
@@ -30,12 +33,14 @@ public class Test2D extends Layer2D {
     }
 
     @Override
-    public void onUpdate(Input input) {
+    public void onUpdate(Input input)
+    {
         super.onUpdate(input);
     }
 
     @Override
-    public void onRender() {
+    public void onRender()
+    {
         super.onRender();
     }
 }

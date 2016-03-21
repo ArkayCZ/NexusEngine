@@ -12,67 +12,79 @@ import engine.math.Vector2;
 /**
  * Created by vesel on 26.01.2016.
  */
-public class ForwardRenderer2D implements IRenderer2D {
-
+public class ForwardRenderer2D implements IRenderer2D
+{
 
 
     @Override
-    public void drawRectangle(float x, float y, float width, float height, int color) {
+    public void drawRectangle(float x, float y, float width, float height, int color)
+    {
 
     }
 
     @Override
-    public void drawRectangle(Vector2 start, Vector2 size, int color) {
+    public void drawRectangle(Vector2 start, Vector2 size, int color)
+    {
 
     }
 
     @Override
-    public void drawString(float x, float y, Font font, String s) {
+    public void drawString(float x, float y, Font font, String s)
+    {
 
     }
 
     @Override
-    public void drawLine(Vector2 origin, Vector2 target, int color) {
+    public void drawLine(Vector2 origin, Vector2 target, int color)
+    {
 
     }
 
     @Override
-    public void setProjection(Matrix matrix) {
+    public void setProjection(Matrix matrix)
+    {
 
     }
 
     @Override
-    public void clear() {
+    public void clear()
+    {
 
     }
 
     @Override
-    public void submit(Entity e) {
+    public void submit(Entity e)
+    {
 
     }
 
     @Override
-    public void flush() {
+    public void flush()
+    {
 
     }
 
     @Override
-    public void setAmbientLight(BaseLight ambientLight) {
+    public void setAmbientLight(BaseLight ambientLight)
+    {
 
     }
 
     @Override
-    public void setDirectionalLight(DirectionalLight light) {
+    public void setDirectionalLight(DirectionalLight light)
+    {
 
     }
 
     @Override
-    public void addPointLight(PointLight light) {
+    public void addPointLight(PointLight light)
+    {
 
     }
 
     @Override
-    public void addSpotLight(SpotLight light) {
+    public void addSpotLight(SpotLight light)
+    {
 
     }
 }

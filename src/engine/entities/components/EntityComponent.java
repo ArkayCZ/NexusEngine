@@ -15,7 +15,8 @@ import engine.math.Vector3;
  * Created by vesel on 09.01.2016.
  * Represents a component of an Entity.
  */
-public abstract class EntityComponent {
+public abstract class EntityComponent
+{
 
     private boolean mShouldBeRemoved;
     private boolean mInitialized;
@@ -23,103 +24,133 @@ public abstract class EntityComponent {
 
     protected int mComponentID;
 
-    public EntityComponent() {
+    public EntityComponent()
+    {
         mComponentID = IDManager.getComponentID();
     }
 
     public abstract void onInit();
+
     public abstract void onRender(Shader shader, IRenderer renderer);
+
     public abstract void onUpdate(Input input);
+
     public abstract void onMap();
+
     public abstract void onDelete();
 
-    public void setParentObject(Entity parent) {
+    public void setParentObject(Entity parent)
+    {
         mParentObject = parent;
     }
 
-    public boolean isInitialized() {
+    public boolean isInitialized()
+    {
         return mInitialized;
     }
 
-    public void setInitialized(boolean initialized) {
+    public void setInitialized(boolean initialized)
+    {
         mInitialized = initialized;
     }
 
-    public Entity getParentObject() {
+    public Entity getParentObject()
+    {
         return mParentObject;
     }
 
-    public boolean shouldBeRemoved() {
+    public boolean shouldBeRemoved()
+    {
         return mShouldBeRemoved;
     }
 
-    public void markForRemoval() {
+    public void markForRemoval()
+    {
         mShouldBeRemoved = true;
     }
 
-    public void addFloat(String name, float value) {
+    public void addFloat(String name, float value)
+    {
         getParentObject().addFloat(name, value);
     }
 
-    public void addVector2(String name, Vector2 vector) {
+    public void addVector2(String name, Vector2 vector)
+    {
         getParentObject().addVector2(name, vector);
     }
 
-    public void addVector3(String name, Vector3 vector) {
+    public void addVector3(String name, Vector3 vector)
+    {
         getParentObject().addVector3(name, vector);
     }
 
-    public void addMatrix(String name, Matrix matrix) {
+    public void addMatrix(String name, Matrix matrix)
+    {
         getParentObject().addMatrix(name, matrix);
     }
 
-    public void addMaterial(String name, Material material) {
+    public void addMaterial(String name, Material material)
+    {
         getParentObject().addMaterial(name, material);
     }
 
-    public void addQuaternion(String name, Quaternion quat) {
+    public void addQuaternion(String name, Quaternion quat)
+    {
         getParentObject().addQuaternion(name, quat);
     }
 
-    public void addInteger(String name, int value) {
+    public void addInteger(String name, int value)
+    {
         getParentObject().addInteger(name, value);
     }
 
-    public float getFloat(String name) {
+    public float getFloat(String name)
+    {
         return getParentObject().getFloat(name);
     }
 
-    public Vector2 getVector2(String name) {
+    public Vector2 getVector2(String name)
+    {
         return getParentObject().getVector2(name);
     }
 
-    public Vector3 getVector3(String name) {
+    public Vector3 getVector3(String name)
+    {
         return getParentObject().getVector3(name);
     }
 
-    public Matrix getMatrix(String name) {
+    public Matrix getMatrix(String name)
+    {
         return getParentObject().getMatrix(name);
     }
 
-    public Material getMaterial(String name) {
+    public Material getMaterial(String name)
+    {
         return getParentObject().getMaterial(name);
     }
 
-    public Quaternion getQuaternion(String name) {
+    public Quaternion getQuaternion(String name)
+    {
         return getParentObject().getQuaternion(name);
     }
 
-    public int getInteger(String name) {
+    public int getInteger(String name)
+    {
         return getParentObject().getInteger(name);
     }
 
-    public int getComponentID() {
+    public int getComponentID()
+    {
         return mComponentID;
     }
 
-    public void setComponentID(int id) { mComponentID = id; }
+    public void setComponentID(int id)
+    {
+        mComponentID = id;
+    }
 
-    public EntityComponent getComponentFromParent(int id) {
+    public EntityComponent getComponentFromParent(int id)
+    {
         return getParentObject().getComponent(id);
     }
 }

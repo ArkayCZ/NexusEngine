@@ -15,20 +15,23 @@ import engine.utils.meshes.MeshFactory;
 /**
  * Created by vesel on 26.01.2016.
  */
-public class Test3D extends Scene {
+public class Test3D extends Scene
+{
 
     private Entity monkey;
 
     private float counter = 0;
 
-    public Test3D(Window window) {
+    public Test3D(Window window)
+    {
         super(new ForwardRenderer(), new Matrix().setToPerspective(
                 90, window.getWidth(), window.getHeight(), 0.001f, 1000f), window);
         setCamera(new Camera());
     }
 
     @Override
-    public void onInit() {
+    public void onInit()
+    {
         super.onInit();
 
         Entity plane = new Entity();
@@ -47,14 +50,19 @@ public class Test3D extends Scene {
     }
 
     @Override
-    public void onUpdate(Input input) {
+    public void onUpdate(Input input)
+    {
         super.onUpdate(input);
         getCamera().update(input);
 
         Transform transform = monkey.getComponent(TransformComponent.class).getTransform();
-        if(input.isKeyDown(Input.KEY_NUMPAD_PLUS))
+        if (input.isKeyDown(Input.KEY_NUMPAD_PLUS))
+        {
             transform.getScale().add(0.1f);
-        if(input.isKeyDown(Input.KEY_NUMPAD_MINUS))
+        }
+        if (input.isKeyDown(Input.KEY_NUMPAD_MINUS))
+        {
             transform.getScale().add(-0.1f);
+        }
     }
 }
